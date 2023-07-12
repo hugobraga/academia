@@ -1,0 +1,752 @@
+%!TEX root = main.tex
+
+\chapter{Um algoritmo de \emph{branch-and-price} para o
+  problema de  $t$-spanner de peso mínimo}
+\label{cap:mwsp_cg}
+
+% valido para todos os algoritmos
+\SetInd{0.5em}{0.6em}
+\SetKwInOut{Input}{Input}
+\SetKwInOut{Output}{Output}
+
+Neste capítulo abordamos o problema de $t$-spanner de peso mínimo
+(MWSP), focando na implementação que fizemos de um algoritmo de
+\emph{branch-and-price} para o MWSP.
+Apresentamos na Seção~\ref{sec:mwsp_cg} o
+algoritmo proposto por Sigurd e Zachariasen~\cite{SigurdZ2004}, no
+qual baseamos a nossa implementação. Na seção seguinte apresentamos os
+detalhes da implementação, mencionando primeiramente os
+pré-processamentos realizados. Em seguida, abordamos as heurísticas
+implementadas para calcular limitantes primais e duais.
+Por fim, discutimos estratégias de ramificação e de busca do nó na
+árvore de B\&B, finalizando com detalhes sobre o processamento dos nós
+desta árvore. No artigo de Sigurd e Zachariasen, os autores não comentam 
+ aspectos sobre adoção de pré-processamentos e heurísticas para o cálculo de
+  limitantes.
+
+%% \section{Contexto}
+%% No trabalho de Sigurd e Zachariasen~\cite{SigurdZ2004}, os autores estavam
+%% interessados em avaliar a performance da heurística gulosa proposta por
+%% Alth\"{o}fer et al~\cite{AlthoferDDJS1993}. Para isso, eles propuseram
+%% um algoritmo exato para o MWSP baseado em geração de colunas. A heurística
+%% alvo de comparação está descrita no Algoritmo \ref{alg:greedy_spanner}.
+
+%% \SetInd{0.5em}{0.6em}
+%% \SetKwInOut{Input}{Input}
+%% \SetKwInOut{Output}{Output}
+%% \begin{algorithm}[H]
+%%   \SetAlgoLined
+%%   \Input{$G=(V, E)$, real $t > 1$}
+%%   \Output{$t$-spanner $G'$ de $G$ com peso pequeno}
+%%   \BlankLine
+%%   Ordene $E$ pelo peso de maneira não decrescente\;
+%%   $G' \gets (V,E' = \emptyset)$\;
+%%   \ForEach{$e=uv \in E$}{
+%%     \lIf{$t \cdot w(e) < \dist_{G'}(u,v)$}{$E'$ $\gets$ $E' \cup e$}
+%%   }
+%%   \caption{Algoritmo Guloso} 
+%%   \label{alg:greedy_spanner}
+%% \end{algorithm}
+
+\section{Geração de colunas para resolver formulação relaxada}
+\label{sec:mwsp_cg}
+Em 2004, Sigurd e Zachariasen~\cite{SigurdZ2004} apresentaram um
+algoritmo exato para uma generalização do MWSP em que a restrição de
+spanner deve ser satisfeita por um subconjunto de pares de
+vértices. Nesta tese, consideramos a versão clássica (em vez da versão
+generalizada), na qual todos os pares de vértices devem satisfazer a
+restrição de spanner.
+Vamos apresentar nesta seção o algoritmo exato proposto por
+Sigurd e Zachariasen.
+
+% Como apresentado no Capítulo~\ref{cap:mwsp}, para um grafo $G=(V,E)$,
+% com peso \hbox{$w: E \to \mathbb{R}^+$,} e um real $t \ge 1$, o
+% poliedro do problema de grafos $t$-spanner associado a $G,w,t$, é
+% definido como
+
+Como apresentado no Capítulo~\ref{cap:mwsp}, o poliedro dos
+$t$-spanners de um grafo $G=(V,E)$, onde $t\ge 1$ é um número real, é
+definido como
+\begin{equation*}
+\begin{split}
+P_{span}(G,t) := \text{conv}\{\incid^{F} \in \espacoE\; |\;
+\text{$G[F]$ é um $t$-spanner de $G$\}}. 
+\end{split}
+\end{equation*}
+
+A formulação proposta por Sigurd e Zachariasen~\cite{SigurdZ2004} para
+o MWSP$(G,w,t)$ é a seguinte. Estamos interessados em conjuntos $F\subseteq E$
+tais que $\incid^{F} \in P_{span}(G,t)$.  Conforme vimos no início do
+Capítulo~\ref{cap:conceitos_historico-v2}, para $e=uv \in E$, denotamos por
+$\Pathuv$ a coleção de caminhos $t$-spanner de $u$ a $v$ em~$G$. Seja
+$\spanPath = \bigcup\limits_{uv \in E} \Pathuv$.  
+
+A formulação linear faz uso de dois tipos de variáveis de
+decisão~$0/1$, como segue.  (a)~Variável $x \in \espacoE$ com o seguinte
+significado: para cada aresta $e \in E$, $x_e = 1$ se e só se $e$
+faz parte da solução $F$. (b)~Variável $y \in \espacoYCG$ com o
+seguinte significado: para cada aresta $e=uv \in E$ e para cada
+caminho $p \in \Pathuv$, $y_p = 1$ se e só se $p$ conecta $u$ a $v$ na
+solução.
+
+Considere a seguinte formulação linear~$0/1$ (proposta por Sigurd e
+Zachariasen). Nessa formulação, para $e \in E$, $p \in \spanPath$,
+considere que $\delta^e_p = 1$ se a aresta $e$ pertence ao caminho
+$p$, e $\delta^e_p = 0$, em caso contrário. 
+%
+\begin{lpformulation}[\FullPrimalPL]
+\lpobj*{min}{\sum_{e\in E} w_ex_e}
+\lpeq[res_mwsp_cg:relate_vars]{\sum_{p \in \Pathuv} \delta^e_p y_p \le x_e}{e \in E,\, \forall uv \in E}
+\lpeq[res_mwsp_cg:caminho]{\sum_{p \in \Pathuv} y_p \ge 1}{uv \in E}
+\lpeq[res_mwsp_cg:int_x]{x_e \in \{0,1\}}{e \in E}
+\lpeq[res_mwsp_cg:int_y]{y_p \in \{0,1\}}{p \in \spanPath}
+\end{lpformulation}
+%% $P(G,t)= \{(x, y): x \in \espacoE, y \in \espacoYCG\; |\; (x,y) \text{ satisfaz PL } \FullPrimalPL\}.$
+
+A inequação (\ref{res_mwsp_cg:caminho}) diz que para cada par de
+vértices $u,v$ que define uma aresta, deve existir pelo menos um
+caminho $t$-spanner entre $u$ e $v$ na solução.  Para cada aresta $e$
+que faça parte de um caminho $t$-spanner selecionado, a
+inequação~(\ref{res_mwsp_cg:relate_vars}) força que $e$ pertença à
+solução.
+
+Sigurd e Zachariasen usam o método de geração de colunas para resolver
+a relaxação do programa $\FullPrimalPL$ (que resulta trocando-se as
+restrições de integralidade (\ref{res_mwsp_cg:int_x}) e
+(\ref{res_mwsp_cg:int_y}) por restrições de não negatividade).  Em
+decorrência do número exponencial de variáveis $y_p$, considera-se uma
+versão reduzida da relaxação do programa $\FullPrimalPL$, denotada por RMP
+(\emph{Reduced Master Problem}).
+%% conhecida como \emph{problema mestre reduzido}
+%% (\emph{Reduced Master Problem} - RMP).
+
+Para cada $uv \in E$, considere $\PathuvPrime \subseteq \Pathuv$ e
+$\spanPathPrime = \bigcup\limits_{uv \in E} \PathuvPrime$. O RMP do programa $\FullPrimalPL$ é definido da seguinte forma:
+%
+\begin{lpformulation}[\RMP]
+\lpobj*{min}{\sum_{e\in E} w_ex_e}
+\lpeq[rmp:relate_vars]{\sum_{p \in \PathuvPrime} \delta^e_p y_p \le x_e}{e \in E,\, \forall uv \in E}
+\lpeq[rmp:caminho]{\sum_{p \in \PathuvPrime} y_p \ge 1}{uv \in E}
+\lpeq[]{x_e \ge 0}{e \in E}
+\lpeq[]{y_p \ge 0}{p \in \spanPathPrime}
+\end{lpformulation}
+
+Para resolver o programa linear $\RMP$, basta que para cada $e=uv \in E$,
+$\PathuvPrime$ contenha inicialmente apenas um caminho. Para cada
+iteração, novas colunas (que representam novos caminhos em
+$\spanPathPrime$) vão sendo adicionadas ao programa linear caracterizando a
+abordagem conhecida como geração de colunas. Para cada $uv, e \in E$,
+sejam $\pi^{u,v}_{e}$ e $\sigma_{u,v}$ as variáveis duais associadas
+às inequações (\ref{res_mwsp_cg:relate_vars}) e
+(\ref{res_mwsp_cg:caminho}) respectivamente. O dual da relaxação do
+programa $\FullPrimalPL$ é descrito pelo seguinte PL:
+%
+\begin{lpformulation}[\FullDualPL]
+\lpobj*{max}{\sum_{uv \in E} \sigma_{u,v}}
+\lpeq[dual:ineq1]{\sum_{uv \in E} \pi^{u,v}_{e} \le w_e}{e \in E}
+\lpeq[dual:ineq2]{\sum_{e \in E} \delta^{e}_{p}\pi^{u,v}_{e} - \sigma_{u,v} \ge 0}{uv \in E,\, \forall p \in \Pathuv}
+\lpeq[]{\pi^{u,v}_{e} \ge 0}{e \in E,\, \forall uv \in E}
+\lpeq[]{\sigma_{u,v} \ge 0}{uv \in E}
+\end{lpformulation}
+
+A resolução do RMP serve para fornecer soluções (duais) para o
+programa \FullDualPL.  Seja $(x',y')$ uma solução ótima do RMP e seja
+$(\pi', \sigma')$ a solução dual associada. Se $(\pi', \sigma')$ for
+uma solução viável para o programa \FullDualPL, então $(x',y')$ é uma
+solução ótima para $\FullPrimalPL$ (a ser explicado a seguir). Considere a
+seguinte expressão:
+
+\begin{align}
+  \label{def:reduced_cost}
+  c^{\pi, \sigma}_{p} = \sum_{e \in E} \delta^{e}_{p}\pi^{u,v}_{e} - \sigma_{u,v}, \:\; \forall uv \in E, \: \forall p \in \Pathuv. 
+\end{align}
+
+O valor $c^{\pi, \sigma}_{p}$ é denominado \emph{custo reduzido}
+(\emph{reduced cost}) do caminho $p$ com relação às variáveis
+$\pi$ e $\sigma$.
+Caso a solução $(\pi', \sigma')$ seja uma solução viável para o programa \FullDualPL,
+significa que para cada $uv \in E$ e para cada $p \in \Pathuv$, o custo
+reduzido associado é maior ou igual a zero. Neste caso, temos que a solução $(x',y')$
+é ótima (veja o Teorema~3.1 em Bertsimas e Tsitsiklis~\cite{BertsimasT1997}). Caso contrário, 
+%% Caso a solução $(\pi', \sigma')$ não seja uma solução viável para o PL
+%% \FullDualPL, então
+para algum par $uv \in E$ e $p \in \spanPath$, a inequação (\ref{dual:ineq2})
+é violada, ou seja, $c^{\pi', \sigma'}_{p} < 0$. A inequação (\ref{dual:ineq1})
+não é violada pois, para cada $e \in E$, a inequação (\ref{dual:ineq1})
+está relacionada à coluna da variável $x_e$ no programa 
+\FullPrimalPL, e todas estas colunas já estão presentes no RMP.
+
+Para um par $uv \in E$ e $p \in \spanPath$ tal que a inequação
+(\ref{dual:ineq2}) é violada, devemos adicionar o caminho $p$ (entre
+os vértices $u$ e $v$) ao RMP.  Em cada iteração da geração de
+colunas, para cada $uv \in E$, queremos encontrar um caminho
+$t$-spanner entre $u$ e $v$ com o menor valor de custo reduzido. Para
+isso, devemos resolver
+
+\begin{align}
+  \label{def:pricing}
+  \min_{p \in \Pathuv}\sum_{e \in E} \delta^{e}_{p}\pi^{u,v}_{e} - \sigma_{u,v}.
+\end{align}
+Se o valor da solução do problema (\ref{def:pricing}) for menor do que
+zero, então encontramos o caminho a ser inserido no RMP. Caso
+contrário, a geração de colunas é finalizada.  O problema representado
+pela expressão (\ref{def:pricing}) é conhecido como o problema do
+\emph{pricing}. Para cada $uv \in E$, $\sigma_{u,v}$ é constante e o
+\emph{pricing} consiste em encontrar um caminho $t$-spanner entre $u$
+e $v$ de menor peso, sendo que o peso das arestas é dado pelos valores
+da variável dual $\pi$. Este problema é conhecido como \emph{problema
+  do caminho mínimo restrito} (\emph{Constrained Shortest Path
+  Problem} - CSPP).
+
+\subsection{Problema do caminho mínimo restrito}
+O problema do caminho mínimo restrito (CSPP) é definido da seguinte forma:
+dado um grafo $G = (V,E)$, uma função peso $w: E \to \conjInteirosPos$, uma
+função custo $c: E \to \conjInteirosPos$, vértices $s,d \in V$, e uma
+constante $B$ denominada \emph{limite de recurso}, o objetivo é encontrar
+um caminho de custo mínimo entre $s$ e $d$ com relação à função custo $c$,
+cuja soma dos pesos das arestas seja menor ou igual a $B$. A versão de decisão
+deste problema, onde se considera não apenas um limitante para o peso mas
+também um limitante para o custo, é NP-Completo
+(veja problema ND30 em~\cite{GareyJ1990}).
+
+Para resolver o CSPP, Sigurd e Zachariasen~\cite{SigurdZ2004} adotaram
+o algoritmo baseado em rótulos proposto por
+Desrochers e Soumis~\cite{DesrochersS1988}. Neste algoritmo, caminhos a
+partir do vértice $s$ vão sendo construídos e incrementados até atingir
+o vértice $d$. Um caminho $p_i$ é representado pelo rótulo
+$(p_i, v_i, w_i, c_i)$, onde $n_i$ representa o vértice final do caminho,
+$w_i$ e $c_i$ representam o peso e o custo total respectivamente de $p_i$.
+Dizemos que um caminho $p_i$ \textit{domina} um caminho $p_j$ se $v_i = v_j$ e
+$w_i \le w_j$ e $c_i \le c_j$.
+%% ??Ao longo da execução do algoritmo, que
+%% funciona em rodadas, os rótulos dominados vão sendo removidos.
+
+O algoritmo funciona em rodadas, e em cada rodada é escolhido o rótulo
+$p_i$ com menor custo. O caminho $p_i$ é estendido para
+cada vizinho de $v_i$, dando origem a novos rótulos. Cada rótulo dominado,
+novo ou antigo, deve ser eliminado.
+Seja $\dist_{G}(u,v,w)$ a distância entre  $u$ e $v$ em $G$ medida pela
+função $w$. De maneira análoga, defina $\dist_{G}(u,v,c)$. 
+Para cada novo caminho criado $p_j$, se $w_j + \dist_{G}(v_j,d,w) > B$,
+ descartamos $p_j$. Seja $M$ uma constante que é um limitante para o custo máximo
+dos caminhos. Além da verificação anterior, se
+$c_j + \dist_{G}(v_j,d,c) > M$, o caminho $p_j$ é descartado.
+Para calcular as distâncias entre os vértices e o vértice destino~$d$,
+árvores de caminhos mínimos são construídas. 
+%% ??Para calcular as distâncias a partir do vértice $d$,
+Vamos chamar de $\arvorePeso$ a árvore
+de caminhos de peso mínimo de $G$ a partir de $d$ e de $\arvoreCusto$ a árvore
+de caminhos de custo mínimo de $G$ a partir de $d$.
+
+%% Para cada $v \in V$,
+%% seja $\neigh_{G}(v)$ o conjunto dos vértices vizinhos de $v$ em $G$.
+Para cada iteração da geração de colunas, o Algoritmo~\ref{alg:cspp}
+é executado para cada par $e=uv \in E$.
+O peso (resp. custo) das arestas é dado
+pela função $w$ associada a $G$ (resp. $\pi^{u,v}$).
+Os limitantes
+$M$ e $B$ possuem valores $\sigma^{u,v}$ e $t \cdot w_e$ respectivamente.
+Os vértices de origem e destino são $u$ e $v$ respectivamente. 
+
+
+O Algoritmo~\ref{alg:cspp} é utilizado para resolver o CSPP.
+
+%\medskip
+
+%% \SetInd{0.5em}{0.6em}
+\begin{algorithm}
+  \SetAlgoLined
+  
+  \textbf{Entrada:} {$G=(V, E)$, $w: E \to \espacoRpos$, $c: E \to \espacoRpos$, número real $B$, número real $M$, $s \in V$, $d \in V$}\;
+  
+  \textbf{Saída:} {caminho $p_f$ entre $s$ e $d$ de menor custo satisfazendo a restrição de peso máximo $B$ e de custo máximo $M$}\;
+  
+  $p_f \gets null$\;
+  Calcula as árvores de caminhos de peso e custo mínimos $\arvorePeso$ e $\arvoreCusto$\;
+  $H \gets \{(\{\},s,0,0)\}$\;
+  \While{$H \neq \emptyset$}{
+    Escolha o rótulo $(p_{\alpha},v_{\alpha},w_{\alpha},c_{\alpha})$ mais barato (em termos de custo) no conjunto $H$\;
+    \If{$v_{\alpha} = d$}{
+      $p_f \gets p_{\alpha}$\;
+      \Return $p_f$.
+    }
+    \ForEach{$v_i \in N_{v_{\alpha}}(G)$}{
+      Seja $e_i \gets v_{\alpha}v_i$.
+      Crie o novo rótulo $(p_{\alpha} \cup \{e_i\}, v_i, w_{\alpha} + w_{e_i}, c_{\alpha} + c_{e_i})$\;
+      Descarte todos os novos rótulos tal que $w_{\alpha} + w_{e_i} + \arvorePeso(v_i) > B$ ou
+      $c_{\alpha} + c_{e_i} + \arvoreCusto(v_i) > M$. Para os demais, armazene em $H$\;
+      Descarte (de $H$) rótulos dominados\;
+    }
+    \Return $p_f$.
+  }
+  \caption{CSPP} 
+  \label{alg:cspp}
+\end{algorithm}
+
+%% O algoritmo \ref{alg:cspp} é executado para cada par $e=uv \in E$,
+%% $CSPP(G,w, \pi^{u,v}, t \cdot w_{e}, \sigma^{u,v}, u, v)$.
+
+\section{Detalhes da implementação}
+\label{sec:implementacao}
+%% Nós estamos utilizando como referência~\cite{BarnhartJNSV1998,NemhauserW1999,ConfortiCZ2014}.
+
+Nesta seção abordamos alguns detalhes relativos à implementação do
+algoritmo de \emph{branch-and-price} para o MWSP baseado na formulação
+apresentada na seção anterior. Mencionamos os pré-processamentos
+realizados, e as heurísticas utilizadas para cálculo dos limitantes
+primais e duais.
+
+\subsection{Pré-processamento}
+Os pré-processamentos que realizamos visam fixar, quando possível, o
+valor de algumas variáveis associadas às arestas (tanto as que
+necessariamente irão fazer parte de qualquer solução como as que
+necessariamente não farão parte de nenhuma solução). 
+
+\begin{itemize}
+\item \textit{Aresta $t$-essencial}. Lembramos que uma aresta $e$
+  de $G$ é $t$-essencial se $G-e$ não é um $t$-spanner de $G$.  Na
+  fase de pré-processamento, para cada aresta $t$-essencial $e$ do
+  grafo de entrada, impomos que $x_e=1$.
+
+\item \textit{Aresta $t$-inútil}. Dizemos que uma aresta $e=uv \in E$
+  é uma \emph{aresta $t$-inútil} de $G$ se \linebreak
+  \mbox{$w_e > t \cdot \dist_G(u,v)$}. Para cada aresta $t$-inútil $e$ do
+  grafo de entrada, fixamos em zero o valor da variável $x_e$. Observe
+  que, no caso unitário, nenhuma aresta é $t$-inútil.
+  \end{itemize}
+
+\subsection{Heurísticas para cálculo de limitantes primais}
+\label{sec:heuristicas}
+
+Apresentamos nesta subseção duas heurísticas para calcular limitantes
+primais, que utilizamos na rotina de B\&B.  Uma delas, a heurística
+baseada numa partição em \emph{clusters} só é utilizada no caso
+unitário.  Caso uma destas heurísticas encontre um limitante menor do
+que o valor da solução incumbente, atualizamos a solução incumbente.
+%% limite global.
+%Apresentamos a seguir essas heurísticas.
+
+\subsubsection{spanner baseado numa partição em \emph{clusters}}
+
+O Algoritmo~\ref{alg:unweighted_span} descrito a seguir constrói um
+spanner de $G$, onde $G$ tem peso unitário,
+baseado na partição dos vértices de $G$ em
+\emph{clusters}.  Este algoritmo foi desenvolvido por
+Peleg~\cite{Peleg2000}.
+
+Dado um inteiro $k \ge 1$, o Algoritmo~\ref{alg:unweighted_span}
+constrói um $(2k - 1)$-spanner com no máximo $O(n^{1 + 1/k})$ arestas.
+Para o caso unitário e com este fator de dilatação, este algoritmo
+constrói um spanner com o menor número de arestas
+(veja~\cite{BaswanaKMP2010}).  Ele inicialmente constrói uma partição
+dos vértices do grafo (usando o Algoritmo~\ref{alg:basic_part}),
+tal que cada classe da partição é um subgrafo conexo, chamado \emph{cluster}.
+
+Cada \emph{cluster} é construído a partir de um vértice e
+adicionando-se camadas, finalizando-se a adição de camadas quando
+determinada restrição de esparsidade é violada. Após construir a
+partição $\partition$ por meio do Algoritmo~\ref{alg:basic_part},
+%% o algoritmo \ref{alg:unweighted_span},
+para cada \emph{cluster} de $\partition$ é construída uma árvore de
+caminhos mínimos. Além disso, para cada \emph{cluster} $S$ de
+$\partition$, e para cada vértice $u$ vizinho de $S$ e que não esteja
+em $S$, é garantida a existência de uma aresta unindo $u$ a $S$ na
+solução final. Tal solução será formada por estas arestas externas ao
+\emph{cluster} juntamente com as árvores de caminhos
+mínimos. 
+
+%%%%%%%%%%%%%%%%%%
+
+Para $S \subseteq V$, seja $\verneigh(S) = S \cup \{v \in V
+\setminus S \;| \;\exists u \in S\text{ e }uv \in E\}$. 
+
+
+\begin{algorithm}
+  \SetAlgoLined
+  \textbf{Entrada:} {$G=(V, E)$, onde $|V|=n$, e um inteiro positivo $k$}\;
+  \textbf{Saída:} {partição $\partition$ de $V$}\;
+  
+  $\partition \gets \emptyset$\;
+  Seja $G'=(V',E')$ um grafo isomorfo a $G$\;
+  \While{$V(G') \neq \emptyset$}{
+    Selecione um vértice arbitrário $v' \in V(G')$\;
+    $S' \gets \{v'\}$\;
+    \While{$|\verneigh(S')| < n^{1/k}|S'|$}{
+      $S' \gets \verneigh(S')$\;
+    }
+    Seja $S = \{v \in V\;|\; \exists\; v' \in S' \text{ e } v' \text{ é o vértice correspondente a } v \text{ no isomorfismo}\}$\;
+    $\partition \gets \partition \cup S$\;
+    $V(G') \gets V(G') \setminus S'$\;
+  }
+  \caption{Partição básica} 
+  \label{alg:basic_part}
+\end{algorithm}
+
+\begin{algorithm}
+  \LinesNumbered
+  %% \SetAlgoLined
+  \textbf{Entrada:} {$G=(V,E)$, inteiro positivo $k$}\;
+  \textbf{Saída:} {Um grafo $G'=(V,E')$ que é um $(2k-1)$-spanner de $G$ com no máximo $O(n^{1 + 1/k})$ arestas}\;
+  
+  \BlankLine
+  Construir uma partição $\partition$ de $V$ usando o Algoritmo~\ref{alg:basic_part} (Partição básica)\;
+
+  \ForEach{$S_i \in \partition$}{
+     $T_i$ $\gets$ uma árvore de caminhos mínimos de $G[S_i]$
+     enraizada em algum vértice de $S_i$;
+  }
+  $E(G') \gets \bigcup_{S_i \in \partition}E(T_i)$\;
+  $\breve{E} \gets \emptyset$\;
+  \ForEach{$S_i \in \partition$}{
+    \ForEach{$v \in \verneigh(S_i) \setminus S_i$}{
+      Seja $u \in S_i$ t.q. $uv \in E$\;
+      $\breve{E} \gets \breve{E} \cup uv$\;
+    }
+  }
+  $E(G') \gets E(G') \cup \breve{E}$\;
+  %% \For{par de clusters vizinhos $T_i, T_j$}{
+  %%   \tcc{a aresta $(T_i,T_j)$ existe no grafo cluster $\tilde{G}(\partition)$}
+  %%   Seja $uv \in E$ t.q. $u \in V(T_i)$ e $v \in V(T_j)$\;
+  %%   $E' \gets E' \cup \{uv\}$\;
+  %% }
+
+  \Return $G'$.
+  \caption{spanner baseado em partição em \emph{clusters}} 
+  \label{alg:unweighted_span}
+\end{algorithm}
+
+\bigskip
+
+O seguinte resultado prova que o Algoritmo~\ref{alg:unweighted_span}
+de fato produz a saída que mencionamos (veja o exercício~3 do
+  capítulo~16 em Peleg~\cite{Peleg2000}). Parte da prova foi apresentada por 
+Peleg~\cite{Peleg2000}, a parte omitida segue abaixo.
+
+\begin{teorema}[Peleg~\cite{Peleg2000}]
+  O Algoritmo~\ref{alg:unweighted_span} aplicado a um grafo $G$ de
+  ordem $n$, e um inteiro positivo~$k$,  constrói um $(2k-1)$-spanner de
+  $G$ com no máximo $O(n^{1+1/k})$ arestas.
+  \begin{proof}
+    O limite superior relativo ao número de arestas decorre do Teorema~11.5.1~(b)
+    em~\cite{Peleg2000} e do fato de que a quantidade total de arestas
+    das árvores construídas é menor do que $n^{1 + 1/k}$ (mais especificamente,
+    menor ou igual a $n-1$).
+
+    Vamos verificar o fator de dilatação. Seja $G=(V,E)$, e 
+    $uv$ uma aresta de $G$. Se $u$ e $v$ pertencem a um mesmo \emph{cluster}, então
+    $\dist_{G'}(u,v) \le 2(k-1)$, visto que o raio do \emph{cluster}
+    é menor ou igual a $k-1$ (Teorema~11.5.1 (a)
+    em~\cite{Peleg2000}). Agora considere \emph{clusters} $S_i, S_j \in \partition$
+    tais que $u \in S_i$ e $v \in S_j$.  Se $uv \in \breve{E}$, segue a
+    afirmação. Caso contrário, seja $u' \in S_i$ tal que
+    $u'v \in E$ (a existência de $u'$ é garantida pela linha 8 do
+    Algoritmo~\ref{alg:unweighted_span}) e seja $v_i \in S_i$ o centro de $S_i$. Então
+%
+%\begin{align*}
+$$\dist_{G'}(u,v)\le \dist_{G'}(u,v_i) + \dist_{G'}(v_i,u') + \dist_{G'}(u',v) \le (k-1) + (k-1) + 1 = 2k -1.$$
+%\end{align*}    
+    \end{proof}
+\end{teorema}
+Na desigualde anterior, podemos afirmar que $\dist_{G'}(u',v) = 1$ em
+decorrência das linhas 7-9 no Algoritmo~\ref{alg:unweighted_span}.
+
+Observamos que, ao executar o Algoritmo~\ref{alg:unweighted_span} ao
+longo da construção da árvore de B\&B, nossa implementação prioriza as arestas
+correspondentes às variáveis escolhidas para fazer a ramificação e que
+foram fixadas com valor um.
+
+\subsubsection{Algoritmo guloso}
+No trabalho de Sigurd e Zachariasen~\cite{SigurdZ2004} é mencionado
+que os autores estavam interessados em avaliar o desempenho da
+heurística gulosa proposta por Alth\"{o}fer et
+al.~\cite{AlthoferDDJS1993}, o que os motivou a desenvolver um
+algoritmo exato para o MWSP.  Descrevemos a seguir a heurística
+gulosa, alvo da comparação, referida como
+Algoritmo~\ref{alg:greedy_spanner}.
+
+\medskip
+
+%% \SetInd{0.5em}{0.6em}
+%% \SetKwInOut{Input}{Input}
+%% \SetKwInOut{Output}{Output}
+\begin{algorithm}
+  \SetAlgoLined
+  \textbf{Entrada:} {$G=(V, E)$ com pesos não negativos nas arestas, número real $t \ge 1$}\;
+  \textbf{Saída:} {$t$-spanner $G'$ de $G$ com peso pequeno}\;
+  %\BlankLine
+  Ordene as arestas de $E$ em ordem não decrescente de seus pesos\;
+  $G' \gets (V',E')$, onde $V(G') \gets V, E(G') \gets \emptyset$\;
+  \ForEach{$e=uv \in E$}{
+    \lIf{$t \cdot w_e < \dist_{G'}(u,v)$}{$E(G')$ $\gets$ $E(G') \cup \{e\}$}
+  }
+  \Return $G'$.
+  \caption{Algoritmo Guloso de Althöfer et al.} 
+  \label{alg:greedy_spanner}
+\end{algorithm}
+
+A heurística para o cálculo de um limitante primal é baseada no
+Algoritmo Guloso de Alth\"{o}fer et al.~\cite{AlthoferDDJS1993}, acima
+descrito.  Como o cálculo de limitantes primais é realizado
+periodicamente ao longo da execução do algoritmo de B\&B, variáveis
+diferentes fixadas em zero ou um implicam (possivelmente) em valores
+diferentes de limitantes primais. Em cada nó da árvore, para as arestas
+cujas variáveis foram fixadas em um, a heurística as força a pertencer
+à solução viável, enquanto que para as arestas cujas variáveis foram
+fixadas em zero, a heurística as exclui da solução.  Como a heurística
+é executada após a execução do \emph{pricing},
+%% Além disso, depois de calcular uma solução ótima através do \emph{pricing}, 
+a heurística escolhe as arestas em ordem não decrescente, 
+de acordo com os valores das variáveis associadas às arestas.
+
+\subsection{Heurística para cálculo de limitante dual}
+Para calcular um limitante dual, implementamos uma heurística que gera
+uma árvore geradora mínima (\emph{Minimum Spanning Tree} - MST)
+conectando os componentes induzidos pelas arestas cujas variáveis
+foram fixadas em um.  Nesta árvore, não consideramos arestas cujas
+variáveis foram fixadas em zero. O
+Algoritmo~\ref{alg:mst_based_fixed_edges} corresponde à heurística
+mencionada. Note que sempre é possível criar uma árvore que conecta os
+componentes.  Como veremos na Seção~\ref{sec:nos_filhos}, na criação
+dos nós da árvore de B\&B, o nó da árvore que representa a variável
+fixada em zero só é criado se não inviabilizar a existência de uma
+solução $t$-spanner.
+%% implicar na desconecção do grafo.
+
+\begin{algorithm}[t]
+  \SetAlgoLined
+  \textbf{Entrada:} {$G=(V,E)$, $E_0 \subset E$, $E_1 \subset E$, $w: E \to \espacoRpos$}\;
+  \textbf{Saída:} {limitante dual para a tripla $(G,E_0,E_1)$}\;
+  % \tcc{$E_0$: Conjunto das arestas fixadas em $0$; $E_1$: conjunto das arestas fixadas em $1$.}
+  % \BlankLine
+  /* $E_0$: conjunto das arestas fixadas em zero\;
+  /* $E_1$: conjunto das arestas fixadas em um\;
+   %\BlankLine
+  $LD \gets \sum_{e\in E_1}w_e$\;  
+  Seja $G_1=(V,E_1)$, e $\comp$ o conjunto dos componentes de $G_1$\;
+  Seja $G_{1}^{c} = (V^c_1,E^c_1)$ o grafo assim definido:\\
+   $~~ V^c_1 = \{C_i | \; C_i \in \comp\}$\;
+   $~~ E^c_1 = \{C_iC_j \; | \; C_i,C_j \in \comp, i \neq j,  \text{ e } \exists x,y \in V(G) \text{ t.q. } x \in V(C_i), y \in V(C_j), xy \in E, xy \notin E_0\}$\;
+  %% Seja $E^c_1 = \{xy \in E \setminus (E_0 \cup E_1)\;|\; \exists C_i,C_j \in \comp \text{ t.q. } x \in V(C_i), y \in V(C_j)\}$\;
+  $T \gets {\rm MST}(G^c_1)$\; 
+  $LD \gets LD + \sum_{e \in E(T)}w_e$\;
+  \Return $LD$.   
+  \BlankLine 
+  %% \eIf{existe $T$}{
+  %%   $LD \gets LD + \sum_{e \in E(T)}w_e$\;
+  %%   \Return $LD$\;    
+  %% }{
+  %%   \Return $-1$\;
+  %% }
+  \caption{MST baseada nas arestas fixadas pelo B\&B} 
+  \label{alg:mst_based_fixed_edges}
+\end{algorithm}
+
+Caso esta heurística devolva um valor melhor do que o valor gerado pelo
+\emph{pricing} (ou seja, o valor gerado pela heurística é maior do que o valor
+do \emph{pricing}), então o limitante inferior do nó da árvore sendo analisado
+é atualizado com o valor da heurística.
+%% \subsection{Escolha da variável fracionária para executar a ramificação}
+\subsection{Estratégia de ramificação na árvore de B\&B}
+\label{sec:estrategia_ramificacao}
+%% Seja $(x^*,Y^*)$ uma solução ótima retornada após a execução do \emph{pricing}.
+Adotamos o critério de ramificação em valores inteiros, seguindo a
+proposta de Morrison et al.~\cite{MorrisonJSS2016}.  Neste caso, a
+ramificação é dividida em duas fases: selecionar uma variável
+fracionária onde será feita a ramificação; posteriormente, forçar esta
+variável fracionária a ter valores inteiros (no nosso caso, zero ou um)
+e, por consequência, criar subproblemas a partir destas restrições de
+integralidade. No nosso caso, como as variáveis do programa $\FullPrimalPL$
+são binárias e como é escolhida apenas uma variável fracionária, serão
+criados (no máximo) dois subproblemas filhos.
+%% a ramificação que está sendo feita é 
+%% com relação à estratégia de ramificação adotada, 
+
+\subsubsection{Criação dos subproblemas filhos}
+\label{sec:nos_filhos}
+No processo de ramificação, ao fixar uma variável fracionária em um,
+o subproblema resultante é criado e armazenado na lista dos
+subproblemas ainda não analisados (veja
+Seção~\ref{sec:branch_and_bound}). Para o subproblema resultante da
+fixação da variável no valor zero, é feito um teste para saber se o
+grafo resultante admite um caminho $t$-spanner entre os extremos da
+aresta cuja variável foi fixada em zero. Se o grafo admitir tal
+caminho, então o subproblema é criado e armazenado na lista dos
+subproblemas ainda não analisados. Caso contrário, o subproblema não é
+criado.
+
+\subsubsection{Escolha da variável fracionária}
+%% Com relação à estratégia de ramificação,
+Implementamos duas formas de escolher uma variável fracionária para
+realizar a ramificação:
+
+\begin{itemize}
+\item[{\rm (a)}] Escolher uma variável fracionária cujo valor está
+  mais próximo de $\frac{1}{2}$.  Como as variáveis são binárias, este
+  critério prioriza escolher uma variável para a qual o ``\emph{solver}
+  estaria mais indeciso'' sobre o valor a ser atribuído;
+
+\item[{\rm (b)}] Escolher uma variável com um maior valor
+  fracionário. Este critério prioriza as variáveis para as quais o
+  ``\emph{solver} já está quase certo'' sobre o valor a ser atribuído.
+
+  %% \item Escolhe a variável com menor gap de integralidade, ou seja, $\argmin_{e \in E} (w(e) - (w(e) * x^*(e)))$. Esta forma só serve para os casos;
+  \end{itemize}
+
+\subsection{Estratégia de escolha do nó a ser examinado na árvore de B\&B}
+\label{sec:befs}
+%% ??REFERÊNCIA \cite{MorrisonJSS2016,Clausen1999}
+
+A seleção do próximo nó a ser examinado é feita utilizando a
+estratégia de \emph{procurar o melhor primeiro} (\emph{Best-First
+  Search} - BeFS)~\cite{MorrisonJSS2016,Clausen1999}. Nesta
+estratégia, para cada um dos subproblemas (nós) ativos, devemos
+escolher aquele que minimiza uma determinada função. No nosso caso,
+esta função corresponde ao limitante inferior gerado pelo
+\emph{pricing}. Ou seja, ao longo da execução do algoritmo, vamos
+tentando diminuir a diferença entre limitantes primal e dual.
+%%  com base nos limites inferiores gerados
+%% pelo \emph{pricing}. Nós sempre escolhemos o nós com o menor limite inferior.
+
+\subsection{Processamento do nó da árvore de B\&B}
+Seja $v(E_o, E_1)$ o nó que está sendo analisado na árvore de B\&B, onde $E_0$
+(resp. $E_1$) corresponde ao conjunto de arestas cujas variáveis em $x$
+foram fixadas em zero (resp. um). Seja
+
+  \mbox{$\setOfFixedSpan := \{\incid^{F} \in \espacoE,\; E_0 \cap F =
+    \emptyset,\; E_1 \subseteq F\; |\; \text{$G[F]$ é um grafo
+      $t$-spanner\}}$}.
+
+\subsubsection{Inclusão de inequações válidas}
+
+Para $e,f \in E,\; e \neq f$, tais que $x_e$ e $x_f$ não foram fixados, seja \\
+  $\setOfFixedSpan(e,f) := \{\incid^{F} \in
+  \setOfFixedSpan \; |\; \text{$G[F-\{e,f\}]$ é um grafo
+    $t$-spanner\}}$.
+
+\noindent Neste caso, a seguinte inequação é válida (e pode ser acrescentada):
+%  
+\begin{lpformulation}[]
+\lpeq[ineq:bridges]{\qquad x_e + x_f \ge 1}{e, f \in E, \; e \neq f,\;
+  e,f \notin E_0 \cup E_1,\; \setOfFixedSpan(e,f) = \emptyset}.
+\end{lpformulation}
+
+A geração de colunas não será afetada pela inclusão destas inequações,
+pois as inequações do programa \FullDualPL\; que poderiam ser violadas
+(inequação (\ref{dual:ineq2})) não sofrerão alterações após a inclusão
+dessas inequações ao RMP, como pode ser visto a seguir.  Para cada
+$e \in E$, seja $F_{ponte}(e)$ o conjunto das arestas relacionadas com
+$e$, definida como o conjunto das arestas $f$ tal que o par $e,f$
+respeita a restrição~(\ref{ineq:bridges}). Para cada $e \in E$ e
+$f \in F_{ponte}(e)$, seja $\beta_{e,f}$ a variável dual associada à
+restrição~(\ref{ineq:bridges}).  O dual da relaxação do programa
+$\FullPrimalPL$ juntamente com as inequações~(\ref{ineq:bridges}) é
+descrito pelo seguinte PL:
+
+\begin{lpformulation}[\FullDualTwoPL]
+\lpobj*{max}{\sum_{uv \in E} \sigma_{u,v} + \sum_{e \in E} \sum_{f \in F_{ponte}(e)} \beta_{e,f}}
+\lpeq[dual2:ineq1]{\sum_{uv \in E} \pi^{u,v}_{e} + \sum_{f \in F_{ponte}(e)} \beta_{e,f} \le w_e}{e \in E}
+\lpeq[dual2:ineq2]{\sum_{e \in E} \delta^{e}_{p}\pi^{u,v}_{e} - \sigma_{u,v} \ge 0}{uv \in E,\, \forall p \in \Pathuv}
+\lpeq[]{\pi^{u,v}_{e} \ge 0}{e \in E,\, \forall uv \in E}
+\lpeq[]{\sigma_{u,v} \ge 0}{uv \in E}
+\lpeq[]{\beta_{e,f} \ge 0}{e \in E,\, \forall f \in F_{ponte}(e)}
+\end{lpformulation}
+
+
+\subsubsection{Tratamento das variáveis fixadas em zero ou um}
+Para cada nó da árvore de B\&B, temos um conjunto de arestas que foram
+fixadas em zero ou um.  Seja $v(E_0, E_1)$ como descrito
+anteriormente. Adicionamos as seguintes equações ao RMP para tratar as
+arestas fixadas:
+
+\begin{lpformulation}[]
+  \lpeq[ineq:fixed_one]{\sum_{e \in E_1} x_e = |E_1|}{}
+  \lpeq[ineq:fixed_zero]{\sum_{e \in E_0} x_e = 0}{}
+\end{lpformulation}
+
+Para $e \in E$, vamos considerar o caso em que queremos fixar a
+variável $x_e$ em um.  Quando adicionamos a restrição $x_e = 1$, o
+\emph{pricing} não é comprometido visto que o grafo de entrada para o
+\emph{pricing} não é alterado. Este grafo não necessita ser alterado
+pois não é necessário usar a aresta $e$ em nenhum caminho gerado para
+ter uma solução válida, visto que a restrição~(\ref{rmp:relate_vars})
+para ser válida, não exige que nenhum caminho contenha tal aresta. Uma
+alternativa (que não foi implementada) seria não adicionar a restrição
+$x_e = 1$. Neste caso, os valores duais gerados (dados pela variável
+$\pi$) seriam diferentes e, consequentemente, as arestas teriam custos
+diferentes no grafo de entrada do CSPP, mas a estrutura do grafo de
+entrada seria a mesma.
+
+  Para $e \in E$, quando queremos fixar a variável $x_e$ em zero, \
+  adicionamos a restrição $x_e = 0$ e removemos a aresta $e$ do
+  grafo de entrada do CSPP. Uma alternativa (que não foi implementada)
+  seria simplesmente remover a aresta $e$ do grafo de entrada do
+  CSPP. Neste caso, os valores duais gerados seriam diferentes, mas a
+  aresta $e$ continuaria sem poder ser escolhida pelo \emph{pricing}
+  para gerar um novo caminho. Em outras palavras, em ambos os casos a
+  aresta $e$ nunca poderá ser escolhida como parte de um caminho
+  gerado pelo \emph{pricing}.
+
+%% \subsection{Criação dos nós da árvore de BB}
+%% \subsection{Estratégia de ramificação na árvore de B\&B}
+%% Antes de criar os dois subproblemas a partir de 
+
+\section{Uso do algoritmo para árvore $t$-spanner de peso mínimo}
+\label{sec:gc_mwtsp}
+
+Fazendo-se uma pequena alteração, a implementação descrito 
+neste capítulo pode ser utilizada para resolver o problema
+da árvore $t$-spanner de peso mínimo (MWTSP). Com isso, podemos
+comparar essa implementação com as formulações lineares inteiras propostas
+por nós para o MWTSP, apresentadas no capítulo anterior. 
+
+Para evitar alterar o \emph{pricing}, não adicionamos ao
+programa $\FullPrimalPL$ a restrição que limita o número de arestas da
+solução. Em vez disso, adicionamos coeficientes com valores
+altos para cada uma das variáveis (associadas às arestas) que compõem
+a função objetivo do programa $\FullPrimalPL$.
+%% associadas às arestas do grafo.
+Os coeficientes escolhidos são suficientemente altos para que qualquer
+solução viável com um número menor de arestas seja priorizada com
+relação às soluções com um número maior de arestas. Ao fim, se a solução ótima
+encontrada tiver um número de arestas maior ou igual ao número de
+vértices, então sabemos que o grafo de entrada não admite uma árvore
+$t$-spanner.
+
+Toda a implementação (incluindo as heurísticas) para o MWSP continua sendo
+válida para o MWTSP. Não encontramos na literatura heurísticas
+para cálculo de limitantes primais para o MWTSP.
+
+A implementação de Sigurd e Zachariasen~\cite{SigurdZ2004} não está disponível.
+Resolvemos implementar o algoritmo de Sigurd e Zachariasen para realizar
+um conjunto maior de experimentos computacionais (quando comparado à quantidade
+de
+experimentos realizados pelos autores) e para comparar a implementação com as
+formulações
+lineares inteiras que propusemos no Capítulo~\ref{cap:mwstp} para o MWTSP.
+Estas comparações serão apresentadas no Capítulo~\ref{cap:experimentos}.
+Como comentado no início do capítulo, Sigurd e Zachariasen não mencionam 
+pré-processamentos e heurísticas para cálculo de limitantes primais e duais,
+sendo estas as principais diferenças de nossa implementação para a dos
+autores.
+
+%% Alguns detalhes de implementação foram implementados para que o algoritmo
+%% funcionasse corretamente. 
+%% \begin{itemize}
+%% \item setSolutionBasedOnRMP(): armazena a solução gerada pelo pricing. Esta solução é inteira. O valor retornado será acrescido de um número grande multiplicado pelo número de arestas da solução;
+%% \item compareLB(BranchTreeNode* a, BranchTreeNode* b): utilizada para comparar os unexploredNodes pelo lower bound. Para o caso da árvore, o lower bound retornado será aquele acrescido de um número grande multiplicado pelo número de arestas da solução;
+%% \item addVarsXToMasterLP(): a função objetivo atribui um valor alto para cada variável (indiretamente força a solução a ter poucas arestas);
+%% \item createBranchNodes: inicia também os real lower bound
+%% \item getMSTbasedOnFixedEdges: retorna o custo da MST + (número de arestas multiplicado por uma constante alta);
+%% \item basicPart: retorna o custo da solução spanner + (número de arestas multiplicado por uma constante alta);
+%% \item greedySpanner: retorna o custo da solução spanner + (número de arestas multiplicado por uma constante alta);
+%% \item updateIntegralityGap: para calcular o gap, utiliza os valores reia de globalUB e do lower bound do nó da árvore de busca;
+%% \item branchOnX:
+%%   \begin{itemize}
+%%   \item após receber o valor do price (que está adulterado), calcula o valor real retornado pelo price, sem as coeficientes altos;
+%%   \item atualizar o gap de integralidade somente se o lower bound real for menor do que ub real. Isto faz sentido pois o gap de integralidade é calculado pela diferença entre estes valores reais.
+%%     \item atualizo o lower bound real com um valor de heurística, caso ele seja melhor do que o calculado pelo pricing
+%%     \end{itemize}
+%% \item main
+%% \end{itemize}
+
+

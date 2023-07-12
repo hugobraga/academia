@@ -1,0 +1,632 @@
+%!TEX root = main.tex
+%% ------------------------------------------------------------------------- %%
+\chapter{Problemas sobre spanners, aplicações e histórico}
+\label{cap:conceitos_historico-v2}
+Neste capítulo introduzimos o conceito de spanners em grafos, e mencionamos vários problemas e resultados sobre spanners. Também apresentamos diversas situações ou contextos onde problemas sobre spanners ocorrem.  Posteriormente, formalizamos alguns problemas clássicos sobre spanners, dando enfoque aos problemas estudados nesta tese, e mencionamos os principais resultados sobre a  complexidade computacional desses problemas. Por fim, apresentamos um histórico a respeito das investigações relativas aos problemas sobre spanner, destacando o foco da pesquisa em cada período assim como alguns resultados sobre algoritmos ou complexidade.
+
+
+%% \section{Introdução}
+
+Dada uma tripla $(G,w,t)$ formada por um grafo $G=(V,E)$, uma função peso \mbox{$w: E \to \espacoRpos$}, e um número real $t \ge 1$, chamado de \emph{fator de dilatação}, um \emph{$t$-spanner} de $G$ é um subgrafo gerador~$H$ de~$G$ tal que
+para quaisquer pares de vértices~$u$,$v$, a distância (definida
+como a soma dos pesos das arestas que compõem um caminho de peso mínimo)
+entre $u$ e $v$ em $H$ é no máximo $t$ vezes a distância entre $u$ e $v$ em $G$.  Mais formalmente,
+\begin{equation}
+%\label{eq:spanner}
+\dist_{H}(u,v) \le t \cdot \dist_{G}(u,v), \quad \forall\;u,v \in V. 
+\label{eq:def_spanner}
+\end{equation}
+Quando $H$ é uma árvore, dizemos que $H$ é uma \emph{árvore $t$-spanner}.
+
+Lembramos que, para uma função peso
+  \mbox{$w: E \to \espacoRpos$} definida sobre o conjunto de arestas de um grafo
+  $G=(V,E)$, para cada aresta $e \in E$, escrevemos $w_e$ em vez de $w(e)$.
+
+Se $P$ é um caminho entre $u$ e $v$ em $G$ cujo comprimento 
+é no máximo $t \cdot \dist_{G}(u,v)$,  então $P$ é chamado de
+\emph{caminho $t$-spanner} entre $u$ e $v$. 
+
+Para vértices $u$ e $v$ em um grafo $G$, denotamos por $\PathuvG$ a coleção de caminhos $t$-spanner em $G$ entre $u$ e~$v$.  Dizemos que uma aresta $f \in E$ é uma \emph{aresta $t$-essencial}
+%\emph{ponte $t$-spanner} 
+de $G$ se $G-f$ não é $t$-spanner de $G$. 
+%% Seja \\
+%% \centerline{$\BridgeG = \{e \in E\; |\; e$ é uma aresta $t$-essencial de $G\}$.}
+
+Problemas sobre spanners surgem em vários cenários, em diferentes áreas, como computação distribuída~\cite{Awerbuch1985,PelegU1989}, redes de comunicação~\cite{PelegU1988,PelegR1999,OliveiraP2005} e robótica~\cite{ArikatiCCDSZ1996}. Essa sua aplicabilidade em diversas áreas tem motivado ampla pesquisa e interesse em áreas como teoria dos grafos, otimização combinatória, e mesmo geometria computacional (nas variantes em que as distâncias são euclidianas).
+
+\section{Aplicações de problemas sobre spanners}
+\label{sec:aplicacoes}
+De modo geral, problemas sobre spanners surgem em cenários onde há a necessidade de economia de recursos ou existe a necessidade de computação rápida de informações sobre caminhos.  Dentre esses cenários, destaca-se redes de comunicação~\cite{PelegU1988,PelegR1999,OliveiraP2005, RodittyTZ2008}, mais especificamente, quando se deseja fazer roteamento que consuma pouco espaço ou tempo.  Neste cenário, busca-se uma relação de compromisso entre o tamanho da rede armazenada e o comprimento da rota mais longa para interligar quaisquer dois pares de pontos.  Uma das ideias consideradas é basicamente considerar a rede original como um grafo, e construir  um spanner desse grafo. Desta forma, ao obter uma subrede com um conjunto menor de arestas do que a rede original, basta utilizar apenas este subconjunto menor de arestas no roteamento. Neste caso, as rotas 
+entre os pares de pontos terão comprimento no máximo $t$ vezes pior do que os das rotas na rede original. 
+
+Outro cenário é o de construção de oráculos de distância \cite{RodittyTZ2005,ThorupZ2005,ElkinP2016,Sommer2016,Knudsen2017}.  No problema de \emph{Caminhos Mínimos entre todos os Pares de
+  Vértices} (cujo acrônimo em inglês é APSP),  estamos interessados nas
+distâncias entre todos os pares de vértices.
+Como abordado
+em \cite{ThorupZ2005}, em muitas situações,
+ não é necessário obter esta informação entre todos os pares de vértices. 
+Além do mais, em alguns cenários, para um grafo $G=(V,E)$, armazenar
+uma estrutura cujo espaço é $O(|V|^2)$ pode representar um gasto excessivo. 
+
+Outra restrição com relação ao APSP consiste no tempo de pré-processamento 
+(no APSP, o tempo é $O(|V| \cdot |E|)$). 
+Este conjunto de fatores
+caracteriza a motivação para a utilização de oráculos de distância, cujo
+papel é devolver a informação aproximada da distância rapidamente. 
+%routing table: ver PelegU1988
+%oracle distance: ver ThorupZ2005
+Nestes oráculos, o pré-processamento realizado é mais rápido quando comparado
+ao pré-processamento do APSP. Neste pré-processamento, é construída uma
+estrutura que possibilita que as consultas às distâncias sejam efetuadas
+rapidamente. Estas estruturas são menores e correspondem a um spanner. 
+%% Além de oráculos de distância, alguns trabalhos como
+%% \cite{Cohen1999,Elkin2005,ElkinZ2006} utilizam spanners para calcular
+%% caminhos cujo tamanho é próximo da distância de um caminho mínimo,
+%% empregando, em alguns casos, computação distribuída.
+
+Os spanners aparecem em computação distribuída, comumente 
+na construção de algoritmos distribuídos para calcular caminhos
+mínimos aproximados \cite{Elkin2005, ElkinZ2006,BeckerKKL2017}.
+Novamente aqui, a ideia é utilizar um algoritmo distribuído num 
+spanner do grafo original. 
+%% Como um spanner é um subgrafo do grafo original, um algoritmo
+%% distribuído execute no grafo original também pode ser executado no spanner. 
+O protocolo distribuído apresentado em~\cite{DemmerH1998} oferece suporte a objetos móveis em uma rede distribuída. Este protocolo é implementado sobre uma árvore geradora da rede e seu \emph{overhead} é proporcional ao fator de dilatação da árvore. Neste caso, um bom candidato para esta árvore geradora seria uma árvore $t$-spanner.  Os spanners também desempenham o papel de \emph{sincronizadores} em sistemas distribuídos \cite{Awerbuch1985,PelegU1989}. Eles são utilizados para simular um algoritmo distribuído síncrono em um ambiente assíncrono.  Os autores mostraram que o custo (medido em termos de quantidade de mensagens e tempo) está diretamente relacionado ao fator de dilatação e à quantidade de arestas de um grafo spanner da rede.
+% sincronizadores: PelegU1989
+
+Spanners são utilizados no contexto de teste de propriedades
+\cite{BhattacharyyaGJRW2009, BhattacharyyaGJJRW2010,BermanBMRY2011}, mais
+especificamente no teste de monotonicidade de funções. Para descrever
+a aplicação, precisamos apresentar antes algumas definições.
+%% Seja $V_n$ um
+%% conjunto parcialmente ordenado (\emph{poset}) de $n$ elementos e seja
+%% $G_n = (V_n, E)$ o diagrama de \emph{Hasse} para $V_n$. Para definir um
+%% diagrama de Hasse necessitaremos antes da definição de
+%% \emph{redução transitiva}.
+A redução transitiva de uma relação binária $R$ em um conjunto $S$ é a relação mínima $R'$ em $S$ tal que o fecho transitivo de $R'$ é o mesmo que o fecho transitivo de $R$. No caso de um digrafo $D = (V_d, A_d)$, a redução transitiva de $D$ corresponde a um outro digrafo $D' = (V_d, A_d^{'}), A_d^{'} \subseteq A_d$, onde $A_d^{'}$ deve ter o tamanho mínimo possível tal que para cada par $u, v \in V_d$, se existe um caminho entre $u$ e $v$ em $D$ então deve haver um caminho entre $u$ e $v$ em $D'$. Lembramos aqui que o Diagrama de Hasse é usado para representar a redução transitiva de um conjunto finito parcialmente ordenado. Mais formalmente, para um conjunto parcialmente ordenado $(S, \le)$, no Diagrama de Hasse, cada elemento de $S$ é representado como um vértice. Para cada $x, y \in S$, existe um segmento ascendente de $x$ para $y$ no diagrama se $y$ cobre $x$, ou seja, não existe $z \in S$ tal que $x < z < y$. A restrição na existência dos segmentos ascendentes caracteriza a redução transitiva.
+
+Com relação ao teste de monotonicidade de funções, 
+%% Spanners são utilizadas para testar monoticidade de funções.
+seja $V_n$ um
+conjunto parcialmente ordenado
+%% (cujo acrônimo em inglês é \emph{poset})
+de $n$ elementos e seja $D_n = (V_n, A)$ o Diagrama de Hasse para $V_n$. Uma função $f: V_n \rightarrow \espacoR$ é monótona se para cada $xy \in A$, $f(x) \le f(y)$. Dizemos que a função $f$ é $\epsilon$-distante de ser monótona se $min_{\text{monótona}\ g}|\{ x: f(x) \neq g(x) \}| \ge \epsilon n$.  Um testador de monotonicidade em $D_n$ é um algoritmo que \emph{aceita} se $f$  é uma função monótona, e \emph{rejeita} com alta probabilidade quando  $f$ é $\epsilon$-distante de ser monótona. 
+%% , dado um oráculo
+%% para uma função, passa se a função é monótona, mas falha com probabilidade
+%% maior ou igual a $\frac{2}{3}$ se $f$ é $\epsilon$-distante de ser monótona.
+Trabalhos como \cite{BhattacharyyaGJRW2009,BhattacharyyaGJJRW2010,BermanBMRY2011} 
+%% , DodisGLRRS1999}
+  propõem testadores de monotonicidade cuja estrutura básica
+é um spanner. Além disso, foi observado que a complexidade do testador
+está relacionada com o tamanho do spanner.
+
+Spanners são utilizados na área de robótica, mais especificamente na área de planejadores de roteiros \cite{MarbleB2011,MarbleB2011b,MarbleB2012,MarbleB2013,WangBC2015}.  Os planejadores de roteiro (\emph{roadmap planners}) em robótica são algoritmos que determinam rotas entre uma configuração inicial de um robô e uma configuração-objetivo (final), de modo a evitar colisões.  Estes planejadores são divididos em duas fases: na primeira (pré-processamento), o planejador acumula conhecimento sobre o espaço; na segunda, o planejador responde perguntas sobre rotas.  Uma das formas de melhorar a qualidade do caminho devolvido é construir, na fase de pré-processamento, mapas densos de roteiros. Esta abordagem incorre em desvantagens tais como custo de armazenamento e transmissão das rotas, além de um tempo maior para calcular as rotas.  Com o intuito de contornar este problema, os autores em~\cite{MarbleB2011} constroem um spanner do grafo que representa
+os roteiros. Tal abordagem é interessante, pois os computadores embarcados
+nos robôs geralmente possuem restrições de recursos. Um mapa denso pode
+ser construído em um computador central e um spanner deste mapa pode ser
+transmitido para os robôs. Arestas do mapa de rotas podem ser invalidadas
+em decorrência de obstáculos em tempo real. Quando se utiliza um spanner,
+recalcular a rota pode ser feita rapidamente.
+
+Aplicações que representam relações tais como \emph{internet} e \emph{hiperlink} ou artigos e citações trabalham com uma grande massa de dados.  Em decorrência do tamanho dos grafos que representam estas relações, pesquisadores têm adotado o modelo \emph{stream} de dados. Neste modelo, o algoritmo tem como entrada um fluxo de dados e deve processar este fluxo na mesma ordem em que os dados vão chegando. Uma outra restrição imposta pelo modelo é que o algoritmo deve usar uma quantidade limitada de memória. Para conciliar acurácia e gasto de memória, muitos autores estão utilizando spanners na construção dos algoritmos para o modelo \emph{stream} de dados \cite{AhnGM2012,CrouchMS2013,McGregor2014,KapralovW2014,ElkinS2016,
+  BeckerKKL2017}.
+
+Spanners foram úteis para obter um primeiro PTAS para o problema do caixeiro viajante (o bem conhecido \emph{Traveling Saleman Problem -TSP})
+para grafos planares \cite{Klein2006}.
+Além disso, spanners foram utilizados no problema de controle de acesso, mais especificamente no gerenciamento de chaves numa hierarquia de acessos~\cite{AtallahBFF2009,BhattacharyyaGJRW2009}.  Este problema surge no cenário onde os usários têm acesso a um conjunto de serviços e a todos os serviços que são descendentes na hierarquia de acesso.
+
+\section{Variantes de problemas sobre spanners}
+
+Definimos aqui os principais problemas sobre spanner em grafos, e mencionamos algoritmos e resultados conhecidos sobre suas complexidades computacionais.  Para todos os problemas, a entrada é sempre uma tripla $(G,w,t)$, onde $G=(V,E)$ é um grafo, $w: E \to \espacoRpos$ é uma função peso, e $t \ge 1$ é um número real.  No caso especial em que $w_e=1$ para toda aresta~$e$ de~$G$, dizemos que se trata do \emph{caso unitário} (ou \emph{caso cardinalidade}, já que se deseja minimizar a cardinalidade do conjunto de arestas do spanner). No que segue, mesmo que não esteja mencionado, convencionamos que $n=|V|$ e $m=|E|$.
+
+\subsection{Problema de $t$-spanner de peso mínimo}
+\label{sec:comp_spanner_peso_min}
+
+Dada uma tripla $(G,w,t)$, o \emph{problema de $t$-spanner de peso mínimo} (\emph{Minimum Weight $t$-Spanner Problem} - MWSP) tem por objetivo encontrar em $G$ um $t$-spanner que seja de peso mínimo.
+
+No caso unitário, Cai e Corneil~\cite{CaiC1995} referem-se a este problema como o \emph{problema de t-spanner mínimo}. A versão de decisão deste problema é conhecida como \emph{problema de $t$-spanner esparso}.  Peleg e Schäffer~\cite{PelegS1989} mostraram que o problema de $t$-spanner esparso é NP-completo quando $t=2$.  Este resultado foi estendido para todo inteiro (fixo) $t\geq 2$ por Cai~\cite{Cai1994}.
+%% Cai~\cite{Cai1994} mostrou que a versão de decisão
+%% deste problema é NP-completo para todo inteiro $t\geq 2$.
+Quando $t = 2$, Kortsarz~\cite{Kortsarz2001} mostrou que é NP-difícil obter uma aproximação para o problema com fator $c\log{n}$, para algum $c < 1$ e, neste sentido, o algoritmo de aproximação proposto por Kortsarz e Peleg~\cite{KortsarzP1994} com fator $\log(m / n)$ é o melhor possível. Para $t \ge 3$, também é NP-difícil obter uma aproximação com fator $c \log{n}$, para algum $c < 1$, mas neste caso $c$ depende de~$t$~\cite{Kortsarz2001}.  Este fator foi melhorado em 2015 por Dinitz et al \cite{DinitzKR2015} para $2^\frac{\log^{1-\epsilon} n}{t}$.  Para $t \ge 3$, o algoritmo proposto por Alth\"{o}fer et al \cite{AlthoferDDJS1993} garante um fator de aproximação de $O(n^{\frac{2}{t-1}})$.
+%% Para $t \ge 3$, Elkin e
+%% Peleg~\cite{ElkinP2005} propuseram um algoritmo com fator de
+%% aproximação~$O(n^{2/(t+1)})$.
+
+Os autores em~\cite{ElkinNS2015,ChechikWN2016} melhoram a análise do algoritmo clássico proposto em~\cite{ChandraDNS1992,AlthoferDDJS1993}, garantindo um fator de aproximação menor. Para um fator de dilatação $k = (2t - 1)(1 + \epsilon)$, Chechik e Wulff-Nilson~\cite{ChechikWN2016} provaram que o algoritmo guloso gera um spanner cujo peso é $O(w(MST(G)) \cdot n^{1/k}(1/\epsilon)^{3 + 2/k})$.
+
+Para outros resultados de aproximabilidade e inaproximabilidade para algumas variantes deste problema, veja~\cite{ElkinP2005,ElkinP2007}.
+
+Resultados sobre (in)aproximabilidade e complexidade do MWSP estão listados na Tabela~\ref{tab:t-spanner_opt}.
+
+Na seção sobre o histórico dos problemas de spanners, apresentaremos mais alguns resultados sobre o problema de $t$-spanner mínimo para classes específicas de grafos.
+
+\vspace{2mm}
+{\small
+\begin{table}
+\begin{center}
+\noindent
+\begin{tabular}{|l|l|}\hline
+{Trabalhos}                             & Resultados \\ \hline\hline 
+\multicolumn{2}{|c|} {Arestas com peso unitário ($t$-spanner mínimo)} \\ \hline\hline
+Peleg e Schäffer '89~\cite{PelegS1989}  & NP-c ($t = 2$)\\ 
+Cai '94 \cite{Cai1994}                  & NP-c ($t \ge 2$)\\ 
+Kortsarz '01 \cite{Kortsarz2001}        & INAPROX - $c \log n$ ($t = 2$, $c < 1$) \\
+Kortsarz e Peleg '94~\cite{KortsarzP1994}   & APROX - $O(\log m/n)$ ($t = 2$) \\
+%% Kortsarz '01~\cite{Kortsarz2001}        & INAPROX - $c \log n$ ($t \ge 3$, $c < 1$, $c$ depende de $t$) \\
+Dinitz et al '15~\cite{DinitzKR2015}        & INAPROX - $2^\frac{\log^{1-\epsilon} n}{t}$ ($t \ge 3$, $\epsilon > 0$) \\
+Alth\"{o}fer et al '93~\cite{AlthoferDDJS1993}        & APROX - $O(n^{\frac{2}{t-1}})$ ($t \ge 3$) \\
+\hline\hline
+\multicolumn{2}{|c|} {Arestas com peso arbitrário} \\ \hline\hline
+Chandra et al '92 \cite{ChandraDNS1992} & APROX - $O(n^{\frac{2+\epsilon}{t-1}})$ ($t > 1$, $\epsilon > 0$) \\
+Chechik et al '16 \cite{ChechikWN2016} & \makecell[l]{APROX - $O(n^{1/k}(1/\epsilon)^{3 + 2/k})$ ($t$ inteiro, $\epsilon > 0$) \\($k$-spanner, onde $k=(2t - 1)(1 + \epsilon)$)} \\
+Sigurd e Zachariasen '04 \cite{SigurdZ2004}  & AE-BPC* \\
+\hline
+\hline
+\multicolumn{2}{|l|} {AE (Algoritmo Exato);~ BP (\emph{Branch and Price}); 
+~ BPC (\emph{Branch and Price and Cut})}\\
+\hline
+\multicolumn{2}{|l|} {\makecell{APROX (Alg. Aproximação); 
+~ INAPROX (Fator de Inaproximabilidade);\\~ NP-c (NP-completo)}}\\
+\hline
+\end{tabular}
+\bigskip
+\caption{Problema de $t$-spanner de peso mínimo}
+\label{tab:t-spanner_opt}
+\end{center}
+\end{table}
+}
+
+
+\subsection{Problemas sobre árvore t-spanner}
+\label{sec:comp_arv_spanner}
+
+Consideramos aqui três variantes de problemas sobre árvores spanner.
+
+A primeira delas, a mais estudada,  é o tópico da primeira subseção.
+
+\subsubsection{Problema da árvore t-spanner}
+
+Dado um par $(G,t)$, onde $G$ é um grafo e $t$ é um número inteiro maior que~$1$, o \emph{problema da árvore t-spanner} tem como objetivo saber se $G$ admite uma árvore $t$-spanner. Neste problema,
+  estamos supondo que o peso das arestas é unitário. O caso com pesos arbitrários veremos na seção a seguir.
+
+Encontrar uma árvore $t$-spanner pode ser resolvido em tempo linear quando $t = 2$ (veja~\cite{Bondy1989,Cai1992,CaiC1995}).  Cai e Corneil~\cite{Cai1992,CaiC1995} mostraram que determinar a existência de uma árvore $t$-spanner é NP-completo para todo $t \ge 4$ fixo, fazendo uma redução do problema $3$-SAT. No caso em que $t=3$ a sua complexidade computacional é desconhecida.
+Para o caso $t=3$, Papoutsakis~\cite{Papoutsakis2013} apresentou um programa inteiro com formulação robusta.
+
+Na Tabela~\ref{tab:arv_t-spanner}, apresentamos vários resultados conhecidos para o problema da árvore $t$-spanner. Os casos em aberto estão indicados com o símbolo '?'. Estes resultados, para classes específicas, serão abordados na seção de histórico dos problemas sobre spanners.
+
+
+\vspace{2mm}
+{\small
+\begin{table}
+\begin{center}
+\noindent
+\begin{tabular}{|l|l|l|}\hline
+{~~~~~~~~~~~~~~~~Tipos de grafos}				& ~ $t = 3$ ~ & ~~~~~~~~~~$t$ \\ \hline\hline 
+cografo, \emph{split}, complemento de bipartido ~~ 	        &  ~ P~\cite{Cai1992} & \\ %seção 7.2.1 da tese
+intervalo, permutação, bipartido regular		& ~ P~\cite{MadanlalVR1996} & \\
+planar							& ~ P~\cite{FeketeK2001} & %% FPT ($t \ge 1$)~\cite{DraganFG2011}
+\\
+exoplanar						&  & ~ P ($t \ge 1$)~\cite{
+  %% PelegT2001,
+  NarayanaswamyR2015}\\
+bipartido convexo					& ~ P~\cite{VenkatesanRMMR1997} & \\
+bipartido						&
+~ ?$\;\;$\cite{MadanlalVR1996} & NP-c ($t \ge
+5$)~\cite{BrandstadtDLLU2007}\\
+grafo de cocomparabilidade			        & ~ ?$\;\;$\cite{MadanlalVR1996} & \\
+grau máximo $\le b \cdot \log n$, $b > 0$            & ~ P$\;\;$\cite{Papoutsakis2018} & \\
+%% grau máximo limitado					& &  FPT ($t \ge 1$)~\cite{FominFGL2011}
+%% \\
+fortemente cordal					& ~ P$\;\;$\cite{BrandstadtDLL2004} & P ($t = 4$)~\cite{BrandstadtCD1999} \\
+$1$-split                                               & ~ P$\;\;$\cite{BrandstadtDLL2004} &  \\
+cordal com diâmetro $\le 2$                              & ~ P$\;\;$\cite{BrandstadtDLL2004} &  \\
+cordal com diâmetro $\le t + 1$ (para $t$ par)          & & ~ NP-c ($t \ge 4$)~\cite{BrandstadtDLL2004} \\
+cordal com diâmetro $\le t + 2$ (para $t$ ímpar)        & & ~ NP-c ($t \ge 4$)~\cite{BrandstadtDLL2004} \\
+
+grafo com diâmetro $\le 5$                              & ~ P$\;\;$\cite{Papoutsakis2014} &  \\
+cordal							& ~ ?$\;\;$\cite{MadanlalVR1996} & NP-c ($t \ge 4$)~\cite{BrandstadtDLL2004}\\
+grafos que não possuem $K_6$ como menor & & NP-c ($t \ge 4$)~\cite{DraganFG2011}\\
+\hline 
+\hline
+\multicolumn{3}{|c|} {P (Polinomial); NP-c (NP-completo)%% ; FPT (Tratável com Parâmetro Fixo)
+}\\
+%\multicolumn{3}{|l|} {FPT: Tratável com Parâmetro Fixo}\\
+\hline
+%\caption{teste}
+\end{tabular}
+\bigskip
+\caption{Problema da árvore $t$-spanner}
+\label{tab:arv_t-spanner}
+\end{center}
+\end{table}
+}
+
+%%%%%%%%%%%%%%%%%%%
+
+
+A segunda variante é uma versão de otimização do problema da árvore $t$-spanner, quando são dados pesos nas arestas.
+
+\subsubsection{Árvore t-spanner de peso mínimo}
+\label{sec:arv_spanner_custo_min}
+Dada uma tripla $(G,w,t)$, o \emph{problema da árvore $t$-spanner de peso mínimo} (\emph{Minimum Weight Tree \hbox{$t$-spanner} Problem} - MWTSP) tem por objetivo encontrar em $G$ uma árvore $t$-spanner que tenha peso mínimo. 
+
+
+Observe que no caso em que os pesos são unitários, este problema corresponde ao problema clássico da árvore $t$-spanner.  Estamos supondo que o grafo $G$ admite uma árvore $t$-spanner. Em decorrência dos resultados de NP-completude para a versão de decisão do MWSP (vistos na subseção anterior), a versão de decisão do MWTSP também é um problema NP-completo para os casos anteriormente mencionados.
+
+Cai e Corneil~\cite{CaiC1995} provaram que o problema de decisão correspondente é NP-completo para todo $t>1$ fixo. 
+
+% Em decorrência da dificuldade de se obter resultados para o caso geral quando $t=3$, vários autores estudaram este problema restrito a classes específicas. Alguns destes resultados estão resumidos na Tabela~\ref{tab:arv_t-spanner}, juntamente com alguns casos em aberto, indicados com o símbolo '?'. Estes resultados para classes específicas serão abordados na seção sobre histórico dos problemas spanners.
+
+
+\subsubsection{Árvore spanner de menor fator de dilatação}
+\label{sec:comp_arv_span_minima}
+
+Uma outra variante de problema sobre árvores spanners, que chamaremos de problema da \emph{árvore spanner de menor fator de dilatação} (\emph{Minimum Max-Stretch spanning Tree} - MMST),
+consiste em minimizar o fator de dilatação.  Neste caso, é dado apenas um par $(G,w)$, e o objetivo é encontrar o menor~$t$ (real) tal que $G$ admite uma árvore $t$-spanner.
+
+No caso unitário, o problema MMST foi investigado por Emek e Peleg~\cite{EmekP2008}.  Esses autores propuseram um algoritmo com fator de aproximação~$O(\log n)$. Fekete e Kremer~\cite{FeketeK2001} provaram que o problema MMST é NP-difícil mesmo quando restrito aos grafos planares.  Galbiati~\cite{Galbiati2001} provou que é NP-difícil obter uma $(2 - \epsilon)$-aproximação, para todo $\epsilon > 0$. Na verdade, a autora provou um resultado de inaproximabilidade para um outro problema, e mostrou que o resultado é válido para o problema da MMST com peso unitário.  Para o caso geral, Peleg e Reshef~\cite{PelegR1999} provaram que o problema MMST não admite uma $\alpha$-aproximação, onde $\alpha\leq (1 +\sqrt{5})/2$.
+
+Apresentamos na  Tabela~\ref{tab:arv_spanner_min-t}  alguns resultados de inaproximabilidade e complexidade computacional do problema MMST.
+
+\vspace{2mm}
+{\small
+\begin{table}
+\begin{center}
+\noindent
+\begin{tabular}{|l|l|}\hline
+{Trabalhos}                             & Resultados \\ \hline\hline 
+\multicolumn{2}{|c|} {Arestas com peso unitário} \\ \hline\hline
+Cai e Corneil '95 \cite{CaiC1995}         & NP-c ($t \ge 4$) \\
+Emek e Peleg '08 \cite{EmekP2008}        & APROX - $O(\log n)$\\
+%% \makecell{Peleg e Tendler '01 \cite{PelegT2001} \\
+%% Narayanaswamy e Ramakrishna '15 \cite{NarayanaswamyR2015}} $\quad$  & P - exoplanar\\
+%% Papoutsakis '13 \cite{Papoutsakis2013}   & AE ($t = 3$); formulação robusta\\
+%% Fekete e Kremer '01 \cite{FeketeK2001}   & NP-d (grafos planares)\\
+\hline
+\hline
+
+\multicolumn{2}{|c|} {Arestas com peso arbitrário} \\ \hline\hline
+Cai e Corneil '95 \cite{CaiC1995}               & NP-c ($t > 1$) \\
+Peleg e Reshef '99 \cite{PelegR1999} $\quad$    & INAPROX - $c (1 + \sqrt{5})/2$, ($c < 1$) \\ 
+Galbiati '01 \cite{Galbiati2001}                & INAPROX - $(2 - \epsilon)$, $\epsilon > 0$\\
+\hline \hline
+%% \multicolumn{2}{|l|} {AE (Algoritmo Exato);~ P (Polinomial); ~ NP-c
+%%   (NP-completo)}\\ 
+%% \hline
+\multicolumn{2}{|l|} {\makecell{APROX (Alg. Aproximação); 
+~ INAPROX (Fator de Inaproximabilidade);\\~ NP-c (NP-completo)}}\\
+\hline
+%% \multicolumn{2}{|l|} {APROX (Fator de Aproximação); 
+%% ~ INAPROX (Fator de Inaproximabilidade)}\\
+%% \hline
+\end{tabular}
+\bigskip
+\caption{Problema da árvore spanner de menor fator de dilatação}
+\label{tab:arv_spanner_min-t}
+\end{center}
+\end{table}
+}
+
+% \begin{center}
+% \noindent
+% \footnotesize{
+% \begin{tabular}{|l|l|l|l|}\hline
+% {Nome do problema} & {Caso unitário} & {Problema de decisão} & {Observação}
+% \\ \hline\hline
+% %% \multirow{11}{*}{3} & 10 & 40 & 5 & 0 & 5  & 0.02 \\
+% $t$-spanner com peso mínimo & & não & min. $\sum_{e \in E'} w_e$ \\     
+% $t$-spanner mínimo & sim & não & min. $|E'|$ \\
+% $t$-spanner esparso & sim & sim & $|E'|$ lim. por um valor\\
+% árvore $t$-spanner com peso mínimo & & não & min. $\sum_{e \in E'} w_e$ \\
+% %% árvore $t$-spanner & sim & sim &  \\
+% árvore spanner mínima &  & não & min. $t$ (fator de dilatação)\\
+% \hline\hline
+% \end{tabular}
+% }
+% \captionof{table}{Lista com alguns problemas sobre spanner}
+% \label{tab:nomes_problemas}
+% \end{center}
+
+% Um pequeno resumo destes problemas de spanner é apresentado na Tabela
+% \ref{tab:nomes_problemas}.
+
+\section{Histórico}
+A seguir apresentamos um histórico sobre a evolução do estudo de problemas sobre spanners. Para cada período, abordamos o foco da pesquisa assim como descrevemos alguns resultados específicos. Além disso, alguns resultados de complexidade para classes específicas de grafos, que não foram apresentados na seção anterior, serão abordados nesta seção.
+
+\subsection{1986 -- 1989: início e spanners esparsos}
+%% Problemas sobre spanners surgem em cenários como computação
+%% distribuída~\cite{Awerbuch1985,PelegU1989}, redes de
+%% comunicação~\cite{PelegU1988,PelegR1999,OliveiraP2005,Braga2012} e
+%% robótica~\cite{ArikatiCCDSZ1996}. Essa sua aplicabilidade em diversas
+%% áreas tem motivado ampla pesquisa, envolvendo áreas como teoria dos
+%% grafos, otimização combinatória, e mesmo geometria computacional (nas
+%% variantes em que as distâncias são euclidianas).
+O conceito de spanner foi introduzido em 1987 (numa conferência) por Peleg e Ullman~\cite{PelegU1987}, que mostraram que spanners podem ser usados para construir sincronizadores que permitem que algoritmos síncronos executem em ambientes assíncronos (a versão completa do trabalho foi apresentada em~\cite{PelegU1989}.  Em 1986, numa conferência em geometria computacional, Chew~\cite{Chew1986} apresentou o problema de aproximar grafos completos euclidianos por subgrafos planares (a versão completa do trabalho foi apresentada em~\cite{Chew1989}). O termo spanner foi utilizado pela primeira vez em~\cite{PelegS1989}.
+
+Spanners esparsos começaram a ser estudados em 1989 por Peleg e Schäffer~\cite{PelegS1989}. Estes autores mostraram que, dado um grafo $G$ e um inteiro $M \ge 1$, determinar se $G$ possui um $2$-spanner com no máximo $M$ arestas é NP-completo. Os autores ainda mostraram que, dado um grafo $G$ com $n$ vértices, para $1 < k < n$, é possível construir polinomialmente um $(4 \log_{k}n + 1)$-spanner com no máximo $kn$ arestas.
+
+\subsection{1992 -- 1995: complexidade de problemas sobre árvores t-spanner e spanners esparsos}
+Os autores que publicaram trabalhos neste período 
+provaram resultados de complexidade para o problema
+clássico de árvore $t$-spanner, como
+Cai~\cite{Cai1992} mostrou em 1992, em sua tese de doutorado, que o problema da 
+árvore $t$-spanner é NP-Completo para $t > 1$ (este resultado apareceu em 
+\cite{CaiC1995}). Outros resultados para o caso unitário também foram provados,
+como abordamos na Seção \ref{sec:comp_arv_spanner}.
+
+%% Em 1992, em sua tese de doutorado, Cai \cite{Cai1992} mostrou que o problema de 
+%% árvore $t$-spanner é NP-Completo para $t > 1$ (a versão do journal apareceu em 
+%% \cite{CaiC1995}), mostrando uma redução do problema $3$-SAT. Para a versão em 
+%% que o peso das arestas é unitário, os autores mostraram que o problema 
+%% é NP-Completo para $t \ge 4$. Para $t = 2$, o problema pode ser resolvido 
+%% em tempo linear \cite{Bondy1989,Cai1992,CaiC1995}. No caso em que $t=3$ a 
+%% sua complexidade computacional é desconhecida.
+
+A esparsidade de um spanner pode ser medida em termos da quantidade de arestas
+  ou do peso do spanner. 
+Motivados pelo estudo de spanners mais esparsos, Cai~\cite{Cai1994} provou
+resultados de complexidade para o problema de $t$-spanner esparso, como
+abordado na Seção~\ref{sec:comp_spanner_peso_min}. Considerando o peso
+do spanner, o problema de t-spanner de peso mínimo também foi estudado,
+resultando no algoritmo guloso clássico de Alth\"{o}fer et
+al~\cite{AlthoferDDJS1993}.O interessante é que este algoritmo além de
+ser simples e limitar o número de arestas do spanner, ele também limita
+o peso do spanner.
+
+%% Cai \cite{Cai1994} mostrou que a versão de decisão do problema de t-spanner 
+%% mínimo é NP-Completo para todo inteiro $t \ge 2$. Mesmo se o grafo for 
+%% bipartido, o problema é NP-Completo para $t \ge 3$ \cite{Cai1994}. 
+%% Para o problema de t-spanner de peso mínimo, 
+%% os autores em \cite{AlthoferDDJS1993} propõem um algoritmo polinomial que, 
+%% para $t > 0$, 
+%% constrói um $(2t + 1)$-spanner com no máximo $n\lceil n^{1/t} \rceil$ arestas. 
+%% Além de garantir a propriedade de spanner e do número limitado de arestas, 
+%% o algoritmo guloso proposto é simples e, para uma árvore geradora mínima 
+%% $T'=(V,F)$ de $G$, gera uma solução cujo peso total é menor ou igual a 
+%% $(1 + n/2t) \cdot \sum_{e \in F}w(e)$. Em \cite{KortsarzP1994}, os autores 
+%% propõem um algoritmo de aproximação para o problema de $2$-spanner esparsa 
+%% com peso unitário, cujo fator de aproximação é $\log(|E|/|V|)$.
+
+\subsection{1993 -- 2001: classes específicas de grafos}
+Para o problema de $t$-spanner mínimo, em decorrência dos resultados de 
+NP-completude para grafos arbitrários,
+vários autores estudaram o problema para classes específicas de grafos. 
+
+Considerando grafos bipartidos, para $t \ge 3$, Venkatesan,
+Rotics, Madanlal, Makowsky e Rangan~\cite{VenkatesanRMMR1997}
+simplificaram a prova apresentada por Cai~\cite{Cai1994}. Para $t \ge 2$, 
+os mesmos autores simplificaram a prova de NP-completude apresentada por 
+Cai e Keil~\cite{CaiK1994} para grafos com grau máximo nove.
+%% , visto que este problema é NP-completo \cite{CaiK1994}.
+Os autores ainda provaram resultados de complexidade para grafos do tipo cordal, intervalo e \emph{split}. Para a classe dos grafos cordais, Peleg e Schäffer~\cite{PelegS1989} propuseram algoritmos polinomiais com um limitante no número de arestas na solução, para os casos em que $t = 2,3,5$.  Para $t = 2$, os autores mostraram um limite inferior no número de arestas de um conjunto (de tamanho infinito) de soluções e, nesse sentido, o algoritmo proposto pelos mesmos é ótimo.  Para um hipercubo, quando $t = 2$, o problema é fácil em decorrência do fato de um hipercubo ser um grafo bipartido. Não existe nenhum subgrafo próprio de
+um grafo bipartido que seja um $2$-spanner. Para $t = 3$, Duckworth, Wormald, Nicholas e Zito~\cite{DuckworthZ2000} conseguiram provar um limite inferior de $\frac{3n}{2} - o(1)$, onde $n = 2^d$ corresponde ao número de vértices de um hipercubo de dimensão~$d$, e um limite superior de $4n$. Com relação aos grafos planares, Brandes e Handke~\cite{BrandesH1997} mostraram que, para $t \ge 3$, o problema de $t$-spanner mínimo é NP-completo. Estes resultados estão listados na Tabela~\ref{tab:t-spanner_minima}.
+
+Alguns autores também consideraram a variante do problema de $t$-spanner mínimo em que existe o requisito adicional de que a solução resultante tenha grau máximo limitado. O grau máximo será representado pela letra $\Delta$.  Para $t \ge 2$ e um $\Delta \ge 4$, Cai e Keil~\cite{CaiK1993} mostraram que o problema de $t$-spanner mínimo com grau máximo $\Delta$ é NP-completo. Os autores mostraram que o mesmo problema para $\Delta = 2$ possui solução linear. Para a versão de otimização do problema de $t$-spanner mínimo com grau máximo limitado, os autores em~\cite{KortsarzP1998} propuseram um algoritmo probabilístico que gera um $2$-spanner com grau máximo, com alta probabilidade, não maior do que $O(\Delta^{1/4})$ vezes o grau máximo ótimo.
+
+Para o problema da árvore $t$-spanner, vários autores examinaram classes específicas de grafos.  Madanlal, Venkatesan e Rangan~\cite{MadanlalVR1996} mostraram que as classes de grafo intervalo, permutação e bipartido regular admitem uma $3$-spanner, podendo ser encontrada em tempo polinomial para as três classes. Eles conjecturam que grafos de cocomparabilidade admitem uma $3$-spanner. Considerando a classe de grafos fortemente cordais, os autores em \cite{BrandstadtCD1999} mostraram um algoritmo de tempo polinomial para construir uma árvore $4$-spanner, dentre outros resultados.  Para os grafos planares, os autores em~\cite{FeketeK2001} mostram que encontrar uma árvore $3$-spanner pode ser feita em tempo polinomial.
+%% Para a classe dos grafos exoplanares, os autores em \cite{PelegT2001}
+%% resolvem o problema da MMST em tempo polinomial. Neste caso, é direto resolver
+%% o problema da árvore $t$-spanner. 
+Estes resultados estão resumidos na Tabela~\ref{tab:arv_t-spanner}.
+
+
+\vspace{2mm}
+{\small
+\begin{table}
+\begin{center}
+\noindent
+\begin{tabular}{|l|l|l|}\hline
+{Tipos de grafos}					& ~~~~~~~~~~ {$t = 2$}
+& ~~~~~~~~~~~~~ {$t \ge 3$}\\ \hline\hline 
+bipartido					& P~\cite{Cai1994} & NP-c~\cite{Cai1994,VenkatesanRMMR1997} \\
+bip. reg. completo			& & P~($t = 3$)~\cite{MadanlalVR1996} \\
+hipercubo					& & \makecell{$t$-spanner H de $G$, \\onde $3\frac{n}{2}\leq{\rm |E(H)|} \leq 4n$ ~\cite{DuckworthZ2000}}\\
+$\Delta \le 4$				& P~\cite{CaiK1994} & ?\\
+$\Delta \le 9$				&
+NP-c~\cite{CaiK1994,VenkatesanRMMR1997} & NP-c~\cite{CaiK1994,VenkatesanRMMR1997} \\
+cordal						&
+NP-d~\cite{VenkatesanRMMR1997}; APROX~\cite{PelegS1989} &
+\makecell{NP-d~\cite{VenkatesanRMMR1997}; \\APROX ~($t = 3, 5$)~\cite{PelegS1989}} \\
+\emph{split}					& NP-d~\cite{VenkatesanRMMR1997} & P~\cite{VenkatesanRMMR1997}\\
+intervalo					&?~$\;$; 2-aproximação~\cite{VenkatesanRMMR1997} & P~($t = 3$)~\cite{MadanlalVR1996}\\
+permutação					&?~$\;\;$ & P~($t = 3$)~\cite{MadanlalVR1996}\\
+%% triangulação planar 4-conexa			&
+%% PTAS~\cite{DuckworthWZ2003} & ? 
+%% \\
+planar							&?$\;\;$ &
+\makecell{?$\;$~($t = 3,4$); NP-c~($t \ge 5$)~\cite{BrandesH1997}; \\
+  EPTAS~($t \ge 1$)~\cite{DraganFG2011b}}\\
+      
+
+\hline
+\hline
+\multicolumn{3}{|c|} {APROX (Alg. Aproximação);~ NP-d
+  (NP-difícil);~ NP-c (NP-completo); P (Polinomial)}\\
+\hline
+%\caption{teste}
+\end{tabular}
+\medskip
+
+\caption{Problema do $t$-spanner mínimo}
+\label{tab:t-spanner_minima}
+\end{center}
+\end{table}
+} % small
+
+
+\subsection{2001 -- 2008: resultados de (in)aproximabilidade para classes gerais}
+No período de 2001--2008 foram obtidos resultados de (in)aproximabilidade para o problema de $t$-spanner mínimo, como foi descrito na Seção~\ref{sec:comp_spanner_peso_min}.
+
+Para o problema de $t$-spanner de peso mínimo, Sigurd e Zachariasen~\cite{SigurdZ2004} propuseram um algoritmo exato usando o método \emph{branch-and-price}.
+%% Além disso, com o intuito de acelerar a execução do \emph{simplex}, os autores removem um conjunto de restrições do problema mestre.  Eles testam a inviabilidade da solução e vão adicionando restrições à medida que vão sendo necessárias.
+
+%% Para o problema de árvore spanner mínima com peso unitário, Galbiati 
+%% \cite{Galbiati2001} provou que é NP-difícil gerar uma 
+%% $(2 - \epsilon)$-aproximação, $\forall \epsilon > 0$ (na verdade, o autor 
+%% prova o resultado de inaproximabilidade para outro problema, mas mostra que 
+%% o resultado é válido para o MMST com peso unitário).
+
+Como foi mencionado na Seção~\ref{sec:comp_arv_span_minima},
+para o caso unitário do problema da árvore spanner de menor fator de dilatação, 
+%% Ainda para o MMST com 
+%% peso unitário,
+Emek e Peleg~\cite{EmekP2004} propuseram um algoritmo de aproximação cujo fator de 
+aproximação é de $O(\log n)$ (a versão completa do trabalho foi apresentada 
+em~\cite{EmekP2008}). O algoritmo é baseado numa decomposição em que, dado 
+um grafo $G$, o grafo é particionado em componentes, de tamanho no máximo 
+de $n/2$ vértices, por meio da eliminação de arestas que são internas a uma 
+\emph{bola} $B$ de raio proporcional ao fator de dilatação ótimo~$\gamma$. 
+Para cada componente, uma árvore geradora é construída (de maneira recursiva), 
+e estas são unidas por meio de uma árvore de caminhos mínimos construída 
+a partir de $B$. Seja $uv$ uma aresta pertencente ao grafo de entrada. A razão 
+de aproximação é garantida provando que, para cada nível de recursão, o número 
+de arestas adicionadas entre $u$ e $v$ na solução final é $O(\gamma)$.
+
+Alguns resultados para classes específicas de grafos, tanto para o problema da 
+árvore $t$-spanner como para o problema de $t$-spanner mínimo, foram 
+desenvolvidos durante este período, e são listados nas Tabelas 
+\ref{tab:arv_t-spanner} e \ref{tab:t-spanner_minima} respectivamente. 
+Dentre estes resultados, os autores em \cite{BrandstadtDLLU2007} estudaram 
+o problema da árvore $t$-spanner com peso unitário para as classes de grafo 
+bipartido e intervalo (mais especificamente, subclasses destas classes). 
+Dentre os resultados apresentados, eles mostram que, para $t \ge 5$, 
+decidir se um grafos bipartido cordal admite uma árvore $t$-spanner é 
+NP-completo. Até então, o resultado de NP-completude valia para a classe mais 
+geral dos grafos bipartidos (a partir dos resultados apresentados em 
+\cite{CaiC1995}). Outros resultados para o problema da árvore $t$-spanner e 
+suas variantes são apresentados em \cite{LiebchenW2008}.
+
+%\subsection{2010 - 2011: Complexidade parametrizada}
+\subsection{2010 -- 2014:  algoritmos de aproximação baseados em PL}
+Os trabalhos \cite{DinitzK2011,DinitzK2011b} consideram digrafos.
+Os autores em ambos os trabalhos utilizaram \emph{Programação Linear} (PL)
+para gerar 
+algoritmos de aproximação. Dinitz e Krauthgamer \cite{DinitzK2011} propuseram 
+o primeiro algoritmo de aproximação para o problema de $t$-spanner de peso 
+mínimo para o caso arbitrário. 
+O interessante é que eles mostraram que o fator 
+de aproximação não precisa crescer com o parâmetro $t$. Para $t = 3$ e 
+considerando o caso unitário, os autores propuseram um algoritmo diferente 
+(do algoritmo para o caso arbitrário) que 
+gera uma aproximação ainda melhor e cujo fator coincide com o caso 
+não direcionado. Eles estenderam o trabalho para o caso de tolerância a falhas, 
+sendo o primeiro trabalho proposto de tolerância a falhas para digrafos. 
+Eles resolvem o PL por meio da resolução do problema dual, que se reduz ao problema de
+caminho mínimo restrito
+(\emph{Constrained Shortest Path Problem}). Para este problema,
+é sabido que existe
+uma PTAS. Por meio disso, os autores conseguem gerar um ($1 + \epsilon$)-aproximação para o PL original.
+A partir da resolução do PL, 
+o algoritmo para gerar uma spanner é baseado na ideia de 
+separar os pares ($u,v$) de vértices entre aqueles que possuem poucos caminhos 
+viáveis (caminhos que respeitam a restrição de spanner) e os que possuem muitos 
+caminhos viáveis. O números de caminhos é baseado no número de vértices que 
+fazem parte dos caminhos. Para os pares ($u, v$) que possuem poucos caminhos, 
+aplica-se
+%% o limite do arredondamento
+um arredondamento nas variáveis fracionárias 
+para garantir que pelo menos um 
+caminho fará parte da solução final.
+%% (veja lemma 3.1 com 
+%% $|N_{u,v}| = (3|V|\ln |V|)^{1/3}$).
+Para os pares ($u,v$) que possuem muitos caminhos viáveis, são criadas e unidas
+duas árvores de caminhos mínimos.
+%% a partir 
+%% de um vértice $w \in N_{u,v}$.
+%% Para uma quantidade pequena de amostras 
+%% escolhidas aleatoriamente, é garantido que tal amostra pertencerá a $N_{u,v}$ 
+%% (lemma 3.2).
+
+Outros trabalhos que utilizam PL para 
+gerar algoritmos de aproximação são  \cite{KortsarzP1998,
+BermanRR2010,ChlamtacDK2012,BermanBMRY2013,BermanBGRWY2014}.
+
+Para o problema da árvore $t$-spanner, Narayanaswamy e Ramakrishna~\cite{NarayanaswamyR2015} propuseram um algoritmo de tempo linear para a classe dos grafos exoplanares. Os autores propuseram uma redução (tempo linear) do problema da árvore $t$-spanner em grafos exoplanares para o problema $S$-partição em árvores, definido da seguinte forma: dados uma árvore $T$, uma funcão peso $w: V(T) \rightarrow \mathbb{N}$, um conjunto $S \subseteq V(T)$ e um $t \in \mathbb{N}$, o objetivo é saber se existe uma partição de $V(T)$ nos conjuntos $V_1, \ldots, V_{|S|}$ tal que para $1 \le i \le |S|$, $T[V_i]$ é conexo, $|V_i \cap S| = 1$ e $\sum_{v \in V_i} w(v) \le t$. Os autores então mostraram uma redução de tempo linear do problema de $S$-partição em árvores para o problema de partição da oferta e demanda em árvore, definido da seguinte forma: dados uma árvore $T$ tal que $V(T) = V_s \cup V_d$ e $V_s \cap V_d = \emptyset$, uma função oferta $s: V_s \rightarrow \espacoRpos$ e uma função demanda $d: V_d \rightarrow \espacoRpos$, o objetivo é saber se existe uma partição de $V(T)$ nos conjuntos $V_1, ..., V_k$, onde $k = |V_s|$, tal que para $1 \le i \le k$, $T[V_i]$ é conexo, $V_i$ contém exatamente um vértice $u$ de $V_s$ e $\sum_{v \in V_i \setminus V_s} d(v) \le s(u)$. Em decorrência destas duas reduções serem feitas em tempo linear e do fato de existir um algoritmo linear para decidir o problema de partição da oferta e demanda em árvore \cite{ItoZN2002}, segue que o algoritmo apresentado é de tempo linear.
+
+Dado um grafo $G$ que admite uma árvore $t$-spanner, Dragan e Kohler \cite{DraganK2014} propuseram um algoritmo de tempo polinomial que produz uma árvore ($2 \lceil t/2 \rceil \lfloor \log n \rfloor$)-spanner. Mais do que isto, os autores provaram uma condição necessária para que o grafo admita uma árvore $t$-spanner baseada em existência de decomposição arbórea RS (\emph{Robertson-Seymour}) com certas propriedades. 
+% se $G$ admite árvore $t$-spanner então $G$ admite uma \emph{Robertson-Seymour} decomposição arbórea cujos vértices têm raio em $G$ de %% sacolas de raio
+% no máximo $\lceil t/2 \rceil$ e diâmetro em $G$ de no máximo $t$. 
+Inicialmente, os autores propuseram um algoritmo para grafos cordais. 
+% É sabido que os grafos cordais podem ser 
+% caracterizados  pela existência das \emph{clique-trees} (veja o teorema 2 em 
+% \cite{DraganK2014}). Robertson e Seymour~\cite{RobertsonS1986} introduziram 
+% um conceito de decomposição em árvore, o qual generaliza o conceito de 
+% \emph{clique-tree}. 
+Provaram que se o grafo admite uma decomposição arbórea RS, então o grafo possui um
+($2 \rho \lfloor \log n \rfloor$)-spanner, onde $\rho$ é o tamanho máximo da 
+largura da decomposição arbórea. 
+% Para generalizar o resultado, Robertson e Seymour provam que se o grafo admite uma árvore $t$-spanner, então este grafo possui largura da decomposição de no máximo $\lceil t/2 \rceil$.  
+Comparado com a solução proposta por Emek e Peleg~\cite{EmekP2008}, uma variante do algoritmo proposto por Dragan e Kohler garante um fator 
+de aproximação menor para uma mesma complexidade de tempo, e uma outra 
+variante do algoritmo possui o mesmo fator de aproximação só que com uma complexidade de tempo menor.
+%% Uma descrição em alto nível do algoritmo 
+%% pode ser vista na seção \emph{Our Contribution} (início da pág. 887).
+
+Papoutsakis~\cite{Papoutsakis2013} investigou para cada $t$ (inteiro) propriedades de grafos que admitem uma única árvore $t$-spanner.  Para $t \le 2$, é possível decidir em tempo polinomial se um grafo admite uma única árvore $t$-spanner; mas nada se sabe para $t \ge 3$. Outro estudo feito por este autor foi verificar como as árvores $t$-spanner, para o mesmo $t$, estão relacionadas. Por meio deste estudo, o autor concluiu que o caso $t = 3$ corresponde a um caso excepcional (em termos de complexidade computacional é o único caso do problema cĺássico que está em aberto até hoje).  Para este caso, existem indícios que o problema seja NP-completo bem como há indícios de que ele seja fácil.  A suspeita de que ele possa ser fácil decorre do fato de que, para $t = 3$, verificar se um grafo admite uma árvore $t$-spanner de diâmetro no máximo~$t+1$ é fácil e, para $t \neq 3$, a complexidade computacional deste problema é igual à do problema da árvore $t$-spanner.  Por outro lado, o problema de $3$-spanner se assemelha ao problema de $4$-spanner, sendo que este último é NP-completo.  Papoutsakis~\cite{Papoutsakis2013} também caracterizou uma família de grafos que não admitem árvores $3$-spanner, utilizando formulações lineares inteiras, e também apresentou uma série de problemas cujas complexidades computacionais estão em aberto.
+
+
+\subsection{2015 -- 2018: spanners distribuídos, oráculos de distância e spanners esparsos}
+
+  A partir de 2015, muitos trabalhos focaram a construção de spanners
+  distribuídos \cite{KlauckNPR2015,Censor-HillelKPY2016,ElkinN2017,GrossmanP2017}.
+  A motivação surge quando a quantidade de dados das novas aplicações é alta a
+  ponto de inviabilizar o armazenamento centralizado de todos os dados. Nestes
+  spanners distribuídos, assume-se que o grafo de entrada não é conhecido de
+  maneira completa por nenhum dos vértices.
+
+  Como já foi dito anteriormente, a esparsidade de um spanner pode ser medida
+  em termos da quantidade de arestas
+  ou do peso do spanner. Os trabalhos em \cite{ElkinNS2015,ChechikWN2016}
+  melhoram a análise do algoritmo clássico proposto em \cite{AlthoferDDJS1993},
+  garantindo um fator de aproximação menor para o peso do spanner.
+  Os autores em \cite{BodwinW2015,ElkinN2017} focaram no desenvolvimento de
+  spanners com baixa quantidade de arestas. Outros trabalhos relacionados à
+  esparsidade são \cite{BodwinW2015,BorradaileLW2017}.
+
+  Outro cenário em que o problema foi tratado consiste no desenvolvimento
+  de oráculos de distância \cite{ElkinP2016,Sommer2016,Knudsen2017}.
+  
+
+%% ------------------------------------------------------------------------- %%
+%% \section{Considerações Preliminares}
+%% \label{sec:consideracoes_preliminares}
+
+%% Considerações preliminares\footnote{Nota de rodapé (não abuse).}\index{genoma!projetos}.
+%% % index permite acrescentar um item no indice remissivo
+%% Texto texto texto texto texto texto texto texto texto texto texto texto texto
+%% texto texto texto texto texto texto texto texto texto texto texto texto texto
+%% texto texto texto texto texto texto texto.
+ 
+
+%% %% ------------------------------------------------------------------------- %%
+%% \section{Objetivos}
+%% \label{sec:objetivo}
+
+%% Texto texto texto texto texto texto texto texto texto texto texto texto texto
+%% texto texto texto texto texto texto texto texto texto texto texto texto texto
+%% texto texto texto texto texto texto.
+
+%% %% ------------------------------------------------------------------------- %%
+%% \section{Contribuições}
+%% \label{sec:contribucoes}
+
+%% As principais contribuições deste trabalho são as seguintes:
+
+%% \begin{itemize}
+%%   \item Item 1. Texto texto texto texto texto texto texto texto texto texto
+%%   texto texto texto texto texto texto texto texto texto texto.
+
+%%   \item Item 2. Texto texto texto texto texto texto texto texto texto texto
+%%   texto texto texto texto texto texto texto texto texto texto.
+
+%% \end{itemize}
+
+%% %% ------------------------------------------------------------------------- %%
+%% \section{Organização do Trabalho}
+%% \label{sec:organizacao_trabalho}
+
+%% No Capítulo~\ref{cap:conceitos}, apresentamos os conceitos ... Finalmente, no
+%% Capítulo~\ref{cap:conclusoes} discutimos algumas conclusões obtidas neste
+%% trabalho. Analisamos as vantagens e desvantagens do método proposto ... 
+
+%% As sequências testadas no trabalho estão disponíveis no Apêndice \ref{ape:sequencias}.

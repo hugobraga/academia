@@ -1,0 +1,600 @@
+                                                                      % Arquivo LaTeX de exemplo de dissertação/tese a ser apresentados à CPG do IME-USP
+% 
+% Versão 5: Sex Mar  9 18:05:40 BRT 2012
+%
+% Criação: Jesús P. Mena-Chalco
+% Revisão: Fabio Kon e Paulo Feofiloff
+%  
+% Obs: Leia previamente o texto do arquivo README.txt
+
+\documentclass[12pt,twoside,a4paper]{book}
+
+% ---------------------------------------------------------------------------- %
+% Pacotes 
+\usepackage[brazil]{babel}
+\usepackage[T1]{fontenc}
+%% \usepackage{ucs}
+\usepackage[utf8x]{inputenc}
+%% \usepackage[latin1]{inputenc}
+\usepackage[pdftex]{graphicx}           % usamos arquivos pdf/png como figuras
+\usepackage{setspace}                   % espaçamento flexível
+\usepackage{indentfirst}                % indentação do primeiro parágrafo
+\usepackage{makeidx}                    % índice remissivo
+\usepackage[nottoc]{tocbibind}          % acrescentamos a bibliografia/indice/conteudo no Table of Contents
+\usepackage{courier}                    % usa o Adobe Courier no lugar de Computer Modern Typewriter
+\usepackage{type1cm}                    % fontes realmente escaláveis
+\usepackage{listings}                   % para formatar código-fonte (ex. em Java)
+\usepackage{titletoc}
+%\usepackage[bf,small,compact]{titlesec} % cabeçalhos dos títulos: menores e compactos
+\usepackage[fixlanguage]{babelbib}
+\usepackage[font=small,format=plain,labelfont=bf,up,textfont=it,up]{caption}
+\usepackage[usenames,svgnames,dvipsnames]{xcolor}
+\usepackage[a4paper,top=2.54cm,bottom=2.0cm,left=2.0cm,right=2.54cm]{geometry} % margens
+%\usepackage[pdftex,plainpages=false,pdfpagelabels,pagebackref,colorlinks=true,citecolor=black,linkcolor=black,urlcolor=black,filecolor=black,bookmarksopen=true]{hyperref} % links em preto
+
+%---comentado por hugo---------
+\usepackage[pdftex,plainpages=false,pdfpagelabels,pagebackref,colorlinks=true,citecolor=DarkGreen,linkcolor=NavyBlue,urlcolor=DarkRed,filecolor=green,bookmarksopen=true]{hyperref} % links coloridos
+%-----------------------------
+
+\usepackage[all]{hypcap}                % soluciona o problema com o hyperref e capitulos
+\usepackage[square,sort,nonamebreak,comma]{natbib}  % citação bibliográfica alpha (alpha-ime.bst)
+\fontsize{60}{62}\usefont{OT1}{cmr}{m}{n}{\selectfont}
+%% \fontsize{60}{62}\usefont{OT1}{cmr}{m}{n}{\selectfont}
+
+%-------------hugo-------------------------
+%% \usepackage[ruled,linesnumbered,vlined,boxed]{algorithm2e}
+\usepackage[portuguese,algosection,ruled,vlined,boxed]{algorithm2e}
+\usepackage{amsfonts}
+\usepackage{amsmath,calc} %para usar ocm LPs
+\usepackage{mathtools,amssymb} %para usar com LPs
+\usepackage{amsthm}
+%\usepackage{subfigure}
+\usepackage{subfig}
+\usepackage[toc,page]{appendix}
+\usepackage{mathrsfs} %mathscr
+%enumerate package
+\usepackage{enumitem}
+%\usepackage{siunitx}
+\usepackage{caption}
+\usepackage{relsize} %\larger
+
+%formatar tabela
+\usepackage{makecell}
+
+%comentar linha
+\usepackage[normalem]{ulem}
+
+%LP formulation------------
+\usepackage{lpform} %LPs
+\renewcommand{\lpforall}[1]{&& \forall #1}
+\newlength{\LPlhbox} %LPs
+\renewcommand{\lpsubjectto}{s.a}  %%%%%%%%%
+%--------------------------
+
+%tikz
+\usepackage{tikz}
+\usetikzlibrary{arrows, automata, arrows.meta, decorations.markings}
+
+\usepackage{multirow}
+\usepackage{booktabs}
+\setlength\heavyrulewidth{0.05ex}
+%separador decimal
+%\usepackage[decimalsymbol=comma]{siunitx}
+\usepackage{siunitx}
+\sisetup{output-decimal-marker = {,}}
+\sisetup{round-mode=places,round-precision=0}
+
+%----------dados tese------------
+\newcommand{\titulo}{Algoritmos exatos para problemas de spanner em grafos}
+\newcommand{\autor}{Hugo Vinicius Vaz Braga}
+%-------------------------------
+
+\newcommand{\conjNaturais}{\mathbb{N}}
+\newcommand{\conjInteiros}{\mathbb{Z}}
+\newcommand{\conjInteirosPos}{\mathbb{Z}_{\ge 0}}
+
+\newcommand{\Tscr}{\mathscr{T}}
+\newcommand{\Pscr}{\mathscr{P}}
+\newcommand{\Pcal}{\mathcal{P}}
+\newcommand{\Scal}{\mathcal{S}}
+\newcommand{\Ical}{\mathcal{I}}
+\newcommand{\dist}{{\mathrm{dist}}}
+\newcommand{\neigh}{{\mathrm{Neigh}}}
+\newcommand{\arbset}{\Gamma}
+\newcommand{\maxcam}{{\mathrm{maxCam}}}
+
+\newcommand{\cluster}{\mathcal{S}}
+%% \newcommand{\partition}{\mathcal{\tau}}
+\newcommand{\partition}{\mathcal{T}}
+\newcommand{\verneigh}{\Gamma^{ver}}
+\newcommand{\comp}{\mathcal{C}}
+
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+
+\newtheorem{definicao}{Definição}
+\newtheorem{notacao}{Notação}
+\newtheorem{teorema}{Teorema}[chapter]
+\newtheorem{proposition}{Proposition}
+\newtheorem{afirmacao}{Afirmação}[teorema]
+\newtheorem{fato}{Fato}[chapter]
+\newtheorem{lema}{Lema}[chapter]
+\newtheorem{observacao}{Observação}
+\newtheorem{proposicao}{Proposição}[chapter]
+\newtheorem{corolario}{Corolário}
+\newtheorem{conjectura}{Conjectura}
+\newtheorem{problema}{Problema}
+\newtheorem{exemplo}{Exemplo}
+\newtheorem*{defi}{Definição}
+\newtheorem*{propri}{Propriedades}
+\newtheorem*{prop}{Proposição}
+\newtheorem{ex}{Exercício}
+\newtheorem{theorem}{Teorema}[section]
+\newtheorem{conjecture}{Conjectura}
+%comandos para novas letras/exppressões
+\newcommand{\incid}{\mathcal{X}}
+\newcommand{\incidY}{\mathcal{Y}}
+\newcommand{\maxstretchfactor}{\mathcal{T}}
+\newcommand{\espacoR}{\mathbb{R}}
+\newcommand{\espacoRpos}{\mathbb{R}_{\ge 0}}
+\newcommand{\espacoRn}{\mathbb{R}^n}
+\newcommand{\espacoRp}{\mathbb{R}^p}
+\newcommand{\espacoRq}{\mathbb{R}^q}
+\newcommand{\espacoRdois}{\mathbb{R}^2_{\ge 0}}
+\newcommand{\espacoRmn}{\mathbb{R}^{m \times n}}
+\newcommand{\espacoRmp}{\mathbb{R}^{m \times p}}
+\newcommand{\espacoRmq}{\mathbb{R}^{m \times q}}
+\newcommand{\espacoRm}{\mathbb{R}^{m}}
+\newcommand{\espacoXDef}{\mathbb{R}^{|E|}_{\ge 0}}
+\newcommand{\espacoEDef}{\mathbb{R}^{|E|}}
+\newcommand{\espacoX}{\mathbb{R}^{|E|}_{\ge 0}}
+\newcommand{\espacoE}{\mathbb{R}^{|E|}}
+\newcommand{\espacoY}{\mathbb{R}^{|E| \times |E|}_{\ge 0}}
+\newcommand{\espacoYCG}{\mathbb{R}^{|\spanPath|}_{\ge 0}}
+%% \newcommand{\espacoY}{\mathbb{R}^{|\spanPath| \times |E|}}
+\newcommand{\espacoU}{\mathbb{R}^{|V| \times |V|}_{\ge 0}}
+\newcommand{\PGtrestricoes}{\rm{(PL)}}
+\newcommand{\FullPrimalPL}{\rm{Primal}}
+\newcommand{\RMP}{\rm{RMP}}
+\newcommand{\FullDualPL}{\rm{Dual}}
+\newcommand{\FullDualTwoPL}{\rm{Dual\;2}}
+\newcommand{\facetF}{\mathcal{F}}
+\newcommand{\espacoNBinary}{\mathbb{B}^{n}}
+\newcommand{\espacoXBinary}{\mathbb{B}^{|E|}}
+\newcommand{\espacoYBinary}{\mathbb{B}^{|E| \times |E|}}
+\newcommand{\espacoZBinary}{\mathbb{B}^{|V| \times |E| \times |E|}}
+\newcommand{\espacoUuni}{\mathbb{R}^{|V|}}
+\newcommand{\smallG}{\mbox{\larger[-1]$(G)$}}
+\newcommand{\smallGf}{\mbox{\larger[-1]$(G-f)$}}
+\newcommand{\smallGprime}{\mbox{\larger[-1]$(G')$}}
+\newcommand{\smallGprimef}{\mbox{\larger[-1]$(G'-f)$}}
+\newcommand{\smallGprimeG}{\mbox{\larger[-1]$(G',G)$}}
+\newcommand{\smallW}{\mbox{\larger[-1]$(G[W])$}}
+\newcommand{\smallWg}{\mbox{\larger[-1]$(G[W]-g)$}}
+\newcommand{\smallWWbarf}{\mbox{\larger[-1]$(G[E(W) \cup E(\overline{W})+f])$}}
+\newcommand{\smallWWbarfg}{\mbox{\larger[-1]$(G[E(W) \cup E(\overline{W})+f-g])$}}
+\newcommand{\smallH}{\mbox{\larger[-1]$(H)$}}
+\newcommand{\smallF}{\mbox{\larger[-1]$(G[F])$}}
+\newcommand{\spanPath}{\mathcal{P}}
+\newcommand{\spanPathPrime}{\mathcal{P}'}
+\newcommand{\spanBridge}{\mathcal{B}}
+\newcommand{\spanDel}{\mathcal{D}}
+%% \newcommand{\Pathuv}{\spanPath_{u,v}^{t}}
+\newcommand{\Pathuv}{\spanPath_{u,v}}
+\newcommand{\PathuvPrime}{\spanPath_{u,v}'}
+\newcommand{\Pathpq}{\spanPath_{p,q}^{t}}
+\newcommand{\Path}{\spanPath^{t}}
+\newcommand{\PathuvF}{\Pathuv\smallF}
+\newcommand{\PathuvG}{\Pathuv\smallG}
+\newcommand{\PathuvGprime}{\Pathuv\smallGprime}
+\newcommand{\PathuvGf}{\Pathuv\smallGf}
+\newcommand{\PathuvGprimef}{\Pathuv\smallGprimef}
+\newcommand{\PathpqW}{\Pathpq\smallW}
+\newcommand{\PathpqWg}{\Pathpq\smallWg}
+\newcommand{\PathpqWWbarf}{\Pathpq\smallWWbarf}
+\newcommand{\PathpqWWbarfg}{\Pathpq\smallWWbarfg}
+\newcommand{\BridgeuvPrime}{\spanBridge_{u',v'}^{t}}
+\newcommand{\BridgeuvPrimeG}{\spanBridge_{u',v'}^{t}(G)}
+\newcommand{\Bridgeuv}{\spanBridge_{u,v}^{t}}
+\newcommand{\BridgeuvG}{\spanBridge_{u,v}^{t}(G)}
+\newcommand{\Bridge}{\spanBridge^{t}}
+\newcommand{\BridgeG}{\spanBridge^{t}(G)}
+\newcommand{\DelG}{\spanDel^{t}(G)}
+\newcommand{\smallQBridge}{\mbox{\larger[-1]$(Q \cup \Bridge)$}}
+\newcommand{\PathuvQBridge}{\Pathuv\smallQBridge}
+\newcommand{\BridgeuvGprime}{\Bridgeuv\smallGprime}
+\newcommand{\BridgeuvPrimeGf}{\spanBridge_{u',v'}^{t}\smallGf}
+\newcommand{\BridgeuvGf}{\Bridgeuv\smallGf}
+\newcommand{\BridgeGf}{\Bridge\smallGf}
+\newcommand{\BridgeuvGprimeG}{\Bridgeuv\smallGprimeG}
+\newcommand{\BridgeTwo}{\spanBridge_{2}^{t}}
+\newcommand{\BridgeGprime}{\Bridge\smallGprime}
+\newcommand{\BridgeTwoGprime}{\BridgeTwo\smallGprime}
+\newcommand{\BridgeTwoGf}{\BridgeTwo\smallGf}
+\newcommand{\setOfFixedSpan}{\mathcal{S}_{E_0, E_1}}
+
+\newcommand{\opt}{\rm{opt}}
+
+\newcommand{\arvorePeso}{\mathcal{T}^{w}}
+\newcommand{\arvoreCusto}{\mathcal{T}^{c}}
+
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+%evitar quebrar bloco
+\newenvironment{absolutelynopagebreak}
+  {\par\nobreak\vfil\penalty0\vfilneg
+   \vtop\bgroup}
+  {\par\xdef\tpd{\the\prevdepth}\egroup
+   \prevdepth=\tpd}
+%------------------------------------------
+
+
+% ---------------------------------------------------------------------------- %
+% Cabeçalhos similares ao TAOCP de Donald E. Knuth
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\chaptermark}[1]{\markboth{\MakeUppercase{#1}}{}}
+\renewcommand{\sectionmark}[1]{\markright{\MakeUppercase{#1}}{}}
+\renewcommand{\headrulewidth}{0pt}
+
+% ---------------------------------------------------------------------------- %
+\graphicspath{{./figuras/}}             % caminho das figuras (recomendável)
+\frenchspacing                          % arruma o espaço: id est (i.e.) e exempli gratia (e.g.) 
+\urlstyle{same}                         % URL com o mesmo estilo do texto e não mono-spaced
+\makeindex                              % para o índice remissivo
+\raggedbottom                           % para não permitir espaços extra no texto
+\fontsize{60}{62}\usefont{OT1}{cmr}{m}{n}{\selectfont}
+\cleardoublepage
+\normalsize
+
+% ---------------------------------------------------------------------------- %
+% Opções de listing usados para o código fonte
+% Ref: http://en.wikibooks.org/wiki/LaTeX/Packages/Listings
+\lstset{ %
+language=Java,                  % choose the language of the code
+basicstyle=\footnotesize,       % the size of the fonts that are used for the code
+numbers=left,                   % where to put the line-numbers
+numberstyle=\footnotesize,      % the size of the fonts that are used for the line-numbers
+stepnumber=1,                   % the step between two line-numbers. If it's 1 each line will be numbered
+numbersep=5pt,                  % how far the line-numbers are from the code
+showspaces=false,               % show spaces adding particular underscores
+showstringspaces=false,         % underline spaces within strings
+showtabs=false,                 % show tabs within strings adding particular underscores
+frame=single,	                % adds a frame around the code
+framerule=0.6pt,
+tabsize=2,	                    % sets default tabsize to 2 spaces
+captionpos=b,                   % sets the caption-position to bottom
+breaklines=true,                % sets automatic line breaking
+breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+escapeinside={\%*}{*)},         % if you want to add a comment within your code
+backgroundcolor=\color[rgb]{1.0,1.0,1.0}, % choose the background color.
+rulecolor=\color[rgb]{0.8,0.8,0.8},
+extendedchars=true,
+xleftmargin=10pt,
+xrightmargin=10pt,
+framexleftmargin=10pt,
+framexrightmargin=10pt
+}
+
+% ---------------------------------------------------------------------------- %
+% Corpo do texto
+\begin{document}
+\frontmatter 
+% cabeçalho para as páginas das seções anteriores ao capítulo 1 (frontmatter)
+\fancyhead[RO]{{\footnotesize\rightmark}\hspace{2em}\thepage}
+\setcounter{tocdepth}{2}
+\fancyhead[LE]{\thepage\hspace{2em}\footnotesize{\leftmark}}
+\fancyhead[RE,LO]{}
+\fancyhead[RO]{{\footnotesize\rightmark}\hspace{2em}\thepage}
+
+\onehalfspacing  % espaçamento
+
+% ---------------------------------------------------------------------------- %
+% CAPA
+% Nota: O título para as dissertações/teses do IME-USP devem caber em um 
+% orifício de 10,7cm de largura x 6,0cm de altura que há na capa fornecida pela SPG.
+\thispagestyle{empty}
+\begin{center}
+    \vspace*{2.3cm}
+    \textbf{\Large{Algoritmos exatos para problemas \\ \vspace{-0.3cm} de \\ spanner em grafos}}\\
+    
+    \vspace*{1.2cm}
+    \Large{\autor}
+    
+    \vskip 2cm
+    \textsc{
+    Tese apresentada\\[-0.25cm] 
+    ao\\[-0.25cm]
+    Instituto de Matemática e Estatística\\[-0.25cm]
+    da\\[-0.25cm]
+    Universidade de São Paulo\\[-0.25cm]
+    para\\[-0.25cm]
+    obtenção do título\\[-0.25cm]
+    de\\[-0.25cm]
+    Doutor em Ciência da Computação}
+    
+    \vskip 1.5cm
+    Programa: Pós-Graduação em Ciência da Computação\\
+    Orientador: Prof. Dr. rer. nat. Yoshiko Wakabayashi\\
+    %% Coorientador: Prof. Dr. Nome do Coorientador
+
+   	\vskip 1cm
+    \normalsize{Durante o desenvolvimento deste trabalho o autor recebeu auxílio
+    financeiro da FAPESP (Proc. 2013/22875-9)}
+    
+    \vskip 0.5cm
+    \normalsize{São Paulo, fevereiro de 2019}
+\end{center}
+
+% ---------------------------------------------------------------------------- %
+% Página de rosto (SÓ PARA A VERSÃO DEPOSITADA - ANTES DA DEFESA)
+% Resolução CoPGr 5890 (20/12/2010)
+%
+% IMPORTANTE:
+%   Coloque um '%' em todas as linhas
+%   desta página antes de compilar a versão
+%   final, corrigida, do trabalho
+%
+%
+%% \newpage
+%% \thispagestyle{empty}
+%%     \begin{center}
+%%         \vspace*{2.3 cm}
+%%         \textbf{\Large{\titulo}}\\
+%%         \vspace*{2 cm}
+%%     \end{center}
+
+%%     \vskip 2cm
+
+%%     \begin{flushright}
+%% 	Esta é a versão original da tese elaborada pelo\\
+%% 	candidato \autor, tal como \\
+%% 	submetida à Comissão Julgadora.
+%%     \end{flushright}
+
+%% \pagebreak
+
+
+% ---------------------------------------------------------------------------- %
+% Página de rosto (SÓ PARA A VERSÃO CORRIGIDA - APÓS DEFESA)
+% Resolução CoPGr 5890 (20/12/2010)
+%
+% Nota: O título para as dissertações/teses do IME-USP devem caber em um 
+% orifício de 10,7cm de largura x 6,0cm de altura que há na capa fornecida pela SPG.
+%
+% IMPORTANTE:
+%   Coloque um '%' em todas as linhas desta
+%   página antes de compilar a versão do trabalho que será entregue
+%   à Comissão Julgadora antes da defesa
+%
+%
+ \newpage
+ \thispagestyle{empty}
+     \begin{center}
+         \vspace*{2.3 cm}
+         %\textbf{\Large{\titulo}}\\
+	\textbf{\Large{Algoritmos exatos para problemas \\ \vspace{-0.3cm} de \\ spanner em grafos}}\\
+         \vspace*{2 cm}
+     \end{center}
+
+     \vskip 2cm
+
+     \begin{flushright}
+ 	Esta versão da tese contém as correções e alterações sugeridas\\
+ 	pela Comissão Julgadora durante a defesa da versão original do trabalho,\\
+ 	realizada em 14/12/2018. Uma cópia da versão original está disponível no\\
+ 	Instituto de Matemática e Estatística da Universidade de São Paulo.
+
+     \vskip 2cm
+
+     \end{flushright}
+     \vskip 4.2cm
+
+     \begin{quote}
+     \noindent Comissão Julgadora:
+    
+     \begin{itemize}
+ 		\item Profª. Drª. Yoshiko Wakabayashi (orientadora) - IME-USP
+ 		\item Prof. Dr.Carlos Eduardo Ferreira - IME-USP
+ 		\item Prof. Dr. Cláudio Nogueira de Meneses - UFABC
+		\item Profª. Drª. Karla Roberta Pereira Sampaio Lima - EACH-USP
+		\item Prof. Dr. Eduardo Cândido Xavier - UNICAMP
+     \end{itemize}
+      
+     \end{quote}
+ \pagebreak
+
+
+\pagenumbering{roman}     % começamos a numerar 
+
+% ---------------------------------------------------------------------------- %
+% Agradecimentos:
+% Se o candidato não quer fazer agradecimentos, deve simplesmente eliminar esta página 
+\chapter*{Agradecimentos}
+Começo fazendo um agradecimento em especial à minha orientadora,
+Profª Yoshiko Wakabayashi, por todos os ensinamentos e dedicação que teve
+para comigo. Ter tido a oportunidade de trabalhar com uma pessoa tão
+qualificada e premiada, e que aceitou orientar um estudante
+iniciante na área, gera um sentimento de gratidão 
+desde o momento em que você aceitou ser minha orientadora. 
+Certamente Yoshiko foi fundamental para a realização deste trabalho.
+
+
+Agradeço à minha família, em especial aos meus pais, por todo o apoio ao
+longo deste doutorado. Em momentos importantes, como na reta final, a
+presença de vocês foi importante na continuidade deste trabalho. É claro que
+não posso deixar de mencionar meus irmãos Júnior, Clovis e Marcelle, além
+da minha avó Eufélia.
+
+Agradeço aos colegas de laboratório, em especial ao Victor, Gabriel e Tiago.
+Gostaria de agradecer também aos professores com os quais tive a possibilidade
+de iniciar os estudos na área de otimização combinatória.
+
+Agradeço em especial ao Prof. Alexandre Freire pela orientação e suporte
+na implementação do algoritmo de \emph{branch-and-price}. A falta de
+experiência na área de geração de colunas 
+foi minimizada pela ajuda do professor Alexandre. Outro
+agradecimento em especial ao Prof. Manoel Campêlo pela contribuição na
+elaboração dos algoritmos exatos para o problema de árvore $t$-spanner.
+
+Agradeço aos amigos de estatística Douglas,
+Karina, Guilherme, Aline e Rodrigo (goiano) por terem me recebido tão bem em
+São Paulo.
+
+Agradeço à Fundação de Amparo à Pesquisa do Estado de São Paulo (FAPESP)
+pelo financiamento deste trabalho por meio do processo 2013/22875-9. Graças
+ao suporte da \mbox{FAPESP}, pude me dedicar de forma exclusiva
+à elaboração deste trabalho.
+
+% ---------------------------------------------------------------------------- %
+% Resumo
+\chapter*{Resumo}
+
+\noindent BRAGA, H. \textbf{\titulo}. 
+2018. 96 f.
+Tese (Doutorado) - Instituto de Matemática e Estatística,
+Universidade de São Paulo, São Paulo, 2018.
+\\
+
+Seja $(G,w,t)$ uma tripla formada por um grafo conexo $G = (V,E)$, uma
+função peso não-negativa $w$ definida em $E$ e um número real $t \ge 1$,
+chamado de \emph{fator de dilatação}.  Um \emph{$t$-spanner} de $G$ é um
+subgrafo gerador $H$ de $G$ tal que para cada par de vértices $u,v$, a
+distância entre $u$ e $v$ em $H$ é no máximo $t$ vezes a distância
+entre $u$ e $v$ em $G$.  Quando $H$ é uma árvore, dizemos que $H$ é
+uma \emph{árvore $t$-spanner}.  Nesta tese focamos o \emph{problema da
+  árvore $t$-spanner de peso mínimo} (cuja sigla em inglês é MWTSP),
+definido a seguir. Dada uma tripla $(G,w,t)$, encontrar uma árvore
+$t$-spanner em $G$ de peso mínimo. É sabido que MWTSP é NP-difícil
+para cada $t > 1$ fixo. Propomos duas formulações lineares inteiras
+para MWTSP, baseadas em arborescência, de tamanho polinomial no tamanho de $G$.  A
+formulação que possui variáveis representando distâncias entres os
+pares de vértices apresentou resultados melhores na prática.
+
+Também abordamos o \emph{problema de $t$-spanner de peso mínimo} (cuja
+sigla em inglês é MWSP), cuja entrada é a mesma do MWTSP e cujo
+objetivo é encontrar um $t$-spanner de peso mínimo. Mesmo para grafos
+com peso unitário, MWSP é NP-difícil para cada $t \ge 2$ fixo.
+Tratamos este problema de duas formas. Propomos uma formulação linear
+inteira para o MWSP que possui um número exponencial de restrições, mas
+cujo problema da separação --- para o programa linear relaxado
+correspondente --- é polinomial no tamanho de $G$. Apresentamos também uma implementação
+de um algoritmo de \emph{branch-and-price} para o MWSP baseado numa
+formulação linear inteira proposta por Sigurd e Zachariasen (2004).
+Exibimos resultados de experimentos realizados com
+as duas formulações para o MWTSP e também com o algoritmo de
+\emph{branch-and-price} para o MWSP.
+\\
+
+\noindent \textbf{Palavras-chave:} grafo, spanner, geração de coluna, algoritmo exato.
+
+% ---------------------------------------------------------------------------- %
+% Abstract
+\chapter*{Abstract}
+\noindent BRAGA, H. \textbf{Exact algorithms for spanner problems in graphs}. 
+2018. 96 f.
+Tese (Doutorado) - Instituto de Matemática e Estatística,
+Universidade de São Paulo, São Paulo, 2018.
+\\
+
+
+Let $(G,w,t)$ be a triplet consisting of a connected graph $G = (V,E)$ with
+a nonnegative weight function $w$ defined on $E$, and a real number $t \ge 1$.
+A \emph{$t$-spanner} of $G$ is a spanning subgraph $H$ of $G$ such that for each pair
+of vertices $u,v$, the distance between $u$ and $v$ in $H$ is at most $t$ times
+the distance between $u$ and $v$ in $G$. If $H$ is a tree then we call it a
+\emph{tree $t$-spanner} of $G$.  We address the
+\emph{Minimum Weight Tree Spanner Problem} (MWTSP), defined as follows.
+Given a triplet $(G,w,t)$, find a
+minimum weight tree $t$-spanner in $G$. It is known that MWTSP is NP-hard
+for every fixed $t > 1$.  We propose two ILP formulations for MWTSP,
+based on arborescences, of polynomial size in the size of $G$.  The formulation that has
+variables representing distances between pairs of vertices has shown
+to be better in practice. 
+
+We also address the \emph{Minimum Weight t-Spanner Problem} (MWSP)
+that has the same input as MWTSP and seeks for a minimum weight
+$t$-spanner in $G$.  Even for unweighted graphs, it is known that MWSP
+is NP-hard for every fixed $t \ge 2$. We approach this problem in two
+ways. We propose an ILP formulation for MWSP that has an an
+exponential number of restrictions but we show that the separation
+problem --- for the corresponding relaxed linear program --- can be
+solved in polynomial time in the size of $G$.  We also present a branch-and-price
+algorithm for MWSP based on an ILP formulation proposed by Sigurd and
+Zachariasen (2004).  We show results on the computational experiments
+with both formulations for MWTSP and also with the branch-and-price
+algorithm that we implemented for MWSP.
+\\
+
+\noindent \textbf{Keywords:} graph, spanner, column generation, exact algorithm.
+
+% ---------------------------------------------------------------------------- %
+% Sumário
+\tableofcontents    % imprime o sumário
+
+% ---------------------------------------------------------------------------- %
+\input cap-abreviaturas
+% ---------------------------------------------------------------------------- %
+\input cap-simbolos
+% ---------------------------------------------------------------------------- %
+% Listas de figuras e tabelas criadas automaticamente
+\listoffigures            
+\listoftables
+\listofalgorithms
+\addcontentsline{toc}{chapter}{Lista de Algoritmos}
+
+% ---------------------------------------------------------------------------- %
+% Capítulos do trabalho
+\mainmatter
+
+% cabeçalho para as páginas de todos os capítulos
+\fancyhead[RE,LO]{\thesection}
+
+%% \singlespacing              % espaçamento simples
+\onehalfspacing            % espaçamento um e meio
+
+%% \input cap-conceitos         % associado ao arquivo: 'cap-conceitos.tex'
+\input cap1-introducao        % associado ao arquivo: 'cap-introducao.tex'
+\input cap2-preliminares
+ \input cap3-historico
+ \input cap4-MWTSP
+ \input cap5-MWSP
+ \input cap6-MWSP_CG
+ \input cap7-experimentos
+ \input cap8-conclusao
+
+% cabeçalho para os apêndices
+\renewcommand{\chaptermark}[1]{\markboth{\MakeUppercase{\appendixname\ \thechapter}} {\MakeUppercase{#1}} }
+\fancyhead[RE,LO]{}
+\appendix
+
+%% \include{ape-conjuntos}      % associado ao arquivo: 'ape-conjuntos.tex'
+%% \include{ape-grafos}      
+
+% ---------------------------------------------------------------------------- %
+% Bibliografia
+\backmatter \singlespacing   % espaçamento simples
+\bibliographystyle{alpha-ime}% citação bibliográfica alpha
+%% \begingroup
+%% \inputencoding{latin1}
+%% \bibliography{bibliografia}  % associado ao arquivo: 'bibliografia.bib'
+%% \endgroup
+\bibliography{bibliografia}  % associado ao arquivo: 'bibliografia.bib'
+
+% ---------------------------------------------------------------------------- %
+% Índice remissivo
+%% \index{TBP|see{periodicidade região codificante}}
+%% \index{DSP|see{processamento digital de sinais}}
+%% \index{STFT|see{transformada de Fourier de tempo reduzido}}
+%% \index{DFT|see{transformada discreta de Fourier}}
+%% \index{Fourier!transformada|see{transformada de Fourier}}
+
+%% \printindex   % imprime o índice remissivo no documento 
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "latexmk"
+%%% End:

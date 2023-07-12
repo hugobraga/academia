@@ -1,0 +1,82 @@
+%!TEX root = main.tex
+%% ------------------------------------------------------------------------- %%
+\chapter{Introdução}
+\label{cap:introducao}
+
+Dado um grafo $G = (V,E)$, e um número real $t \ge 1$, um
+\emph{$t$-spanner} de $G$ é um subgrafo gerador $H$ de $G$ tal que
+para quaisquer pares de vértices $u$,$v$, a distância entre $u$ e $v$
+em $H$ é no máximo $t$ vezes a distância entre $u$ e $v$ em $G$.  Este
+conceito de $t$-\emph{spanner} pode ser generalizado para o caso em
+que às arestas do grafo $G$ estão associados pesos não negativos, ou
+seja, é dada uma função peso $w: E \to \espacoRpos$, e o conceito de
+distância é o que comumente entendemos para grafos com pesos (ou
+comprimentos) nas arestas. Quando o subgrafo $H$ é uma árvore, dizemos
+que $H$ é uma \emph{árvore $t$-spanner}. Não encontramos uma tradução
+que consideramos apropriada para o termo \emph{spanner}, e decidimos
+manter o termo original, sem grafá-lo em itálico. 
+
+
+Problemas sobre spanners surgem em vários cenários, em diferentes áreas, como computação distribuída~\cite{Awerbuch1985,PelegU1989}, redes de comunicação~\cite{PelegU1988,PelegR1999,OliveiraP2005} e robótica~\cite{ArikatiCCDSZ1996,MarbleB2011,MarbleB2011b}. No Capítulo~\ref{cap:conceitos_historico-v2}, definimos formalmente os principais problemas sobre  spanners e apresentamos os resultados sobre algoritmos conhecidos e complexidade computacional desses problemas. Além disso, apresentamos um histórico do estudo de spanner, desde o surgimento do conceito até os dias atuais. Antes de apresentar esses problemas, no Capítulo~\ref{cap:preliminares-v2}, apresentamos conceitos
+  básicos de teoria dos grafos, combinatória poliédrica e otimização
+combinatória para estabelecer a terminologia.
+
+
+ % Essa sua aplicabilidade em diversas áreas tem motivado ampla pesquisa, envolvendo áreas como teoria dos grafos, otimização combinatória, e mesmo geometria computacional (nas variantes em que as distâncias são euclidianas). Este conceito foi introduzido em 1987, e desde então muita pesquisa tem sido desenvolvida na área de grafos e otimização combinatória. O tópico continua a ser de bastante interesse dos pesquisadores, como podemos ver em trabalhos na área de sistemas distribuídos~\cite{ElkinN2017,GrossmanP2017}, trabalhos que focam na esparsidade do spanner produzido~\cite{BodwinW2015,ElkinN2017,BorradaileLW2017}, e também em oráculos de distância~\cite{ElkinP2016,Sommer2016,Knudsen2017}.
+
+Nesta tese focamos dois problemas sobre spanners: \emph{problema da árvore $t$-spanner de  peso mínimo} (cuja sigla em inglês é MWTSP), e \emph{problema de $t$-spanner de peso mínimo} (cuja sigla em inglês é MWSP). Em ambos os problemas, a entrada é uma tripla $(G,w,t)$.
+No primeiro problema o objetivo é encontrar uma árvore $t$-spanner em $G$ de peso mínimo; e no segundo, o objetivo é encontrar um $t$-spanner em $G$ de peso mínimo. 
+
+Ambos os problemas são NP-difíceis. O problema MWTSP já é NP-difícil mesmo para $t$ fixo, quando $t > 1$~\cite{CaiC1995}. O segundo problema, MWSP, já é NP-difícil mesmo quando os grafos têm peso unitário, e $t$ é fixo, $t \ge 2$~\cite{Cai1994}.
+
+O problema da árvore $t$-spanner de peso mínimo (MWTSP) tem sido largamente investigado no caso em que os pesos são unitários. Para este caso há na literatura alguns algoritmos e resultados sobre a complexidade computacional para classes específicas de grafos. Identificamos uma lacuna com relação à existência de um algoritmo exato para o caso de pesos arbitrários, e em vista disso, optamos por desenvolver um tal algoritmo. 
+
+% os autores estavam interessados em resultados de complexidade para classes gerais e específicas de grafos.
+% Em decorrência de soluções exatas específicas para o MWTSP, optamos por desenvolver algoritmos exatos para este problema.
+
+No Capítulo~\ref{cap:mwstp}, propomos duas formulações lineares inteiras para o MWTSP.
+Estas são as primeiras formulações lineares inteiras específicas
+  para o problema da árvore $t$-spanner. Diferentemente de formulações
+  propostas para o problema de grafos $t$-spanner, as formulações que 
+  propusemos são  específicas para  árvores $t$-spanner (no sentido de não serem formulações para grafos spanners com a exigência adicional de aciclicidade).  Além disso, as formulações lineares inteiras propostas por nós
+  para o MWTSP  são polinomiais no tamanho de $G$, diferentemente das formulações existentes
+para o MWSP.
+Ambas as formulações são baseadas em arborescências que ``se sobrepõem''. Esta ideia facilita encontrar o caminho entre dois vértices quaisquer nas arborescências (e, por consequência, na árvore que representa uma solução). As duas formulações diferem quanto à forma como a distância entre os pares de vértices é armazenada na formulação.  Em uma das formulações, esta distância é calculada de maneira explícita.  Numa segunda formulação, existem variáveis que representam a distância entre pares de vértices. Esta segunda formulação mostrou-se melhor nos experimentos computacionais realizados. 
+
+Nas formulações lineares inteiras existentes para o MWSP, geralmente os autores definem variáveis para cada caminho $t$-spanner~\cite{SigurdZ2004,DinitzK2011}. Neste caso, se todas as colunas forem consideradas desde o início, a formulação terá um número exponencial (no tamanho de $E$) de colunas. Neste caso, alguns autores como Sigurd e Zachariasen~\cite{SigurdZ2004} adotam o método de geração de colunas. Na formulação linear inteira que propomos no Capítulo~\ref{cap:mwsp} para o MWSP, adotamos variáveis associadas às arestas e aos pares de arestas. Nesta formulação, o número de variáveis é polinomial no tamanho de $G$, mas o número de restrições é exponencial no tamanho de $E$.  Para tratar as restrições de tamanho exponencial, do programa linear relaxado correspondente, precisamos resolver o problema da separação. No problema da separação, dado um conjunto de inequações e uma (possível) solução, queremos saber se existe uma inequação violada pela solução.  Em outras palavras, desejamos saber se a solução é viável ou obter um certificado que corresponda a uma inequação violada.  A separação das restrições cujo tamanho é exponencial (do programa linear relaxado) pode ser feita em tempo polinomial no tamanho de $V$, visto que nós mostramos que o problema da separação corresponde ao problema de corte mínimo, que pode ser resolvido por um algoritmo de tempo polinomial.
+Apesar desta proposta diferente (quando comparada às formulações
+  lineares inteiras existentes), os experimentos iniciais mostraram que os
+  resultados não foram bons (e não serão apresentados). O fortalecimento da
+  formulação proposta por nós, através da descoberta
+de inequações válidas, é uma alternativa para melhorar os resultados.
+
+Sigurd e Zachariasen~\cite{SigurdZ2004} propuseram um algoritmo exato para o MWSP, com o intuito de verificar quão boa era a heurística gulosa proposta por Alth\"{o}fer et al~\cite{AlthoferDDJS1993}. Os autores propõem uma formulação linear inteira cujo número de variáveis é exponencial (no tamanho de $E$). Em decorrência disso, os autores adotam um método de \emph{branch-and-bound} (B\&B) aliado à geração de colunas para a resolução do problema. O problema do \emph{pricing} relacionado à geração de colunas é o \emph{problema do caminho mínimo restrito}. No Capítulo~\ref{cap:mwsp_cg}, abordamos o algoritmo exato de \emph{branch-and-price} proposto Sigurd e Zachariasen e uma implementação que propusemos para este algoritmo.
+Discutimos os detalhes desta implementação que fizemos, como os pré-processamentos realizados, as heurísticas utilizadas para calcular limitantes primais e duais, assim como as decisões que afetam os nós numa árvore de B\&B, como a estratégia de ramificação e de busca do nó 
+a ser explorado, e o processamento realizado em cada nó da árvore.
+A implementação de Sigurd e Zachariasen não está disponível, e 
+  os autores não comentam sobre a utilização de pré-processamentos e heurísticas
+  para o cálculo de limitantes primais e duais.
+
+No Capítulo~\ref{cap:experimentos}, apresentamos os experimentos realizados com as formulações lineares inteiras propostas no Capítulo~\ref{cap:mwstp} para o \textit{problema da árvore $t$-spanner de peso mínimo} (MWTSP).
+Apresentamos também os experimentos computacionais para uma adaptação feita na
+  implementação do algoritmo de \emph{branch-and-price} para que pudesse ser
+utilizada para o MWTSP.
+Também apresentamos os resultados computacionais dos testes relativos à implementação do algoritmo de \emph{branch-and-price} para o \textit{problema de
+  $t$-spanner de peso mínimo} (MWSP). 
+
+%a seguir, abordaremos alguns conceitos básicos que serão
+% necessários ao longo da tese. Estes conceitos envolvem os seguintes tópicos: 
+% grafos, poliedros, otimização combinatória e algoritmos de aproximação.
+% O leitor que já estiver familiarizado com os tópicos poderá pular este
+% capítulo.
+
+No Capítulo~\ref{cap:conclusoes}, finalizamos a tese apresentando
+  as considerações finais juntamente com algumas sugestões de trabalhos
+  futuros.
+
+%%% Local Variables:
+%%% mode: latex
+%%% coding: utf-8
+%%% eval: (auto-fill-mode t)
+%%% eval: (LaTeX-math-mode t)
+%%% End:

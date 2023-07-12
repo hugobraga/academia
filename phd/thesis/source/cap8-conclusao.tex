@@ -1,0 +1,127 @@
+%!TEX root = main.tex
+
+%% ------------------------------------------------------------------------- %%
+\chapter{Considerações finais}
+\label{cap:conclusoes}
+Neste capítulo tecemos algumas considerações sobre nossas
+contribuições para os problemas que focamos, e mencionamos algumas
+linhas ou questões que poderiam ser investigadas.
+
+No Capítulo~\ref{cap:mwstp}, propusemos duas formulações lineares
+inteiras para o problema da árvore $t$-spanner de peso mínimmo
+(MWTSP). Estas são as primeiras formulações lineares específicas para
+este problema.  Elas são baseadas numa ideia interessante, que é a de
+modelar via arborescências (requerendo lidar com digrafos), que
+facilita a identificação dos caminhos entre cada par de vértices na
+árvore (que resulta da ``sobreposição das arborescências'').  Ambas as
+formulações são de tamanho polinomial no tamanho de $G$. Elas se diferem quanto ao uso
+ou não de variáveis (rótulos) para representar as distâncias entre os
+pares de vértices. Os experimentos computacionais mostraram que a
+formulação com rótulos tem um desempenho melhor (do que a formulação
+sem rótulos explícitos). Essa foi uma descoberta que os experimentos
+computacionais forneceram, mostrando que, apesar de usar mais
+variáveis, em geral, vale a pena usar a formulação com rótulos.  Neste
+caso também seria interessante encontrar inequações válidas para
+fortalecer a formulação linear correspondente.
+
+% Denominamos por algoritmo \emph{com rótulos} aquele que possui
+% rótulos para representar as distâncias entre os pares de vértices. O outro
+% algoritmo foi denominado por \emph{sem rótulos}. Como observamos na
+% Tabela~\ref{tab:conc_alg_exato}, o algoritmo CR foi melhor na maioria dos
+% cenários analisados.
+
+Na Seção~\ref{sec:mwsp_preprocessamento}, abordamos uma
+heurística para o MWTSP, mas nos experimentos realizados a
+heurística foi desabilitada. Seria interessante analisar em
+quais cenários ela é útil.
+
+No Capítulo~\ref{cap:mwsp} apresentamos uma formulação linear inteira
+para o problema de $t$-spanner de peso mínimo (MWSP), sobre a qual
+nada mencionamos em termos de testes computacionais ou outros
+aspectos.  Nesta formulação, não existe variável associada a caminhos,
+uma ideia que seria natural, já que restrições sobre comprimentos de
+caminhos têm que ser impostas. As variáveis usadas, além daquelas
+associadas às arestas, são indexadas por pares formados por arestas e
+cortes do grafo.  Estas últimas levam a uma formulação com um número
+exponencial de restrições, cujo problema de separação --- considerando
+o programa linear relaxado correspondente --- pode ser resolvido em
+tempo polinomial (no tamanho de $V$). Este fato, a princípio promissor, acabou não se
+mostrando muito útil: alguns experimentos iniciais mostraram que a
+formulação não apresentava um bom desempenho. Nesta direção, uma das
+ideias a ser explorada mais sistematicamente seria a de tentar
+descobrir inequações válidas (preferencialmente facetas) para
+fortalecer o programa relaxado.  Para isso, poderíamos utilizar
+\emph{softwares} como Porta~\cite{Porta2018},
+Panda~\cite{LorwaldR2015} e Skeleton~\cite{Zolotykh2012}. Embora não
+tenhamos insistido muito nesta direção, pois focamos outras
+alternativas, talvez seja uma direção que vale a pena ser considerada.
+
+% Podemos tentar também descobrir inequações válidas que não necessariamente
+% são facetas, como fizemos para uma das formulações lineares inteiras
+% propostas para um outro problema de spanner (veja Seção~\ref{sec:ineq_valida}).
+
+No Capítulo~\ref{cap:mwsp_cg} apresentamos uma implementação para um
+algoritmo de \emph{branch-and-price} para este mesmo problema (o
+MWSP).  O algoritmo foi proposto por Sigurd e
+Zachariasen~\cite{SigurdZ2004}, mas esses autores não disponibilizaram
+o código. Na implementação que apresentamos aqui utilizamos pré-processamentos e
+heurísticas para o cálculo de limitantes primais e duais.  Para o RMP
+associado ao programa linear considerado, as restrições
+(\ref{rmp:relate_vars}) do RMP podem ser removidas para encontrar mais
+rapidamente uma solução viável. Como mencionado por Sigurd e
+Zachariasen~\cite{SigurdZ2004}, o teste para saber se a solução
+encontrada viola uma destas restrições é rápido. Os autores ainda
+observaram que somente um pequeno subconjunto das inequações precisou
+ser adicionado ao RMP, acelerando bastante a resolução do
+problema. Poderíamos fazer o mesmo, possivelmente conseguindo
+resultados melhores do que os apresentados no
+Capítulo~\ref{cap:experimentos}. Um outro aspecto a ser explorado
+seria investigar outras heurísticas tanto para o cálculo de limitantes
+primais como de limitantes duais.
+
+% \section{Problema da árvore $t$-spanner}
+% \label{sec:conc_mwtsp}
+
+Nos experimentos realizados, os grafos de entrada são gerados de maneira
+aleatória, e as arestas possuem um dos três tipos de pesos adotados
+(veja Seção~\ref{sec:parametros}). Levando em consideração que spanners
+são adotados em oráculos de distâncias (veja a Seção~\ref{sec:aplicacoes}),
+utilizar outros grafos de entradas como mapas que representam distâncias
+entre cidades seria bastante útil. Um outro cenário interessante que
+configura um bom exemplo de entrada são as rotas utilizadas
+por robôs, visto que spanners são bastante utilizados na área de
+planejadores de roteiros em robótica.
+
+% Assim como comentamos na seção anterior, podemos tentar encontrar
+% inequações válidas para as formulações, como fizemos para o algoritmo
+% CR (veja Seção~\ref{sec:ineq_valida}).
+
+Por fim, realizar experimentos com um número maior de instâncias
+deixaria mais claro o comportamento das curvas apresentadas nos
+gráficos. Em alguns experimentos, percebemos que poderíamos fazer
+testes para valores maiores de alguns parâmetros. Conhecer os limites
+em termos de variação de valores dos parâmetros traria uma informação
+relevante a respeito das implementações.
+
+Esperamos em breve disponibilizar os códigos das implementações que
+fizemos, para que pessoas interessadas nos problemas focados possam se
+beneficiar disso. Ao iniciar os nossos estudos, esbarramos na
+dificuldade de obter dados e de poder comparar nossas implementações
+com outras. Acreditamos assim que este trabalho poderá contribuir
+na direção de facilitar outros estudos sobre os problemas aqui
+tratados. 
+
+%------------------------------------------------------
+%% \section{Considerações finais} 
+
+%% Texto texto texto texto texto texto texto texto texto texto texto texto texto
+%% texto texto texto texto texto texto texto texto texto texto texto texto texto
+%% texto texto texto texto texto texto. 
+
+%% %------------------------------------------------------
+%% \section{Sugestões para pesquisas futuras} 
+
+%% Texto texto texto texto texto texto texto texto texto texto texto texto texto
+%% texto texto texto texto texto texto texto texto texto texto texto texto texto
+%% texto texto texto texto texto texto.
+
