@@ -1,2 +1,2 @@
 # academia
-Scientific production thought my academic life (under graduation, masters, PhD)
+Scientific production through my academic life (under graduation, masters, PhD)
