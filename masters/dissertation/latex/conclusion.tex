@@ -1,0 +1,69 @@
+\xchapter{Conclusion}{}
+\label{sec:conclusion}
+\acresetall
+
+%ALTEREI PARAGRAFO
+In this dissertation we presented a version of a Steiner tree problem called \emph{Directed k-Spanner with Minimum Degree Steiner Tree Problem} (DSMDStP). 
+Unlike commonly defined Steiner tree problems, in DSMDStP we are interested in minimizing 
+the maximum out-degree of the arborescence while respecting the terminals spanner constraints. We assume as input a directed graph.
+To the best of our knowledge, these properties characterize \mbox{DSMDStP} as a new problem.
+We showed that \mbox{DSMDStP} is not approximable sublogarithmically (unless $NP \subset DTIME(n^{\log \log{n}})$) and described an approximation algorithm and a heuristic to it. 
+For both proposed algorithms, we analyzed their complexity.
+
+The approximation algorithm is based on the algorithm described in \cite{Elkin2006}. The algorithm generates an arborescence $\mathcal{A}_f$ 
+with maximum degree $2\sqrt{|T|} + 2 + O(\log{|T|})\cdot d^*$, where $d^*$ is the maximum degree of an optimum arborescence.
+This seems a reasonable limit, as 
+%it was proved in \cite{Fraigniaud2001} that MDST, a restricted version of 
+DSMDStP does not admit a sublogarithmic approximation.
+Additionally, in $\mathcal{A}_f$ the paths from $s$ to each terminal $t$ have cost $\le k \cdot ( dist(s,t,G) + dist(s,t_{max},G))$, where $t_{max} \in \{t' | t' \in T \land (\forall t'' \in T: dist(s,t'',G) \le dist(s,t',G))\}$. 
+Although the algorithm can violate the spanner constraint, 
+this only happens to terminals covered in the second phase of the algorithm. 
+%In Section \ref{sec:related} we argue that adding the terminal constraints to the problem makes it much harder to approximate.
+
+%ALTEREI PARAGRAFO
+The heuristic, called SIM, is based on an iterative application of an algorithm for the MSC problem. SIM does not provide guarantee on maximum node degree. 
+However, in our experiments SIM provided lower maximum node out-degree than the approximation algorithm. 
+In the final arborescence, the path from $s$ to $t \in T$ has cost $ \le (|T| + 2) \cdot k \cdot dist(s,t,G)$. 
+%Different from the approximation algorithm, beyond $k$, the paths' final cost depend only on shortest distance
+%, i.e., beyond $k$ it only depends on the cost constraint of $t$. In our simulations, SIM generates trees with maximum degree much lower than the maximum degree in shortest path trees.
+
+The experiments presented quite good results for both proposed algorithms. Regarding the node out-degrees, both the approximation algorithm and SIM yielded low
+maximum out-degree and they outperformed the results of a shortest path tree algorithm (SPT). Additionally, SIM has always outperformed the approximation algorithm 
+and it has a uniform behaviour, what contributes to scalability. 
+On the other hand, the approximation algorithm always outperformed SIM in metrics concerning the spanner constraint. Moreover, in half of the situations 
+no violation occurred. The metrics addressing the spanner constraint measured the quality and the quantity of violation. Even when violation occurred, 
+these metrics showed that the approximation algorithm violated by low factors. 
+Although SIM did not present as good results as the approximation algorithm, 
+concerning the metric that addresses the quality of violation (how much the violation occurred), the results were also 
+quite good, since on average the violation was by a factor of 1.4 and in worst case by a factor of 2, which are quite acceptable.
+
+%Concerning the spanner property, in average, the approximation algorithm satisfied 
+%the spanner constraint, which led us to conclude the theoretical bounds are pessimistic. Even SIM not respecting the spanner constraint, it violated the constraint, 
+%in average, by low factors and again exhibited uniform behaviour. So, SIM performed very good for both metrics.
+
+We also described how we can improve (with high probability) the degree guarantee for the approximation algorithm. This can be done through the concepts of \emph{submodular functions} 
+and \emph{matroid}. More specifically, we can solve DSMDStP using an instance of a problem called MCG. 
+The improved result can be achieved by modelling MCG as a problem of \emph{maximizing a monotone submodular function subject to partition matroid constraint} and using the algorithm presented in \cite{Calinescu2011} to solve it. 
+
+\section{Future Work}
+%Although we aimed at proposing a solution for DSMDStP where the spanner constraints were satisfied, we could not do it in this work. 
+%So, a possible future work could be to investigate new algorithms to try to improve the resutls. %Our results ...
+
+A possible future work could be to investigate new algorithms to try to improve the resutls, mainly concerning the spanner property. It is important to mention that 
+we do not know if DSMDStP admits a solution.
+
+Turning the solutions into distributed ones would be challenging and another possible future work. 
+%A distributed solution would allow us to apply it 
+%in scenarios where distributed algorithm is a requirement or really important, such as in Wireless Sensor Networks. Besides this, a distributed solution 
+Distributed algorithms are necessary in some scenarios, such as in Wireless Sensor Networks. Besides this, a distributed solution 
+is more scalable than a centralized one, which is an important property.
+
+We argued in Appendix \ref{sec:matroid} how we could improve the degree guarantee of the proposed approximation algorithm by modelling the problem 
+(actually, the subproblem MCG) through the concepts of submodular functions and matroids. But doing this, our algorithm would be a probabilistic one. Although being probabilistic, 
+it would be interesting to see by how much the degree is improved in practice. So, another possible future work would be to solve the MCG problem 
+through the solution proposed in \cite{Calinescu2011} and compare the results with the ones presented in this dissertation.
+%implementar matroid
+
+%\begin{itemize}
+  %\item Try to improve the solution in order to respect the spanner constraint.
+%\end{itemize}

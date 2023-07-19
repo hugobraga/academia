@@ -1,0 +1,205 @@
+\xchapter{Related Work}{}
+\label{sec:related}
+\acresetall
+
+  %o trabalho de Chen2004 afirma que o problema de multicast eh o mesmo que o problema de Steiner tree
+In this chapter we present an extended up-to-date range of related work, from network design problems that address single properties to, similar to our case, 
+problems that address multiple properties. We start by motivating for Steiner trees and spanners. Then, we discuss the related work addressing the properties of interest (spanner and degree) in 
+Euclidean Space (Section \ref{sec:euclidean_space}) as well as in (undirected and directed) graphs (Section \ref{sec:properties_in_graphs}). Finally, we explain why DSMDStP 
+is a new problem, giving its differences from related work (Section \ref{sec:DSMDStP_new_problem}).
+
+Steiner trees are typically related to optimizing multicasting (for example, \linebreak 
+\cite{Sun1995,Raghavan1998,Feng1999,Parsa1998,Zhengying2001,Wang2009,Wang2005,Chen2004}). 
+In classical Steiner tree problems, the goal is to minimize the cost of the tree while satisfying certain constraints.
+
+Spanners are applied in many scenarios. For instance, spanners can be used to support efficient routing. Spanners 
+allow routing protocols to store smaller routing tables while packets' headers are still small, 
+%since spanners allow a tradeoff between packets' headers and routing table (the lesser the headers' size - fewer routing information is stored in the packet - the greater the rougting table -
+since spanners allow a tradeoff between packets' headers and routing table 
+%(when shortest paths are used to route, the headers' size can be the least - only the destination label is stored in the packet - so the routing table can be the greatest - each node need to know how to route a packet for every possible destination - and vice versa) 
+(when packets are routed through shortest paths, each node has to store a complete routing table or the packet's header has to contain a complete description of the 
+shortest path; spanners allow the tradeoff mentioned before as they use paths with small stretch factors rather than routing through shortest paths) 
+\cite{Thorup2001}. (Geometric) spanners are also 
+applied in wireless networks to decrease energy expenditure \cite{Schindelhauer2007} (for other applications of geometric spanners, see \cite{Narasimhan2007}). 
+Spanners are also commonly used to approximate 
+shortest path distances \cite{Feigenbaum2008}. Since calculating shortest paths is common for classical shortest path algorithms, 
+approximating distances is of great utility \cite{Feigenbaum2008}. 
+Motivation for the adoption of spanners in shortest path algorithms can also be seen in \cite{Elkin2001}.
+%Moreover, spanners are applied in shortest path algorithms due to two reasons \cite{Elkin2001}: 
+%their convenience in implementing distributed algorithms, since the spanner structure is part of the network itself so the algorithm can execute on the spanner itself; 
+%and the second reason \cite{Elkin2001} occurs when the use of an edge by a path incurs a cost. So, it is desired to limit the number of edges used by the path. The 
+%number of edges used in building the paths is limited by the size of the spanner. 
+
+In a similar way to this last application of spanners, they are also 
+applied in distance oracles \cite{Baswana2006,Thorup2005}. In \cite{Baswana2006}, the authors state that in many applications the objective is 
+not to compute all distances (the same as shortest paths) but to be able to retrieve distance values in an efficient way. This can be done through some kind 
+of preprocessing of the input graph. Due to the complexity of the traditional shortest path algorithms, researchers have been trying to find out structures 
+which report approximate distance values instead of the exact values. This motivates the works on \emph{t-approximate distance oracles}, where for 
+a pair of vertices $(u,v)$ in the input graph $G$, the value returned by the oracle is $\ge dist(u,v,G)$ and $\le t \cdot dist(u,v,G)$.
+
+Spanner tree, a restricted kind of spanner, is of great importance too. According to \cite{Liebchen2008}, spanner trees are used in telecommunications since 
+they allow routing protocols to be simpler. They are also used as a model for broadcast \cite{Peleg2000} and, in similar way to Steiner trees, 
+spanners trees can be used in message multicasting. In the literature, there are also references to their application in solving 
+some kinds of linear systems of equations problems \cite{Elkin2005} and in finding approximation solutions to the bandwidth minimization problem \cite{Venkatesan1997}.
+
+%Spanners are applied in a lot of scenarios, e.g., efficient routing \cite{Thorup2001}, approximating shortest path distances \cite{Feigenbaum2008,Elkin2001}, 
+%as well as for distance oracles \cite{Baswana2006,Thorup2005}. (Geometric) spanners are also applied in wireless networks (for other applications of geometric 
+%spanners, see \cite{Narasimhan2007}). Tree spanners have also a variety of applications, e.g., telecomunications scenarios since they turn routing protocols more simple \cite{Liebchen2008}, 
+%solving symmetric diagonally dominant linear systems of equations \cite{Elkin2005}, as a model for broadcast \cite{Peleg2000}, and they are used 
+%to find approximate solutions to the bandwidth minimization problem \cite{Venkatesan1997}.
+
+
+The Steiner tree problems addressed in \cite{Raghavan1998,Feng1999,Sun1995,Parsa1998} involve a single constraint, a cost bound  
+on the paths between a source node and the terminals (to model maximum transmission delay).
+% ?? tirei a referencia Wang2009 no ultimo \cite no paragrafo anterior
+%In \cite{Wang2005,Chen2004} the authors take into consideration both delay and degree constraints.
+%??Wang2005 - so tive acesso a primeira pagina do artigo
+In \cite{Chen2004} the authors take into consideration both delay and degree constraints.  
+In \cite{Chen2004}, the authors assume undirected graph and do not guarantee that the delay constraints will be respected. Additionally, 
+the problem involves a single delay constraint, which applies to a subset of nodes. 
+Degree constraints arise in scenarios in communication networks to address resource limitations in 
+routers and switches and to balance load during multicast operations. 
+%In \cite{Wang2005,Chen2004}, the same maximum delay is associated with each terminal. The authors present heuristics based on genetic algorithms.   
+%In particular, the algorithm in \cite{Chen2004} does not guarantee that the delay constraints will be satisfied.
+%The association of different delay constraints with different terminals (and minimization of the tree cost) is addressed
+%in \cite{Parsa1998,Zhengying2001}. This is typically motivated by the existence of different types of terminals or 
+%quality-of-service requirements of distinct applications.
+
+\section{Works that consider Spanner and Degree in Euclidean Space}
+\label{sec:euclidean_space}
+Much previous work has addressed network design problems with more than one property (including being a tree, the spanner property, bounded maximum degree, and others) 
+as we do \cite{Arya1995,Dinitz2008,Kortsarz1999}. All these mentioned works assume an Euclidean space, which restricts the applicability of their work 
+to scenarios where geometric relations hold as well as associating a different cost based on the direction of the edge is not allowed, as directed graphs are not allowed to be modelled. 
+Other works address degree too \cite{Chan2003,Fekete1997,Monma1991,Lukovszki1999,Farshi2007,Lukovszki2006,Grunewald2002}. But they also assume an Euclidean Space.
+
+%Much previous work has addressed network design problems with more than one property (including being a tree) as we do. In \cite{Arya1995}, the authors address the problem of generating 
+%a network with bounded maximum degree, constant stretch factor and low weight. Networks with these properties are called \emph{narrow}, \emph{shallow} and 
+%\emph{light} respectively in network design literature. The resulted graph in \cite{Arya1995} is not a tree. Shallow-light trees are addressed in \cite{Dinitz2008,Kortsarz1999}. 
+%Besides the spanner property, these trees are also guaranteed to have a weight not much heavier than the minimum spanning tree (the \emph{light} property). 
+%In \cite{Dinitz2008}, besides being shallow and light, the generated trees are low (the tree's height is bounded). The authors also show that it is possible to generate two kinds of 
+%trees with a compromise relation between the weight and the height. In \cite{Kortsarz1999}, the authors give an approximation solution for a Steiner tree problem 
+%with a parameterized  
+%height and minimum weight. 
+
+%Other works address degree too. In \cite{Chan2003,Fekete1997,Monma1991}, the authors deal with the problem of generating narrow-light trees. 
+%In \cite{Chan2003}, the authors give an approximation solution for the 
+%minimum spanning tree problem with parameterized  
+%degree. In \cite{Fekete1997}, the authors give an approximation algorithm for a problem similar to the last mentioned problem (the one addressed in \cite{Chan2003}), 
+%but they allow the degree parameter to be different for each node. The authors of \cite{Monma1991} study some spanning tree problems, including the minimum 
+%spanning tree with bounded maximum degree. Other kind of trees studied in the literature are the so called \emph{single-sink spanners} \cite{Lukovszki1999,Farshi2007,Lukovszki2006,Grunewald2002}. 
+%These trees are characterized by respecting the parameterized root-stretch factor and having low height and bounded maximum degree. In \cite{Lukovszki1999}, 
+%the authors work with fault-tolerant single-sink spanners. The authors of \cite{Farshi2007} performed experimental studies of spanners, including single-sink spanners. 
+%In \cite{Lukovszki2006,Grunewald2002}, the authors are concerned with keeping effective use of resources in networks through topology control. 
+
+\section{Works that consider Spanner and Degree in (Directed and Undirected) Graphs}
+\label{sec:properties_in_graphs}
+More spanner and degree problems on graphs are addressed in \cite{Fomin2011,Dinitz2011,Berman2011,Elkin2011b,Hajiaghayi2009,Naor1997} and 
+\cite{Khandekar2011,Goemans2006,Singh2007,Elkin2006,Bansal2009,Nutov2011,Feder2006,Ravi1992} respectively. These work assume undirected graphs, which is a restricted case of our 
+more general assumption of directed graphs. 
+
+On the other hand, the authors in \cite{Dinitz2011,Naor1997,Berman2011} deal with related problems in directed graphs. Their 
+works differ from ours as the resulted graph is not a tree or the authors aim at minimizing a different function (e.g., the number of edges, the total cost of the tree). The works 
+in \cite{Bansal2009,Nutov2011} address tree problems with degree restrictions in directed graphs too. They are interested in guarateeing k-connectivity. 
+In these works, the authors aim to satisfy the degree restriction imposed to each node rather than minimize the maximum degree. 
+Additionally, they do not consider the spanner property. The problems addressed in \cite{Feder2006} are simitar to the ones addressed in the former papers. The authors 
+consider the problem of minimizing the maximum degree but they do not consider the spanner property neither.
+
+%More spanner (or related shallow) and degree problems on graphs are addressed in \cite{Fomin2011,Dinitz2011,Berman2011,Elkin2011b,Hajiaghayi2009,Naor1997} and \cite{Khandekar2011,Goemans2006,Singh2007,Elkin2006,Bansal2009,Nutov2011,Feder2006} respectively. 
+%In \cite{Fomin2011}, the authors address the problem of generating \emph{k}-spanners (spanners with the stretch factor of $k$) that are also trees. In \cite{Fomin2011}, 
+%the authors are concerned with generating trees where the stretch factor is guaranteed between any pair of nodes rather than between only the source node and the other nodes.
+%This problem is NP-Complete even if the input graph is planar. The authors show that if the input graph has a known bounded maximum degree, it is possible to decide 
+%in polynomial time if the graph has a k-spanner tree with bounded treewidth. 
+%They assume undirected graphs. In \cite{Elkin2011b}, the authors are interested in the problem of generating spanner and light trees in undirected graphs. 
+%In \cite{Hajiaghayi2009}, the authors deal with generating Steiner trees with bounded path costs 
+%that are light. 
+
+%On the other hand, the authors in \cite{Dinitz2011,Naor1997,Berman2011} deal with related problems in directed graphs. In \cite{Naor1997}, the authors attack the 
+%problem of generating light spanning trees with bounded path costs. The authors in \cite{Dinitz2011,Berman2011} 
+%attack the problem of generating spanners with the minimum number of edges, where the input graph is directed and its edges have arbitrary cost. 
+%Their solutions are not trees. The authors of \cite{Berman2011} give an approximation algorithm for the directed Steiner forest problem, where the 
+%objective is to minimize the cost of the forest. In \cite{Khandekar2011}, solutions are analyzed and proposed for several network design problems 
+%with degree constraints. One of these problems is the \emph{Minimum Degree p-Arborescence} problem, where the objective is to find an arborescence that 
+%covers $p$ terminals (where $p \le |T|$) and has minimum out-degree (the same as bounded maximum out-degree). In \cite{Elkin2006}, one of the results is a solution for the directed 
+%minimum-degree Steiner tree problem (with $p = |T|$), consisting of a specific case of the problem addressed in \cite{Khandekar2011}. 
+
+%In \cite{Goemans2006} an algorithm is proposed for the minimum spanning tree with 
+%maximum degree $d^*+2$, where $d^*$ is the optimum degree. This result is improved in \cite{Singh2007} to $d^*+1$. Both works assume undirected graphs. 
+%The authors of \cite{Ravi1992} propose solutions for the minimum-degree Steiner tree problem for undirected graphs. Regarding degree 
+%constraints, the authors of \cite{Bansal2009,Nutov2011} propose approximation solutions for problems in network design with degree restrictions, among them  
+%the degree-bounded (the same as bounded maximum degree) arborescence problem. In \cite{Feder2006}, the authors propose solutions for similar problems to those tackled in \cite{Bansal2009,Nutov2011} 
+%concerning survivable network, but they are the first to consider k-node connectivity instead of only k-edge connectivity.
+
+\section{Our Problem: The novelty in DSMDStP}
+\label{sec:DSMDStP_new_problem}
+
+Our work differs from related work as in our case we consider directed graphs instead of working in metric spaces or assuming undirected graphs. Additionally, we aim to find Steiner trees, 
+a more general case of spanning trees. Moreover, besides building a Steiner tree with bounded maximum degree in directed graphs, we also address the $k$-spanner 
+property, more specifically, 
+%a tree whose paths from source node to terminals have stretch factor of $k$ related to the paths between these nodes in original directed graph. 
+single-sink k-spanner trees, where $k$ is a parameter of the problem (instead of a bound achieved by a solution to the problem). 
+
+The closest works to ours are \cite{Elkin2009,Elkin2011,Elkin2006,Khandekar2011}. In \cite{Elkin2009,Elkin2011}, the authors address the problem of building narrow-shallow-low-light trees. 
+The authors thus address the problem of generating trees with parameterized root-stretch factor 
+%\footnote{Some works that generate spanner trees guarantee the spanner property between any pair of nodes from the tree rather than guaranteeing the property only from the source node to the other nodes, as in \cite{Elkin2009,Elkin2011}} 
+and bounded maximum degree, as we do, but they consider two additional properties (generation of 
+\emph{low} and \emph{light} trees).
+However, their work builds a spanning tree rather than a Steiner tree and they consider metric spaces. Our assumptions are more
+general, as we do not restrict our problem to metric spaces. Additionally, 
+the authors' work provides a constant root-stretch factor, similarly to other works where shallow trees are generated, rather than supporting a parameterized stretch factor. 
+The authors in \cite{Elkin2006,Khandekar2011} address the problem of minimizing the out-degree of directed graphs in Steiner tree problems. 
+In \cite{Elkin2006}, similar to our work, the problem consists in covering all the set $T$ of terminals, 
+while in \cite{Khandekar2011} the problem is generalized as the objective is to cover $p$ terminals, where $p \leq |T|$. In both works, the authors do not consider the spanner property. They also address problems 
+somewhat similar to ours, where besides minimizing the maximum degree it is required to limit the height of the tree. So, they are interested in limiting the 
+number of hops, which differs from our spanner property. To the best of our knowledge, our work is the first attempt to address the problem of building a Steiner 
+tree in directed graphs with limited maximum degree and with a parameterized root-stretch factor.
+
+%Our work differs from related work since in our case 
+%the optimization function is the maximum out-degree instead of the total cost of the tree and
+%different terminals might have different cost constraints. Finding a multicast tree taking into consideration
+%these two aspects together corresponds, to the best of our knowledge, to a new problem, which we call DCCMDSt.
+
+%Our approximation algorithm might violate terminal constraints. The authors in 
+%\cite {Oliveira2005} state that when solutions to classical Steiner tree problems are extended to consider delay constraints, the approximations are 
+%no longer guaranteed. The authors argue that adding the delay contraints makes the problem much harder to 
+%approximate. Delay constraints are, for example, violated in the algorithms in \cite{Chung1997,Kompella1993} and no bound to delay violation
+%is provided. In our work, the terminal constraints are violated by a known additive factor. 
+
+%Another important point is that in algorithms in which delay constraints are satisfied (for example, \cite{Feng1999,Sun1995}), 
+%the delay is guaranteed at the expense of adding new edges to form a new path that respects the delay 
+%beyond those in shortest cost paths. So minimizing degree and satisfying terminal constraints
+%seems to be conflicting goals. Our work is the first attempt to address degree minimization and different terminal constraints in the Steiner tree problem.
+%Our algorithm provides guarantees on maximum node degree.
+
+\subsection{Limitation in the Results}
+Our algorithms are not able to guarantee the root-stretch factor $k$ for all paths from the source node to the terminals. 
+%, which differ from the majority of works that address spanner property in trees \cite{Dinitz2008,Kortsarz1999,Elkin2009}, where the root stretch factor is a constant of $(1+\epsilon)$, for any fixed $0 < \epsilon < 1$. 
+Our approximation algorithm and heuristic give a root-stretch factor of 
+$k \cdot \left(1 + \frac{max_{t\in T}\{dist(s,t,G)\}}{min_{t \in T}\{dist(s,t,G)\}}\right)$ and $k \cdot (\lfloor\sqrt{|T|}\rfloor+2)$ respectively.
+%, where $dist_{max} = max\{dist(s,t,G) | t \in T\}$ and $dist_{min} = min\{dist(s,t,G) | t \in T\}$. 
+However, as argued in the introduction, 
+in the experiments the cost of the generated paths is much lower than the provided upper bounds.
+%due to the way the algorithm works, we were able to give an empiric compromise relation between the average maximum degree and the 
+%final costs of the paths in the Steiner tree.
+
+\subsection{The Base Algorithmic Tool for the Proposed Solutions: The MSC Problem}
+Our algorithms are based on the algorithm presented in \cite{Elkin2006}. In \cite{Elkin2006}, the goal is to compute a schedule
+with a minimal number of rounds that delivers a message from a given node to all the terminals. The problem is called \emph{Directed Telephone Multicast Problem}. 
+Our approximation algorithm follows the same steps as in 
+\cite{Elkin2006}, but we use different criteria for defining some of the used concepts, such as $\sqrt{k}$-bad nodes, and for the
+construction of the instance of the Multiple Set-Cover (MSC) problem. The bound on the degree
+is obtained in exactly the same way as in \cite{Elkin2006}. The heuristic SIM deviates from the algorithm in \cite{Elkin2006}, as it is based on an iterative application
+of the MSC problem (instead of applying this problem only once, as in our algorithm and in \cite{Elkin2006}).
+
+The Multiple Set-Cover (MSC) problem was stated for the first time in \cite{Elkin2003}. A solution for this problem
+was presented in \cite{Chekuri2004}. 
+%(actually, the journal version \cite{Elkin2006} (the one used by us) uses the solution presented in \cite{Chekuri2004}, and the conference paper \cite{Elkin2003} 
+%uses a different solution). 
+In \cite{Chekuri2004}, MSC is called \emph{Set Cover with Group Budgets} (SCG). 
+The MSC problem can be generalized by the problem called \emph{Maximization of Monotone 
+Submodular Function subject to Matroids Constraint}, which was addressed in \cite{Calinescu2011}. 
+%We can generate a variation of our algorithm with an improvement on the maximum out-degree (with high probability) by using this more general problem and the algorithm provided in \cite{Calinescu2011}.
+However, our goal in this dissertation is to present a deterministic algorithm. 
+We will discuss this in greater detail in Appendix \ref{sec:matroid}. 
+
+%In the next chapter we define DSMDStP as well as to prove that it is not approximable sublogarithmically.
+In the next chapter, we conclude the dissertation and present future work.

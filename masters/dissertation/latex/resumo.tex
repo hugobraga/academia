@@ -1,0 +1,19 @@
+\resumo
+%\begin{spacing}{1.5}
+%\parskip=6pt
+\'Arvores \emph{Steiner} s\~ao comumente utilizadas para modelar restri\c{c}\~oes na execu\c{c}\~ao da opera\c{c}\~ao de \emph{multicast}. Nesta disserta\c{c}\~ao n\'os tratamos um novo problema denominado 
+\emph{\'Arvore Steiner com Grau M\'inimo e fator de dilata\c{c}\~ao k em Grafos Direcionados} (cujo acr\^onimo em ingl\^es \'e DSMDStP). Este problema consiste em: 
+dado um grafo direcionado $G(V,E)$, um \emph{n\'o origem} $s \in V$, um \emph{fator de dilata\c{c}\~ao} $k$ ($k \in \mathbb{R}^+$, $k \ge 1$) e um conjunto de \emph{terminais} $T \subseteq V \setminus \lbrace s \rbrace$, 
+encontrar uma arboresc\^encia onde o custo entre o n\'o de origem $s$ em $G$ e cada $t \in T$ \'e menor ou igual a $k$ vezes o custo da menor dist\^ancia entre este par de n\'os, 
+ao passo que o grau m\'aximo de sa\'ida \'e minimizado. DSMDStP n\~ao admite aproxima\c{c}\~ao sublogar\'itmica (a menos que $NP \subset DTIME(n^{\log \log{n}})$). N\'os descrevemos um algoritmo de aproxima\c{c}\~ao 
+que gera uma arboresc\^encia com grau m\'aximo de sa\'ida limitado por $2\sqrt{|T|} + 2 + O(\log |T|) \cdot d^*$, onde $d^*$ consiste no grau m\'aximo da solu\c{c}\~ao \'otima e a arboresc\^encia 
+\'e uma \emph{spanner} com fator de dilata\c{c}\~ao (a partir da raiz) de $k \cdot \left(1 + \frac{max_{t\in T}\{dist(s,t,G)\}}{min_{t \in T}\{dist(s,t,G)\}}\right)$, 
+onde $dist(s,t,G)$ representa o caminho de menor custo entre $s$ e $t$ em $G$. Embora nosso fator de dilata\c{c}\~ao 
+viole $k$, nos experimentos, a restri\c{c}\~ao de \emph{spanner} foi satisfeita ou, em m\'edia, quase satisfeita. Al\'em disso, o grau de sa\'ida medido nos experimentos foi baixo. 
+N\'os tamb\'em descrevemos uma heur\'istica que garante um fator de dilata\c{c}\~ao de $k \cdot (\lfloor\sqrt{|T|}\rfloor+2)$, mas n\~ao limita o grau m\'aximo de sa\'ida. Nos experimentos, a heur\'istica 
+mostrou-se extens\'ivel com rela\c{c}\~ao ao grau m\'aximo, al\'em de sempre superar os outros algoritmos nesta m\'etrica. A heur\'istica gerou, adicionalmente, uma \emph{spanner} com fator de viola\c{c}\~ao baixo.
+\begin{keywords}
+\'Arvore \emph{Steiner}, Grafo Direcionado, Grau M\'inimo, \emph{Spanner}, Solu\c{c}\~ao de Aproxima\c{c}\~ao, Heur\'istica
+\end{keywords}
+
+%\end{spacing}

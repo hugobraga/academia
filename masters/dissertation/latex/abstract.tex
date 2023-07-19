@@ -1,0 +1,33 @@
+\abstract
+%\begin{spacing}{1.5}
+%\parskip=6pt
+Steiner trees are commonly used to model constraints in message multicasting. 
+%Typically, a Steiner tree problem involves minimizing the total cost of the tree while satisfying additional constraints, such as bounded maximum node degree.
+In this dissertation we address a problem called \emph{Directed k-Spanner with Minimum Degree Steiner Tree Problem} (DSMDStP). This problem
+consists in, given a directed weighted graph $G(V,E)$, a \emph{source node} $s \in V$, 
+a \emph{stretch factor} $k$ ($k \in \mathbb{R}^+$, $k \ge 1$) and a set of \emph{terminals} $T \subseteq V \setminus \lbrace s \rbrace$, 
+finding an arborescence in which the cost (distance) between $s$ and each $t \in T$ 
+is less than or equal to $k$ times the shortest distance between $s$ and $t$ in the original graph, 
+while minimizing the maximum node out-degree. 
+DSMDStP is not approximable sublogarithmically (unless $NP \subset DTIME(n^{\log \log{n}})$).
+We describe an approximation algorithm that generates 
+an arborescence with out-degree limited to $2\sqrt{|T|} + 2 + O(\log |T|) \cdot d^*$, where $d^*$ is the maximum degree in an optimum solution and 
+the arborescence is a spanner with a root-stretch factor of 
+$k \cdot \left(1 + \frac{max_{t\in T}\{dist(s,t,G)\}}{min_{t \in T}\{dist(s,t,G)\}}\right)$, 
+where $dist(s,t,G)$ represents the shortest distance between $s$ and $t$ in $G$. 
+%where $dist_{max} = max\{dist(s,t,G) | t \in T\}$ and $dist_{min} = min\{dist(s,t,G) | t \in T\}$. 
+%Although our root-stretch factor is a function of $k$ and extreme terminal distance costs rather than only $k$, in simulations, the spanner guarantee 
+%was really good. Actually, in average, the spanner constraint was satisfied. Besides this, the maximum out-degree was low compared to shortest path trees.
+Although our root-stretch factor violates $k$, in our experiments the spanner constraint was satisfied or almost satisfied in average. 
+Additionally, the resulted out-degree was low.
+We also describe a heuristic which provides a root-stretch factor of $k \cdot (\lfloor\sqrt{|T|}\rfloor+2)$ but does
+not provide a bound to the out-degree.
+%We also describe a heuristic (called SIM) which does not provide a limit to the degree of nodes and has a root-stretch factor of $k \cdot (\sqrt{|T|}+2)$. 
+%In our simulations, SIM exhibited interesting characteristics, having a stable behaviour for both degree and spanner guarantee, which contributes to scalability, 
+%and also outperforming the other proposed algorithm regarding the degree.
+In the experiments, the heuristic was shown to scale well in terms of the maximum degree achieved, and has always outperformed the other algorithms. The heuristic generated additionally a low spanner violation factor.
+\begin{keywords}
+Steiner tree, Directed Graph, Minimum Degree, Spanner, Approximation, Heuristic
+\end{keywords}
+
+%\end{spacing}

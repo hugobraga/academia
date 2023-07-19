@@ -1,0 +1,107 @@
+%\chapter{An alternative to improve the degree guarantee for the approximation algorithm}
+%\chapter{An alternative to solve DSMDStP}
+\xchapter{Discussion about how to approach DSMDStP through an alternative way}{}
+\label{sec:matroid}
+
+In this appendix we comment on how we could approach the MCG problem through an alternative way and the impact of this new approaching for the DSMDStP. 
+This new modeling of MCG would allow us to decrease the maximum degree for the DSMDStP. 
+%In this appendix we comment on the impact of solving DSMDStP through an alternative way. 
+%In this appendix we discuss how we could improve our degree guarantees for the proposed approximation algorithm. 
+In order to do this, we would model 
+the MCG problem through the concepts of \emph{submodular functions} and \emph{matroid}. We briefly present these concepts and show how MCG could 
+be modeled through them. Although there is a result that allows the improvement of the degree guarantee of our problem, this would turn our algorithm in 
+a probabilistic one, as the presented result for this new modeling of MCG is a randomized algorithm. 
+The results discussed here are a mere conjecture.
+
+%ALTEREI PARAGRAFO
+As mentioned in \cite{Calinescu2011}, the MCG problem \cite{Chekuri2004} could be addressed through the concepts of \emph{monotone submodular functions} and 
+\emph{matroids}. More specifically, MCG can be modeled as a problem of maximizing a monotone submodular function under matroid constraint. 
+As we can solve MSC using MCG, improvements on solution to MCG extend to MSC as well \cite{Elkin2006} (the SCG problem in \cite{Chekuri2004}). Let $X$ be a ground set of $n$ elements. A function $f: 2^{X} \rightarrow \mathbb{R}^+$ is \emph{submodular} iff: 
+
+\begin{center}
+$f(A \cup B) + f(A \cap B) \le f(A) + f(B)$,
+\end{center}
+
+for all $A,B \subseteq X$ \cite{Schrijver2003}. $2^X$ represents the set of all subsets of $X$, including the empty set and $X$ itself. 
+$f$ is called \emph{monotone} if $f(A) \le f(B)$, for all $A \subseteq B$. In order to address the \emph{matroid} 
+concept, besides a ground set $X$ we need the concept of an \emph{independence family} $I \subseteq 2^{X}$, a family of subsets that is downward closed, which 
+means that $A \in I$ and $B \subseteq A$ implies that $B \in I$. A \emph{matroid} is a pair $M = (X,I)$ where $I \subseteq 2^{X}$ and
+
+\begin{align*}
+&\tag{i} \forall B \in I, A \subset B \Rightarrow A \in I.\\ 
+&\tag{ii} \forall A,B \in I; |A| < |B| \Rightarrow \exists x \in B \setminus A; A \cup x \in I.
+\end{align*}
+
+The problem addressed in \cite{Calinescu2011} consists in maximizing $f(S)$ over the independent sets $S \in I$. Similar to \cite{Calinescu2011}, 
+let us denote this kind of problem by \emph{SUB-M}. The SUB-M problem can be modeled with a matroid constraint 
+called \emph{partition matroid}, where $X$ is partitioned 
+%\footnote{The MCG does not require the set $X$ to be partitioned into disjoint sets, but in order to solve the MSC problem through the MCG, actually the ground set is partioned into disjoint sets} 
+into $l$ subsets $X_1, X_2, ..., X_l$ with associated integers $k_1, k_2, ..., k_l$, 
+and $A \subseteq X$ is considered independent iff $|A \cap X_i| \leq k_i$. 
+
+%NOVO PARAGRAFO
+Maximizing a monotone submodular function under matroid constraint (SUB-M) was addressed for the first time in \cite{Nemhauser1978,Fisher1978}. 
+In these papers, the authors analyze a greedy algorithm and give some approximation results. For SUB-M with partition matroid, the greedy algorithm 
+gives a $2$-approximation \cite{Fisher1978}. For the restricted case of SUB-M with uniform matroid ($l = 1$, so the objective is maximizing $f(S): |S| \le k$), the algorithm 
+gives a $(e/(e-1))$-approximation. The authors in \cite{Calinescu2011} improved the previous results to an approximation factor of $(e/(e-1))$ for 
+any matroid, including the partition matroid, and this is optimal in the oracle model (since this approximation ratio is the best one for the restricted version, 
+the one with uniform matroid \cite{Nemhauser1978,Fisher1978}). The authors in \cite{Calinescu2011} improved the previous results through a randomized algorithm. 
+
+%ALTEREI MODIFICADO
+The MCG problem can be modeled by SUB-M with partition matroid. Regarding MCG, a solution $H \subset \lbrace S_1, S_2, ..., S_m \rbrace$ 
+is independent iff $|H \cap G_i| \leq k_i$ (see problem definition in Section \ref{sec:solve_msc}). Remember that there is a set of partitions $G_1, G_2, ..., G_l$ as input to the MCG problem. For this problem, 
+$f: H \subset \lbrace S_1, S_2, ..., S_m \rbrace \rightarrow \mathbb{R}^+$ represents the number of elements of the ground set $X$ covered by 
+the elements of $H$. This kind of coverage function is submodular, as mentioned in \cite{Calinescu2011}. 
+%This means $f$ is a modular function, which implies it is submodular. 
+Based on Theorem 1.1 in \cite{Calinescu2011} and the previous discussion, the following result holds:
+
+\begin{Theo}
+  \label{teorema:randomized_algorithm}
+  \cite{Calinescu2011}. There is a randomized algorithm which gives an $(e/(e-1))$-approximation
+  %\cite{Calinescu2011}. There is a randomized algorithm which gives a $(1 - 1/e)$-approximation
+\footnote{Our notation of the approximation factor is different from the one presented in \cite{Calinescu2011}, since the latter is represented by $\frac{1}{f}$, 
+where $f$ is the approximation factor in our case.}
+(in expectation) to the MCG problem.
+\end{Theo}
+
+The expression \emph{in expectation} in theorem \ref{teorema:randomized_algorithm} means the approximation factor is guaranteed with high probability. 
+Based on the idea proposed in \cite{Chekuri2004} to solve the MSC problem (the same as the SCG problem in \cite{Chekuri2004}), we can infer that:
+
+\begin{Lem}
+  \label{lema:better_approximation_msc}
+  %There is an algorithm which gives a $(\log_{\frac{e}{e-1}} n + 1)$-approximation (in expectation) to the MSC problem.
+  There is an algorithm which gives a $(\log_{e} n + 1)$-approximation (in expectation) to the MSC problem.
+\end{Lem}
+
+So, based on lemma \ref{lema:better_approximation_msc}, theorem \ref{teorema:randomized_algorithm} and theorem \ref{teorema:final_theorem}, we cojecture that %:
+%\begin{Conjec}
+%  \label{teorema:better_final_result}
+\emph{there is an approximation algorithm that generates an arborescence $\mathcal{A}_f$ with (expected) bounded out-degree 
+$2\sqrt{k} + 2 + O(\log_{e} l) \cdot d^*$  
+and that, with high probability, has paths from $s$ to each terminal $t \in T$ with cost less than or equal to $k \cdot ( dist(s,t,G) + dist(s,t_{max},G))$}.
+%\end{Conjec}
+
+As the algorithm proposed in \cite{Calinescu2011} guarantees that the approximation factor holds with high probability, the bounded degree of the aforementioned approximation algorithm is guaranteed in expectation, 
+since it depends upon the bound provided by the algorithm to the MCG problem, what is probabilistic in this case, so the expectation follows. Moreover, 
+as the authors in \cite{Chekuri2004} calculate the number of iterative runs of the MCG algorithm (and consequently the upper bound to the MSC) for the solution to the MSC problem 
+%as the solution to the MSC problem proposed in \cite{Chekuri2004} infer* the number of iterative applications of the MCG algorithm (and consequently infer* the upper bound to the MSC) 
+%based on the lower bound (the approximation factor of the algorithm to MCG) of terminals covered each application of the solution to MCG,
+based on the approximation factor of the algorithm to MCG,  
+by applying the probabilistic solution presented in this chapter, the $(\log_{e} l + 1)$ is an expected upper bound of iterations to cover all terminals.
+
+%As stated in Cojecture \ref{teorema:better_final_result}, the approximation algorithm bounds the out-degree in expectation, 
+%since the algorithm proposed in \cite{Calinescu2011} is a probabilistic one rather than a deterministic, which means in this case that the approximation factor holds with 
+%high probability. 
+
+%PARAGRAFO NOVO
+Although the MCG problem could be modeled as SUB-M with partition matroid and it could be solved by a deterministic algorithm with approximation ratio 
+of 2 (the one analyzed in \cite{Nemhauser1978,Fisher1978}), which was the first result, this deterministic algorithm gives the same approximation factor 
+of the algorithm presented in \cite{Chekuri2004}.
+
+
+
+%\begin{teorema}
+%  \label{teorema:randomized_algorithm}
+%  \cite{Calinescu2011}. There is a randomized algorithm which gives a $(1 - 1/e)$-approximation (in expectation) to the problem $max \lbrace f(S) : S \in I \rbrace$, 
+%where $f: 2^{X} \rightarrow \mathbb{R}^+$ is a monotone submodular function given by a value oracle, and $M = (X,I)$ is a motroid given by a membership oracle.
+%\end{teorema}

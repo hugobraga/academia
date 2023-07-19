@@ -1,0 +1,121 @@
+\xchapter{Problem Definition}{}
+\label{sec:problem}
+\acresetall
+
+In this chapter our main goal is to state the problem addressed in this dissertation. We introduce some basic definitions necessary to understand the proof concerning the hardness of approximation of the problem, as well 
+as the notion of approximation used throughout the dissertation. We formally state our problem and also emphasize the main differences between it and previous 
+definitions of similar problems. Finally, we prove our problem is not approximable sublogarithmically.
+
+\section{Basic Definitions}
+ As we will prove later, DSMDStP is not approximable sublogarithmically (unless $NP \subset DTIME(n^{\log \log{n}})$), which means that not only an optimal solution cannot be found polynomially 
+but there is also a lower bound for the approximation factor of the solution that can be polynomially computable (in our case, the lower factor is logarithmic). 
+So, we will address DSMDStP through an approximation algorithm, which can be formally defined as:
+
+\begin{Def}
+\cite{Williamson2011} An $\alpha$-approximation algorithm for an optimization problem is a polynomial-time algorithm that for all instances of the problem produces a solution 
+whose value is within a factor of $\alpha$ of the value of an optimal solution.
+\end{Def}
+
+$\alpha$ is known as \emph{approximation factor} or \emph{approximation ratio}. Since in DSMDStP we aim to minimize the degree, and considering an optimum solution to DSMDStP has degree $\Delta^*$, an $\alpha$-approximation algorithm 
+for DSMDStP generates an arborescence whose maximum out-degree is $\le \alpha \cdot \Delta^*$. Throughout the dissertation we use the expression 
+\emph{approximation algorithm} instead of $\alpha$-approximation algorithm when is not necessary to mention the approximation factor.
+
+Another important definition is the complexity class \emph{DTIME}. This class is mentioned in our result of the hardness of approximation of DSMDStP. 
+For the following concept of the class \emph{DTIME}, the notions of \emph{Turing machine} and \emph{language} are used. A Turing machine 
+decides a language $L \subseteq \lbrace 0,1 \rbrace^*$ if it computes the function $f_L : \lbrace 0,1 \rbrace^* \rightarrow \lbrace 0,1 \rbrace$ 
+where $f_L(x) = 1 \Leftrightarrow x \in L$.
+
+\begin{Def}
+\cite{Arora2009} The class \textbf{DTIME}: Let $T : \mathbb{N} \rightarrow \mathbb{N}$ be some function. A language $L$ is in \textbf{DTIME}($T(n)$) iff there is 
+a deterministic Turing machine that runs in time $c \cdot T(n)$ for some constant $c > 0$ and decides $L$.
+\end{Def}
+
+\section{Our Problem: DSMDStP}
+  %dar maior destaque de que o problema eh novo
+Let $G(V,E)$ be a directed weighted graph with edge weight function $C: E \rightarrow \mathbb{R}^+$. 
+Let $P$=$\{v_1, v_2, ..., v_m\}$ be a directed path in $G$, where $v_i \in V$ and %\linebreak
+$(v_i, v_{i+1}) \in E$, \mbox{$1 \le i < m$}. 
+We denote $sp(v_i, v_j, G)$ a minimum cost directed path from $v_i$ to $v_j$ in $G$ and $dist(v_i, v_j, G)$ the cost of this path,
+i.e. the sum of the costs of its edges (for simplicity, we assume that $dist(v_i, v_j, G)=\infty$ if there is no path from $v_i$ to $v_j$ in $G$).
+Let $odeg(v, G), v \in V$, be the out-degree of node $v$ in $G$.
+
+The Directed k-Spanner with Minimum Degree Steiner Tree Problem (\mbox{DSMDStP}) is defined as follows: 
+given a directed weighted graph $G=(V, E)$, a \emph{source node} $s \in V$, 
+a \emph{stretch factor} $k$ ($k \in \mathbb{R}^+$, $k \ge 1$) and a set of \emph{terminals} $T \subseteq V \setminus \lbrace s \rbrace$, 
+find an arborescence $A=(V_A, E_A)$, $V_A \subseteq V$ and $E_A \subseteq E$, rooted at $s$ that spans $T$ such that:
+
+\begin{itemize}
+\item $dist(s,t,A) \le k \cdot dist(s,t,G)$, $\forall t \in T$; and
+%\item $max\{\frac{dist(s, t, A)}{dist(s, t, G)}\} \le c, \forall t \in T$ and $c$ a constant, i.e., the shortest path between $s$ and any terminal $t$ in $A$ 
+%grows by a constant factor $c$ from the shortest path between the same $s$ and $t$ in $G$; and
+\item the maximum out-degree of the nodes in $A$, denoted $D_{max}(A)=max_{v \in V_A}\{odeg(v, A)\}$, is minimized.
+\end{itemize}
+
+The $k$ value is known as a \emph{root-stretch factor}, as we are interested in guaranteeing
+the spanner property only from the source node to the terminals (instead of between any pair of nodes in the tree,
+as in \cite{Fomin2011}). 
+
+%Trees with bounded (maximum or parameterized) degree are called \emph{narrow} trees.
+ 
+%DSMDStP differs from previous definitions of Steiner tree problems in the following sense: 
+%(a) we are interested in minimizing the maximum node degree;
+%(b) the root-stretch factor is a parameter of the problem (instead of a bound achieved by a solution to the problem); and 
+%(c) the graph that is input to the problem is a directed graph. 
+
+The proof of the hardness of approximation of \mbox{DSMDStP} is based on a reduction from the Steiner version of the MDST problem in directed graphs (abbreviated for SvMDST), 
+presented in \cite{Fraigniaud2001}, where this problem is similar to DSMDStP without the spanner constraint. Formally, the instance of SvMDST problem is formed by a 
+directed graph $G = (V,E)$, a set $T \subseteq V$ and a source node $s \in T$ and the objective is finding an arborescence rooted at $s$ that spans $T$ (actually, $T \setminus \lbrace s \rbrace$) 
+and has maximum out-degree minimized. Observe that in SvMDST, the source node $s \in T$, where in DSMDStP $s \notin T$. We take this into consideration 
+in the reduction. The following theorem, which appeared in \cite{Fraigniaud2001}, is used in our proof:
+
+\begin{Theo}
+  \label{teorema:steiner_mdst}
+  \cite{Fraigniaud2001}. Unless $NP \subset DTIME(n^{\log \log{n}})$, the optimal solution of the Steiner version of the MDST problem in directed graphs 
+is not approximable in polynomial time within $(1-\varepsilon)\log_e |T|$ for any $0 < \varepsilon < 1$.
+\end{Theo}
+
+\begin{Claim}
+  Directed k-Spanner with Minimum Degree Steiner Tree Problem (DSMDStP) is not approximable in polynomial
+time within $(1-\varepsilon)\log_e |T|$, for any $0 < \varepsilon < 1$, unless $NP \subset DTIME(n^{\log \log{n}})$.
+\end{Claim}
+  \begin{Proof}
+%Consider the restricted version of DSMDStP in which the root stretch factor is $\infty$ (for example, $k$ could be equal to $\frac{\sum_{e \in E} C(e)}{sp(s,t,G)}$, 
+%for any $t \in T$). 
+%Solving this problem is the same as searching for an arborescence that minimizes the maximum
+%out-degree of nodes. In \cite{Fraigniaud2001} the author showed that this problem, called \emph{Steiner version of Minimum Degree Spanning Tree}, is 
+%not approximable in polynomial
+%time within $(1-\varepsilon)\log_e |T|$, for any $\varepsilon > 0$, unless $NP \subset DTIME(n^{\log \log{n}})$.
+%As this problem is a restriction of DSMDStP, the result applies to DSMDStP too.
+Let $\mathcal{S}$ be an instance of SvMDST, defined by a directed graph $G = (V,E)$, a set $T \subseteq V$ and a source node $s \in T$. 
+Let $\Delta_\mathcal{S}^*$ be an optimal solution for $\mathcal{S}$. 
+We now create an instance $\mathcal{D}$ of DSMDStP, by using the same graph $G$, the same source node $s$,
+a set of terminals $T_\mathcal{D} = T \setminus \lbrace s \rbrace$ and an integer parameter $k=\infty$
+(for example, $k$ might be defined as $\frac{\sum_{e \in E} C(e)}{min_{t\in T}\{dist(s,t,G)\}}$).
+%where $t_{min} \in \{t_i | \forall t_j, t_j,t_i \in T \wedge t_i \neq t_j, dist(s,t_j,G') \le dist(s,t_i,G')\}$).  
+Let $\Delta_\mathcal{D}^*$ be an optimal solution for $\mathcal{D}$. 
+
+For this value of $k$, whatever the solution to $\mathcal{S}$, it satisfies the spanner constraint. 
+So, in this situation, \mbox{$\Delta_\mathcal{S}^* = \Delta_\mathcal{D}^*$}. 
+Let $\mathcal{A}$ be an $\alpha$-approximation algorithm for DSMDStP. Let $\Delta^*$ be the resulted degree by applying $\mathcal{A}$ to $\mathcal{D}$. We have $\Delta^* \le \alpha \cdot \Delta_\mathcal{D}^*$, which implies that:
+
+\begin{equation}
+\label{eq:hardness_proof_relation}
+  \frac{\Delta^*}{\Delta_\mathcal{S}^*} \le \alpha.
+\end{equation}
+
+%ALTEREI PARAGRAFO
+This means that we can approximate an optimal solution for SvMDST ($\Delta_\mathcal{S}^*$) within $\alpha$. Based on Theorem \ref{teorema:steiner_mdst}, 
+we know the approximation ratio of $\Delta_\mathcal{S}^*$ is $ > (1-\varepsilon)\log_e |T|$. So, $(1-\varepsilon)\log_e |T| < \frac{\Delta^*}{\Delta_\mathcal{S}^*} \leq \alpha$, 
+which implies that:
+
+\begin{equation}
+  \alpha > (1-\varepsilon)\log_e |T|,
+\end{equation}
+
+concluding the proof.
+  \end{Proof}
+
+In the next chapter we present two algorithms to DSMDStP: an approximation algorithm and a heuristic. For each of them, we 
+describe the algorithm as well as giving and proving its properties. For the approximation algorithm, we give an upper bound on the 
+maximum out-degree and an upper bound on the final costs of the arborescence's paths. For the heuristic, we give an upper bound 
+on the final costs of the arborescence's paths. We are also going to present the complexity of each solution.

@@ -1,0 +1,80 @@
+\xchapter{Introduction}{}
+\acresetall
+Given a graph $G=(V,E)$, 
+%where $V$ represents a set of nodes and $E$ a set of edges, 
+with edge weight function $C : E \to \mathbb{R}^+$,
+a source node $s \in V$ and a set of \emph{terminals} $T \subseteq V \setminus \lbrace s \rbrace$, the classical minimum cost Steiner tree problem consists in finding 
+a tree $T_r = (V_{T_r},E_{T_r})$ rooted at $s$ that spans $T$ and that has minimum cost (i.e. minimizes $\sum_{e \in E_{T_r}} C(e)$). 
+Many variations of this problem have been defined, where additional constraints must be satisfied (e.g., \cite{Oliveira2005,Parsa1998,Wang2009}).
+
+In the context of communication networks, the Steiner Tree problem is frequently related to multicasting, where a message has to be sent to
+a subset of the nodes. %network nodes.
+% Typically minimizing the cost of the tree results in minimizing bandwidth consumption \ref{??}. 
+Constraints are added to the problem, for example, to address quality-of-service requirements.
+In real-time applications, maximum transmission delays for a message sent from $s$ to each node in $T$ must have to be satisfied \cite{Oliveira2005,Nguyen2008}. 
+Maximum delays can be modeled by defining maximum costs for paths from $s$ to each node in $T$. 
+Alternatively, restrictions in communication delays can be defined as a limit on the increase of the distance of a pair of nodes on the tree when compared 
+to the distance of the same pair of nodes in the original graph, i.e., by imposing a \emph{stretch factor}. This is commonly modeled as a 
+spanner property.
+%Generally, the same maximum cost is defined for all nodes in $T$. However, scenarios where different maximum costs
+%are defined for different nodes also exist \cite{Parsa1998,Zhengying2001}.
+
+An additional common constraint is a bounded node degree. Limiting node degree is of practical importance, for example,  
+to address the number of connections that can be managed by communication devices such as routers and switches or by communication protocols 
+(as in Bluetooth), to minimize the effort of replicating data in multicast operations \cite{Oliveira2005,Nguyen2008}, or to
+decrease topology maintenance in mobile networks. In the context of wireless sensor networks, minimizing node degree is particularly important, due to 
+the need for keeping resource use at
+a minimum (as sensor nodes are typically scarce-resource devices).
+
+In order to address degree minimization and a spanner property between the source node and terminals, we define in this dissertation a new problem called
+\emph{Directed k-Spanner with Minimum Degree Steiner Tree Problem} (DSMDStP). Instead of minimizing 
+the total cost of the tree, we are interested in minimizing the maximum out-degree of nodes. 
+%Trees with limited maximum degree are called \emph{narrow} trees. 
+Additionally, we aim at generating a tree such that, given a stretch factor $k$, the distance between the source node and a terminal on this tree
+is at most $k$ times the minimum distance between them in the original graph. 
+%Additionally, we aim to limit the stretch factor in the paths between the source node and the terminals, i.e., the ratio of the distance between the source node $s$ and a terminal node $t$ in the final tree 
+%and the distance between the same nodes in the original graph is limited. 
+%Trees with limited stretch factor are called \emph{shallow} trees. 
+%previous related work, as, for example, \cite{Fraigniaud2001})}
+We call Steiner trees with this kind of parameterized spanner property \emph{single-sink k-spanner Steiner trees} 
+(although we are not minimizing the tree cost, the nomenclature \emph{Steiner problem} is consistent, for example, with \cite{Fraigniaud2001}). 
+
+DSMDStP is not approximable within $(1-\varepsilon)\log_e{n}$, for any $0 < \varepsilon < 1$ (unless $NP \subset DTIME(n^{\log \log{n}})$).
+We describe first an approximation algorithm for DSMDStP based on the algorithm presented in \cite{Elkin2006}. Our algorithm provides a guarantee on the 
+%maximum out-degree of nodes and gives a stretch factor of $k \cdot (1 + \frac{dist_{max}}{dist_{min}})$, 
+maximum out-degree of nodes and gives a stretch factor of $k \cdot \left(1 + \frac{max_{t\in T}\{dist(s,t,G)\}}{min_{t \in T}\{dist(s,t,G)\}}\right)$, 
+where %: 
+%$dist_{max} = max_{t \in T}\{dist(s,t,G)\}$; $dist_{min} = min_{t \in T}\{dist(s,t,G)\}$; and 
+$dist(u,v,G)$ represents the cost of a minimum cost directed path from $u$ to $v$ in $G$.
+Although our algorithm does not guarantee the desired stretch factor of $k$, 
+in our experiments the cost of the generated paths is much lower than the provided upper bound. In fact, on average,
+%(measured by a metric defined by us)
+the spanner constraint was satisfied on half of the scenarios and almost satisfied on the other half. 
+%Additionally, the average maximum degree can be decreased as long as the given stretch factor $k$ is increased??. %This happens due to the way the algorithm works*.
+
+We also describe a heuristic for the problem, called \emph{Sliced and Iterative Multiple Set-Cover} (SIM). The heuristic does not provide guarantee on node degree and 
+provides a root-stretch factor of $k \cdot (\lfloor\sqrt{|T|}\rfloor+2)$. In the experiments, SIM exhibited quite good results. Its curve is uniform for 
+maximum out-degree, which is an important requirement for scalability. Moreover, it always outperformed the approximation algorithm 
+in relation to maximum node degree. Regarding the violation of spanner constraint, SIM was outperformed by the approximation algorithm but the violation 
+occurred by a low factor (in average by 1.4 and by 2 in the worst case).
+
+%Although a shortest path tree (SPT) would be a trivial approach to satisfy the spanner constraint, 
+%our proposed algorithms always outperformed SPT regarding the degree and the approximation algorithm mimicked SPT's behaviour regarding the spanner property, 
+%which is really good since SPT always generates spanner with stretch factor of 1.
+
+%Although we are not minimizing the cost of the tree, the nomenclature \emph{Steiner problem}
+%is consistent with, for example, \cite{Fraigniaud2001}.
+
+This dissertation is organized as follows.
+In Chapter \ref{sec:problem} we formally define \mbox{DSMDStP} and show that it is not approximable sublogarithmically (unless $NP \subset DTIME(n^{\log \log{n}})$).
+In Chapter \ref{sec:algorithms} we describe the proposed algorithms for DSMDStP. 
+In Chapter \ref{sec:evaluation} we describe the results of experiments performed to evaluate the algorithms. 
+In Chapter \ref{sec:related} we discuss related work. %, including the violation of terminal constraints in the algorithms. 
+Finally, Chapter \ref{sec:conclusion} concludes the dissertation. 
+%In Appendix \ref{sec:matroid} we present a way to improve the degree guarantee (in expectation) through the concepts of submodular function and matroids.
+In Appendix \ref{sec:matroid} we comment how to approach DSMDStP through an alternative way, 
+which comprises the concepts of submodular function and matroids.    
+
+%In the next chapter, we are going to discuss extensively the related work, presenting the main results. Moreover, we are going to argue why DSMDStP is 
+%a new problem, giving the differences between our problem and the related ones.
+In the next chapter we define DSMDStP as well as to prove that it is not approximable sublogarithmically.
