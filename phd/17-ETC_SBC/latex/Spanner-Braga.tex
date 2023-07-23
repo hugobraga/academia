@@ -1,0 +1,532 @@
+\documentclass[12pt]{article}
+
+\usepackage{sbc-template}
+
+\usepackage{latexsym}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+
+\usepackage{amsfonts,amsmath,amssymb,amsbsy,enumerate}
+%\usepackage{graphics,graphicx,subfigure,psfrag}
+
+\usepackage[mathscr]{euscript}
+\usepackage{pstricks}
+\usepackage{multirow}
+\usepackage{verbatim}
+\usepackage{color}
+\usepackage{graphics,graphicx,subfigure,psfrag}
+\usepackage{tabularx, multirow, booktabs}
+
+\newtheorem{proposition}{Proposition}
+\newtheorem{theorem}{Theorem}
+
+
+\newcommand{\formulation}{\mathscr{F}}
+\newcommand{\relaxation}{\mathscr{R}}
+\newcommand{\V}{\chi}
+\newcommand{\poli}{\mathcal{P}}
+\newcommand{\poliRelax}{\mathcal{Q}}
+\newcommand{\conv}{{\rm conv}}
+\newcommand{\opt}{{\rm OPT}}
+\newcommand{\nvar}{\eta}
+\newcommand{\nullvec}{\pmb{0}}
+\newcommand{\unitvec}{\pmb{1}}
+\newcommand{\dist}{{\rm dist}}
+
+\newcommand{\vertical}{|}
+\newcommand{\aset}[1]{\left\{#1\right\}}
+
+\newcommand{\DTIME}{\text{\textsc{DTIME}}}
+\newcommand{\MinPC}{\text{\textsc{MinPC}}}
+\newcommand{\MaxPC}{\text{\textsc{MaxPC}}}
+\newcommand{\MinTSP}{\text{\textsc{MinTSP}}}
+\newcommand{\MinNtPC}{\text{\textsc{MinNtPC}}}
+\newcommand{\MaxNtPC}{\text{\textsc{MaxNtPC}}}
+%\newcommand{\dCDS}{d\text{-\textsc{CDS}}}	
+%\newcommand{\CVC}{\textsc{CVC}}
+%\newcommand{\NP}{\mathscr{NP}}
+\newcommand{\NP}{\text{\textsc{NP}}} %%%% new 
+\newcommand{\Pclass}{\textsc{P}}  %%% new
+%\newcommand{\Pclass}{\mathscr{Pclass}}
+\newcommand{\APX}{\mathscr{APX}}
+%\newcommand{\NP}{\textscr{NP}}
+\newcommand{\FPT}{\textsc{fpt}}
+\newcommand{\AP}{\textsc{ap}}
+\newcommand{\Sep}{\mathcal{S}}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Rn}{\mathbb{R}^n}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\B}{\mathbb{B}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+
+\newcommand{\bigO}{\mathcal{O}}
+\newcommand{\littleO}{o}
+\newcommand{\NonCutVertices}{\overline{\mathcal{C}}}
+
+\newcommand{\otoprule}{\midrule[\heavyrulewidth]}	
+
+
+%----hugo
+\usepackage{mathrsfs} %mathscr
+\newcommand{\smallG}{\mbox{\larger[-1]$(G)$}}
+\newcommand{\smallGf}{\mbox{\larger[-1]$(G-f)$}}
+\newcommand{\smallGprime}{\mbox{\larger[-1]$(G')$}}
+\newcommand{\smallGprimef}{\mbox{\larger[-1]$(G'-f)$}}
+\newcommand{\smallGprimeG}{\mbox{\larger[-1]$(G',G)$}}
+\newcommand{\smallW}{\mbox{\larger[-1]$(G[W])$}}
+\newcommand{\smallWg}{\mbox{\larger[-1]$(G[W]-g)$}}
+\newcommand{\smallWWbarf}{\mbox{\larger[-1]$(G[E(W) \cup E(\overline{W})+f])$}}
+\newcommand{\smallWWbarfg}{\mbox{\larger[-1]$(G[E(W) \cup E(\overline{W})+f-g])$}}
+\newcommand{\smallH}{\mbox{\larger[-1]$(H)$}}
+\newcommand{\smallF}{\mbox{\larger[-1]$(G[F])$}}
+\newcommand{\spanPath}{\mathcal{P}}
+\newcommand{\spanBridge}{\mathcal{B}}
+\newcommand{\Pathuv}{\spanPath_{u,v}^{t}}
+\newcommand{\Pathpq}{\spanPath_{p,q}^{t}}
+\newcommand{\Path}{\spanPath^{t}}
+\newcommand{\PathuvF}{\Pathuv\smallF}
+\newcommand{\PathuvG}{\Pathuv\smallG}
+\newcommand{\PathuvGprime}{\Pathuv\smallGprime}
+\newcommand{\PathuvGf}{\Pathuv\smallGf}
+\newcommand{\PathuvGprimef}{\Pathuv\smallGprimef}
+\newcommand{\PathpqW}{\Pathpq\smallW}
+\newcommand{\PathpqWg}{\Pathpq\smallWg}
+\newcommand{\PathpqWWbarf}{\Pathpq\smallWWbarf}
+\newcommand{\PathpqWWbarfg}{\Pathpq\smallWWbarfg}
+\newcommand{\BridgeuvPrime}{\spanBridge_{u',v'}^{t}}
+\newcommand{\BridgeuvPrimeG}{\spanBridge_{u',v'}^{t}(G)}
+\newcommand{\Bridgeuv}{\spanBridge_{u,v}^{t}}
+\newcommand{\BridgeuvG}{\spanBridge_{u,v}^{t}(G)}
+\newcommand{\Bridge}{\spanBridge^{t}}
+\newcommand{\BridgeG}{\spanBridge^{t}(G)}
+\newcommand{\smallQBridge}{\mbox{\larger[-1]$(Q \cup \Bridge)$}}
+\newcommand{\PathuvQBridge}{\Pathuv\smallQBridge}
+\newcommand{\BridgeuvGprime}{\Bridgeuv\smallGprime}
+\newcommand{\BridgeuvPrimeGf}{\spanBridge_{u',v'}^{t}\smallGf}
+\newcommand{\BridgeuvGf}{\Bridgeuv\smallGf}
+\newcommand{\BridgeGf}{\Bridge\smallGf}
+\newcommand{\BridgeuvGprimeG}{\Bridgeuv\smallGprimeG}
+\newcommand{\BridgeTwo}{\spanBridge_{2}^{t}}
+\newcommand{\BridgeGprime}{\Bridge\smallGprime}
+\newcommand{\BridgeTwoGprime}{\BridgeTwo\smallGprime}
+\newcommand{\BridgeTwoGf}{\BridgeTwo\smallGf}
+
+
+%LP formulation
+\usepackage{lpform} %LPs
+\renewcommand{\lpforall}[1]{&& \forall #1}
+%\renewcommand{\lpsubjectto}{}
+\renewcommand{\lpindent}{\hspace{0pt}}
+
+%\newcommand{\dist}{{\rm dist}}
+\newcommand{\maxcam}{{\rm maxCam}}
+\newcommand{\gr}{{\rm gr}}
+
+\newcommand{\arbset}{\Gamma}
+
+
+%comandos para novas letras/exppressões
+\newcommand{\incid}{\mathcal{X}}
+\newcommand{\incidY}{\mathcal{Y}}
+\newcommand{\maxstretchfactor}{\mathcal{T}}
+\newcommand{\espacoX}{\mathbb{R}^{|E|}}
+\newcommand{\espacoY}{\mathbb{R}^{|E| \times |E|}}
+\newcommand{\espacoZ}{\mathbb{R}^{|V| \times |E| \times |E|}}
+\newcommand{\espacoU}{\mathbb{R}^{|V| \times |V|}}
+\newcommand{\espacoUuni}{\mathbb{R}^{|V|}}
+\newcommand{\espacoXBinary}{\mathbb{B}^{|E|}}
+\newcommand{\espacoYBinary}{\mathbb{B}^{|E| \times |E|}}
+\newcommand{\espacoZBinary}{\mathbb{B}^{|V| \times |E| \times |E|}}
+\newcommand{\PGtrestricoes}{\rm{(PL)}}
+\newcommand{\facetF}{\mathcal{F}}
+
+%\usepackage[pdftex]{graphicx} %pacote que esta dando problema
+\usepackage{pdfpages}
+\usepackage{newclude} 
+
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+\usepackage{setspace}
+
+%enumerate package
+\usepackage{enumitem}
+
+%evitar quebrar bloco
+\newenvironment{absolutelynopagebreak}
+  {\par\nobreak\vfil\penalty0\vfilneg
+   \vtop\bgroup}
+  {\par\xdef\tpd{\the\prevdepth}\egroup
+   \prevdepth=\tpd}
+
+%---------------
+
+\sloppy
+
+\title{Minimum Weight Tree Spanner
+  Problem\protect\footnote{Preliminary results of an ongoing research
+    carried out by the author in his PhD program at IME-USP under the
+    supervision of Professor Yoshiko Wakabayashi. This work also
+    benefited from helpful discussions with Professor Manoel Campêlo
+    (UFC).  Research supported by FAPESP fellowship, Project
+    (Proc. 2013/22875-9) and MaCLinC project of NUMEC/USP.}}
+
+\author{Hugo Braga}
+
+\address{Instituto de Matemática e Estatística -- Universidade de São Paulo\\
+  05508-090 -- São Paulo -- SP -- Brazil
+  \email{hbraga@ime.usp.br}
+}
+
+\begin{document} 
+
+\maketitle
+
+\begin{abstract}
+  Let $(G,w,t)$ denote a triplet consisting of a connected graph~$G=(V,E)$
+  with a nonnegative weight function $w$ defined on $E$, and a real
+  number $t>1$.
+  A tree \hbox{$t$-spanner} of $G$ is a spanning tree~$H$ of $G$
+  such that for each pair of vertices~$u$,$\,v$, the distance between
+  $u$ and $v$ in $H$ is at most $t$ times the distance between $u$ and
+  $v$ in $G$.  
+  We address the \emph{Minimum Weight Tree Spanner Problem 
+  (MWTS)}, defined as follows. Given a triplet $(G,w,t)$, find a
+  tree $t$-spanner in $G$ that has the smallest possible
+  weight. It is known that \emph{MWTS} is {\rm NP}-hard for every fixed
+  $t\ge 4$.
+  We propose two ILP formulations for \emph{MWTS}, based on
+  arborescences, of polynomial size, and present some preliminary
+  results on the computational experiments with these formulations.
+  %% We also comment
+  %% on the implementation of an exact algorithm for the bounded diameter
+  %% spanning tree problem, which is used as a preprocessing routine for
+  %% the cardinality version of the problem.
+\end{abstract}
+     
+\begin{resumo}
+  Seja $(G,w,t)$ uma tripla formada por um grafo conexo $G=(V,E)$ com
+  uma função peso $w$ definida sobre $E$, e um número real $t>1$.  Uma
+  árvore $t$-spanner de $G$ é uma árvore geradora~$H$ de~$G$ tal que
+  para quaisquer pares de vértices~$u$,$\,v$, a distância entre $u$ e
+  $v$ em $H$ é no máximo $t$ vezes a distância entre $u$ e $v$ em $G$.
+  Estudamos o \emph{problema da árvore spanner de custo mínimo},
+  denotado por \emph{MWTS} (acrônimo de \emph{Minimum Weight Tree
+    Spanner}): dada uma tripla $(G,w,t)$, encontrar em $G$ uma
+  árvore $t$-spanner que tenha o menor peso possível. Sabe-se que
+  \emph{MWTS} é {\rm NP}-difícil para todo $t\ge 4$, fixo.  Propomos duas
+  formulações lineares inteiras para o \emph{MWTS}, baseadas em
+  arborescências, de tamanho polinomial, e apresentamos resultados
+  preliminares sobre os experimentos computacionais realizados com
+  essas formulações.
+  %% Também comentamos a implementação de um
+  %% algoritmo para o problema da árvore gerador de diâmetro limitado,
+  %% que é usado na fase de preprocessamento para a versão cardinalidade
+  %% do problema.
+
+\end{resumo}
+
+%%%%%%%%%% INTRO %%%%%%%%
+\section{Introduction}
+%%%%%%%%%%%%%%%%%%%%%%
+In this work, $(G,w,t)$ denotes a triplet consisting of a connected
+graph $G=(V,E)$ with nonnegative weight $w_e$ for each edge $e\in E$,
+and a real number $t>1$.  For two distinct vertices~$u$, $v$ in $V$,
+the \emph{distance between $u$ and $v$} in $G$, denoted by 
+$\dist_{G}(u,v)$, is the length of a shortest path (w.r.t.~$w$) from
+$u$ to $v$ in $G$.  
+
+A \emph{$t$-spanner} of $G$ is a spanning subgraph~$H$ of $G$ such
+that $\dist_{H}(u,v) \le t\cdot\dist_{G}(u,v)$ for all vertices $u$,
+$v$ in $V$.  The integer $t$ is called the \emph{strech factor}. A
+\hbox{\emph{tree $t$-spanner}} is a $t$-spanner that is a tree.  We study the
+\emph{Minimum Weight Tree Spanner Problem} (MWTS), defined as
+follows: given a a triplet $(G,w,t)$, find a tree $t$-spanner in $G$
+of minimum weight.
+
+The cardinality version of this problem is basically a feasibility (or
+existence) problem. Even in this case, the problem is known to be
+NP-complete~\cite{CaiC1995} for every fixed $t\geq 4$.  It is
+known to be solvable in polynomial time for $t=2$
+~\cite{Bondy1989,CaiC1995}. The computational complexity
+status when $t=3$ is unknown.
+
+The more general problem, in which the objective is to find a
+$t$-spanner, has been largely investigated. It arises in distributed
+computing scenarios~\cite{Awerbuch1985}, communication
+networks~\cite{PelegU1988} and robotics.  The concept of
+\emph{spanners} was introduced in 1987 (in a conference) by Peleg and
+Ullman~\cite{PelegU1988}, in connection with construction of synchronizers.
+%  who showed that spanners could be used to
+% construct synchronizers that transform synchronous algorithms into
+% asynchronous ones.
+Heuristics as well as a column-generation approach
+have been proposed for the graph spanner (but not for the tree spanner) problem.
+
+%  scenarios~\cite{Awerbuch1985,PelegU1989},
+% networks~\cite{PelegU1988,PelegR1999,OliveiraP2005,Braga2012} 
+% robotics~\cite{ArikatiCCDSZ1996}.
+
+% \begin{equation}
+% %\label{eq:spanner}
+% \dist_{H}(u,v) \le t \cdot \dist_{G}(u,v), \quad \forall\;u,v \in V, 
+% \label{eq:def_spanner}
+% \end{equation}  
+%
+
+% When $H$ is a tree, it is called a \emph{tree $t$-spanner}. Let 
+% $w: E(G) \to \mathbb{R}^+$ be the weight function associated with $G$. Due to 
+% \cite{CaiC1995}, we also 
+% can say that $H$ is a tree $t$-spanner of $G$ if 
+%
+% \begin{equation}
+% \dist_{H}(u,v) \le t \cdot w(u,v) \;\forall\,uv \in E
+% \label{eq:def_spanner2}
+% \end{equation} 
+% %$\dist_{H}(u,v) \le t \cdot w(u,v) \;\forall\,uv \in E$.
+%
+% A central problem related to spanners is called \emph{tree $t$-spanner
+%   problem}. Given a graph~$G$ and a real number $t>1$, the aim is to
+% decide if $G$  has a tree $t$-spanner. For $t=2$, this problem is
+% polinomial \cite{Bondy1989,Cai1992,CaiC1995}. For fixed $t \ge 4$,
+% it is NP-Complete \cite{Cai1992,CaiC1995}. The problem is open for $t=3$.
+%
+% Given a graph~$G$, a real $t>1$ and a weight function
+% $w: E(G) \to \mathbb{R}^+$, int the \emph{Minimum Weight $t$-Spanner
+%   Tree Problem} (MWSTP) we to find a tree $t$-spanner $H$ of $G$
+% with minimum cost, i.e., that minimizes $\sum_{e \in E(H)} w(e)$.
+% Determining the existence of a tree $t$-spanner of~$G$, for any fixed
+% $t>1$ in a weighted graph is NP-Complete due to Cai and
+% Corneil~\cite{CaiC1995}. As a consequence, the decision version of
+% MWSTP is NP-Complete for $t>1$.
+%
+%% In Section~2 we present two integer linear programming formulation for
+%% the MWSTP problem. Then, in Section~3 we report on some preliminary
+%% computational experiments with these formulations.
+% Owing to space limitation, we do not give much detail about the formulation. 
+%
+In this work we focus on two ILP formulations for MWTS.  In these
+formulations, we use the result proved by~\cite{CaiC1995} that
+guarantees that the stretch factor condition can be simplified to
+$ \dist_{H}(u,v) \le t \cdot w(u,v)$ for all $uv\in E$.
+%
+To our knowledge, no approximation algorithms or ILP formulations have
+been proposed for MWTS. 
+
+
+\section{Integer Linear Formulations for MWTS}
+The polyhedron of the tree spanner problem associated with
+$(G,w,t)$ is defined as
+$ P(G,t) := \text{conv}\{\incid^{F} \in \espacoX\; |\; \text{$G[F]$ is
+  a tree $t$-spanner\}}$, where $\incid^{F}$ denotes the incidence
+vector of $F$. In what follows we present two ILP formulations. With
+respect to the two polyhedra defined by the convex hull of the integer
+points satisfing these formulations, $P(G,t)$ is a projection on the
+space~$\espacoX$. 
+
+\subsection{Formulation 1: finding distances between vertices}
+Given a graph $G=(V,E)$, let $D=(V,A)$ be the digraph obtained
+from $G$, where $A = \{(u,v),(v,u): uv \in E\}$. Let
+$\mathbb{B}:=\{0,1\}$. Take a vertex $v \in V$ (root of a \hbox{$v$-rooted}
+arborescence) and consider the variable
+$z^{v} = (z_{ij}^{v})_{ij \in A}$, associated with $v$. This variable
+tells which arcs are in the $v$-rooted arborescence. 
+%
+In the formulation we deal with aborescences in $D$, rooted at
+different vertices of this digraph. They allow us to find paths
+between vertices on the given arborescences in a easy way. Then, using
+these arborescences, we construct a spanning tree (defined by the
+variables $x$) satisfying the stretch factor condition.
+
+The decision variable $x \in \espacoXBinary$ has the following
+meaning: for each edge~$e$, \hbox{$x(e) = 1$} if and only if $e$ is part of
+the solution.  For each $f \in E$, consider
+$y^{f} = (y^{f}_{e})_{e \in E}$. The variable $y \in \espacoYBinary$
+has the following meaning: for each edge $e$, and edge \hbox{$f=uv$,}
+$y^{f}_{e} = 1$ if and only if $e$ is in the path between $u$ and $v$
+in the solution tree.
+%
+%We have the following ILP formulation for MWSTP:
+%
+%\begin{absolutelynopagebreak}
+  \begin{lpformulation} %[{\rm (1)}]
+    \lpobj*{min}{\sum_{e\in E} w_ex_e}
+    \lpeq[res_mwstp:num_aresta]{\sum_{e \in E}x_e = |V| - 1}{}
+    \lpeq[]{\sum_{i \in \delta^{-}(j)}z^{r}_{ij} = 1}{r \in V,\,\forall j \in V \setminus \{r\}}
+    \lpeq[]{\sum_{i \in \delta^{-}(r)}z^{r}_{ir} = 0}{r \in V}
+    \lplabel{lp:tree_restriction}
+    \lpeq[]{x_{e} = z^{r}_{ij} + z^{r}_{ji}}{r \in V,\, \forall e = \{i,j\} \in E}
+    \lpeq[]{z^{u}_{ij} - z^{v}_{ij} \le y^{uv}_{e} \le z^{u}_{ij} + z^{v}_{ij}} {uv \in E,\, \forall e = \{i,j\} \in E}
+    \lpeq[]{z^{u}_{ji} - z^{v}_{ji} \le y^{uv}_{e} \le z^{u}_{ji} + z^{v}_{ji}} {uv \in E,\, \forall e = \{i,j\} \in E}
+    \lpeq[res_mwsp:single_in-arc]{\sum_{e \in E} w^{}_e\,y^{uv}_{e} \le t \cdot w(u,v)}{uv \in E}
+    \lpeq[]{x \in \espacoXBinary, y \in \espacoYBinary, z^{v} \in \espacoYBinary}{v \in V}
+\end{lpformulation}
+%\end{absolutelynopagebreak}
+
+  \subsection{Formulation 2: with variables representing distances between pairs of vertices}
+ 
+  For this formulation, we consider the same setting as the previous
+  formulation. Given $G = (V,E)$, we consider similarly the digraph
+  $D = (V,A)$.  The variables $z \in \espacoZ$ and $x \in \espacoX$
+  are also defined similarly. Additionally, now let $u \in \espacoU$
+  be a variable, such that for $i,j \in V$, when $u^{j}_{i} = u^{i}_{j}$, then
+  $u^{i}_{j}$ represents the distance between $i$ and $j$. In the formulation,
+  $M_{ij}$ is a given upper bound on the distance between vertices $i$
+  and $j$ in~$G$.
+  % $u^{r}_{i} - u^{r}_{j}$.  
+%
+  \begin{lpformulation} %[{\rm (2)}]
+    \lpobj*{min}{\sum_{e\in E} w_ex_e}
+    \lpeq[res_mwstp:num_aresta]{\sum_{e \in E}x_e = |V| - 1}{}
+    \lpeq[]{\sum_{i \in \delta^{-}(j)}z^{r}_{ij} = 1}{r \in V,\,\forall j \in V \setminus \{r\}}
+    \lpeq[]{\sum_{i \in \delta^{-}(r)}z^{r}_{ir} = 0}{r \in V}
+    \lplabel{lp:tree_restriction}
+    \lpeq[]{x_{e} = z^{r}_{ij} + z^{r}_{ji}}{r \in V,\, \forall e = \{i,j\} \in E}
+    \lpeq[res:mtz]{u^{r}_{i} - u^{r}_{j} + (M_{ij} + w_{ij}) z^{r}_{ij} + (M_{ij} -w_{ij})z^{r}_{ji} \le M_{ij}}{r \in V, \forall ij \in A, j \ne r}
+    \lpeq[]{u^{r}_{i} + (M_{ir} -w_{ir})z_{ri} \le M_{ir}}{r \in V, \forall ri \in A}
+    \lpeq[]{u^{r}_{r} = 0}{r \in V}
+    \lpeq[res:spanner]{u^{j}_{i} = u^{i}_{j} \le t \cdot w_{ij}}{ij \in E}
+    \lpeq[]{x \in \espacoXBinary, z^{r} \in \espacoYBinary, u^{r} \in \espacoUuni}{r \in V}
+\end{lpformulation}
+
+The idea behind constraint (\ref{res:mtz}) was used by~\cite{MillerTZ60} for the TSP.
+%For the unit graph, the following inequation is valid
+%$\forall r \in V, rv \in A, u^{r}_{v} + z^{r}_{rv} \ge 2$. 
+
+\section{Computational experiments}
+
+We carried out some computational experiments to compare the two
+formulations and to have some idea of the strength of these
+formulations.  We focused the unweighted case (cardinality version)
+and the case in which the weights represent Euclidean distance. For
+the cardinality version, we implemented a polynomial-time algorithm
+(showed by Nadiradze, 2013) for the \emph{Bounded Diameter Minimum
+  Spanning Tree} problem to use in the preprocessing phase. We also
+added two other valid inequalities for this version.
+
+Our implementation was coded in C++, using CPLEX as the ILP solver.
+The code was run on a machine with 65 GB of RAM and 1.6 GHz (using
+single core).
+% Although the machine is
+% multiprocessor, we configured to use only a single core. 
+% We implemented the two formulations and performed some experiments.
+%  We implemented some graph algorithms using the C++
+% library \emph{Lemon}. 
+%
+We present only results obtained with Formulation~2, as it
+consistently outperformed Formulation~1.  Table~\ref{tab:exec_time}
+shows results for the cardinality version. We considered three
+parameters, and for each combination, we generated 10 random
+instances.  \emph{Density} means the percentage of edges in the graph
+compared to the complete graph. \emph{Time} is the average time
+in seconds (for the instances solved with ILP); TLE (Time Limit Exceeded)
+indicates the number of instances not solved within 1~hour of CPU
+time.
+
+% \begin{comment}
+
+% \begin{center}
+% \noindent
+% \footnotesize{
+% \begin{tabular}{|c|c|c|c|c|c|r|}\hline
+% {$t$} & {$|V|$} & {Density} & {\# Solved} & {Time (s)} & {\# Solved
+%                                                          with ILP} & {Time (s)}
+% \\ \hline\hline
+% \multirow{9}{*}{3} & 10 & 20 & - & - & 10 & 0.0050  \\
+% & 10 & 40 & - & - & 8  & 0.0175 \\
+% & 10 & 60 & -  & - & 1  & 0.0300   \\     
+% & 20 & 20 & - & - & 10 & 0.0650 \\
+% & 20 & 40 & - & - & 8  & 20.3025\\
+% & 30 & 20 & - & - & 10 & 0.4090  \\
+% & 30 & 40 & - & - & 3  & 3080.7934\\
+% & 40 & 20 & - & - & 10 & 152.0970\\
+% & 50 & 20 & - & - & 10 & 829.6290\\
+% \hline\hline
+% \end{tabular}
+% }
+% \captionof{table}{Computational results for the cardinality version}\label{tab:exec_time}
+% \end{center}
+
+% \end{comment}
+
+\smallskip
+
+\begin{center}
+\noindent
+\footnotesize{
+\begin{tabular}{|c|c|c|c|c|c|r|}\hline
+{$t$} & {$|V|$} & {Density} & {\# Solved in prep. phase} & {TLE}  &{\# Solved
+                                                           with ILP}  &{Time (s)}
+\\ \hline\hline
+%\multirow{12}{*}{3} & 10 & 20 & 0 & 0 & 10 & 0.01  \\
+\multirow{11}{*}{3} & 10 & 40 & 5 & 0 & 5  & 0.02 \\
+& 10 & 60 & 10 & 0 & 0 & -   \\     
+& 20 & 20 & 0 & 0 & 10 & 0.07 \\
+& 20 & 40 & 0 & 0 & 10  & 7.03\\
+& 20 & 60 & 7 & 0 & 3  & 87.61\\
+& 30 & 20 & 0 & 0 & 10 & 0.32  \\
+& 30 & 40 & 0 & 0 & 10  & 1250.94\\
+& 30 & 60 & 7 & 3 & 0  & - \\
+& 40 & 20 & 0 & 0 & 10 & 83.30\\
+& 40 & 40 & 0 & 10 & 0 & -\\
+& 40 & 60 & 0 & 10 & 0 & -\\
+%& 50 & 20 & 0 & 3 & 7 & 4.58\\
+%& 50 & 40 & 0 & 10 & 0 & -\\
+%& 50 & 60 & 1 & 9 & 0 & -\\
+%& 60 & 40 & 0 & 10 & 0 & -\\
+%& 60 & 60 & 0 & 10 & 0 & -\\
+%& 50 & 40 & - & - & XXXX  & TIRAR?  Tem dados?   \\
+\hline\hline
+\end{tabular}
+}
+\captionof{table}{Computational results for the cardinality version}\label{tab:exec_time}
+\end{center}
+
+
+For $t=3$, instances with density $40$ and $60$ are the hardest ones.
+For this case, almost all instances (of order up to $60$) with
+density~$20$ could be solved quickly.  Similarly, for $t\in \{3,4\}$,
+all instances (of order up to~$60$) with density~$80$ were solved
+quickly (all of them with preprocessing). For $t=4$, all instances
+with density~$40$ or $60$ were solved quickly (with positive answer).
+
+% We also considered instances for the cardinality version with density
+% $20$ and $80$. For $t=3$, almost all instances with density~$20$ could
+% be solved quickly.  Similarly, for $t\in \{3,4\}$, all instances with
+% density~$80$ were solved quickly (all of them with preprocessing). For
+% $t=4$, all instances with density~$40$ or $60$ were solved quickly
+% too.
+%% instances with density~$40$ of order up to $30$ could be solved
+%% within 1~hour of CPU time;
+%% but as the order increases, we were not able to
+%% solve within this time limit. For large $t$, instances with density~40
+%% in general admit solutions and it is easy to solve them (with
+%% preprocessing).
+
+For the Euclidean case, we considered instances of order in the range
+from $10$ to $120$ (subgraphs of graphs from public libraries).  For
+$t = 3$, all instances were solved. However, few of these instances
+admit a tree \hbox{$3$-spanner}, and these are all of low order. For
+$t = 4$, the greater the density, the smaller the number of instances
+solved. In this case, for instances with density~$80$, only instances
+of order up to~$40$ were solved.  For the instances considered,
+finding tree spanners for $t=3$ was faster than for $t=4$. We have to
+perform more computational experiments, but it seems that the random
+instances, cardinality version, are harder to be solved. 
+
+% For $t = 3$, the
+% MWTS is solved in less time when compared to $t = 4$.
+% %% When we compare the time, to solve the problem for $t = 4$ spends more time
+% %% than  for $t = 3$.
+% The explanation for both cases 
+% %the results of these two comparisons
+% is that the solver
+% has more possibilities in the decision tree when $t = 4$.
+
+\bibliographystyle{sbc}
+\bibliography{Spanner}
+
+\end{document}
+
