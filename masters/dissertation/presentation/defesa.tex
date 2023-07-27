@@ -1,7 +1,12 @@
+% !TEX encoding = UTF-8 Unicode
 % $Header: /cvsroot/latex-beamer/latex-beamer/solutions/generic-talks/generic-ornate-15min-45min.en.tex,v 1.5 2007/01/28 20:48:23 tantau Exp $
 
 %\documentclass{beamer}
 \documentclass[10pt]{beamer}
+\usepackage[brazil]{babel}
+\usepackage[T1]{fontenc}
+%\usepackage[latin1]{inputenc}
+\usepackage[utf8x]{inputenc}
 %\usepackage[ruled,linesnumbered,vlined,boxed]{algorithm2e} %pacote para formatar algoritmos
 
 % This file is a solution template for:
@@ -36,14 +41,14 @@
 }
 
 %\usepackage[english]{babel}
-\usepackage[brazil]{babel}
+%\usepackage[brazil]{babel}
 % or whatever
 
-\usepackage[latin1]{inputenc}
+%\usepackage[latin1]{inputenc}
 % or whatever
 
 \usepackage{times}
-\usepackage[T1]{fontenc}
+%\usepackage[T1]{fontenc}
 % Or whatever. Note that the encoding and the font should match. If T1
 % does not look nice, try deleting the line with the fontenc.
 
@@ -61,7 +66,7 @@
 {Algorithms for the Directed k-Spanner with Minimum Degree Steiner Tree Problem}
 
 %\subtitle
-%{Uma soluÁ„o voltara para reuso e confiabilidade} % (optional)
+%{Uma solu√ß√£o voltara para reuso e confiabilidade} % (optional)
 
 \author[hugo] % (optional, use only with lots of authors)
 {Hugo~Braga}
@@ -70,10 +75,10 @@
 
 \institute[UFBA] % (optional, but mostly needed)
 {
-  Programa de PÛs-GraduaÁ„o em MecatrÙnica\\
+  Programa de P√≥s-Gradua√ß√£o em Mecatr√¥nica\\
   Universidadde Federal da Bahia\\
   Defesa de Mestrado\\
-  Orientador: Dr. Fl·vio Assis}
+  Orientador: Dr. Fl√°vio Assis}
 % - Use the \inst command only if there are several affiliations.
 % - Keep it simple, no one is interested in your street address.
 
@@ -111,7 +116,7 @@
 %\beamerdefaultoverlayspecification{<+->}
 %\newtheorem{lema}[lemma]{Lema}
 \newtheorem{lema}{Lema}
-\newtheorem{claim}{AfirmaÁ„o}
+\newtheorem{claim}{Afirma√ß√£o}
 \newtheorem{teorema}[theorem]{Teorema}
 %\newproof{proof}{Proof}
 
@@ -121,7 +126,7 @@
   \titlepage
 \end{frame}
 
-\begin{frame}[allowframebreaks]{Estrutura da apresentaÁ„o}
+\begin{frame}[allowframebreaks]{Estrutura da apresenta√ß√£o}
   \tableofcontents
   % You might wish to add the option [pausesections]
 \end{frame}
@@ -137,170 +142,170 @@
 % - Talk about 30s to 2min per frame. So there should be between about
 %   15 and 30 frames, all told.
 
-\section{MotivaÁ„o}
+\section{Motiva√ß√£o}
 
-\begin{frame}{Problema cl·ssico de ·rvore Steiner}
+\begin{frame}{Problema cl√°ssico de √°rvore Steiner}
   \begin{itemize}
-  \item O objetivo È encontrar uma ·rvore que cubra os terminais e que possua custo mÌnimo.
+  \item O objetivo √© encontrar uma √°rvore que cubra os terminais e que possua custo m√≠nimo.
 %  \begin{itemize}
 %    \item Entrada:
 %      \begin{itemize}
-%	\item um grafo $G=(V,E)$, cuja funÁ„o de custo È representada pela funÁ„o $C : E \to \mathbb{R}^+$;
-%	\item um nÛ origem $s \in V$;
+%	\item um grafo $G=(V,E)$, cuja fun√ß√£o de custo √© representada pela fun√ß√£o $C : E \to \mathbb{R}^+$;
+%	\item um n√≥ origem $s \in V$;
 %	\item um conjunto de terminais $T \subseteq V \setminus \lbrace s \rbrace$.
 %      \end{itemize}
-%    \item Objetivo: encontrar uma ·rvore $T_r = (V_{T_r},E_{T_r})$, com nÛ origem em $s$, que cobre $T$ e possui custo mÌnimo (i.e. minimiza $\sum_{e \in E_{T_r}} C(e)$).
+%    \item Objetivo: encontrar uma √°rvore $T_r = (V_{T_r},E_{T_r})$, com n√≥ origem em $s$, que cobre $T$ e possui custo m√≠nimo (i.e. minimiza $\sum_{e \in E_{T_r}} C(e)$).
 %  \end{itemize}
 
-%  \item Para um grafo de entrada $G=(V,E)$, cuja funÁ„o de custo È representada pela funÁ„o $C : E \to \mathbb{R}^+$, um nÛ origem $s \in V$ e 
-%um conjunto de terminais $T \subseteq V \setminus \lbrace s \rbrace$, o problema cl·ssico de ·rvore Steiner de custo mÌnimo pode ser definido como:
+%  \item Para um grafo de entrada $G=(V,E)$, cuja fun√ß√£o de custo √© representada pela fun√ß√£o $C : E \to \mathbb{R}^+$, um n√≥ origem $s \in V$ e 
+%um conjunto de terminais $T \subseteq V \setminus \lbrace s \rbrace$, o problema cl√°ssico de √°rvore Steiner de custo m√≠nimo pode ser definido como:
 %  \begin{itemize}
-%    \item Encontrar uma ·rvore $T_r = (V_{T_r},E_{T_r})$, cujo nÛ origem È $s$, que cobre $T$ e possui custo mÌnimo (i.e. minimiza $\sum_{e \in E_{T_r}} C(e)$).
+%    \item Encontrar uma √°rvore $T_r = (V_{T_r},E_{T_r})$, cujo n√≥ origem √© $s$, que cobre $T$ e possui custo m√≠nimo (i.e. minimiza $\sum_{e \in E_{T_r}} C(e)$).
 %  \end{itemize}
-  \item Aplicada tipicamente na operaÁ„o de \emph{multicasting}.
-  \item RestriÁıes s„o adicionadas ao problema de \emph{multicasting}:
+  \item Aplicada tipicamente na opera√ß√£o de \emph{multicasting}.
+  \item Restri√ß√µes s√£o adicionadas ao problema de \emph{multicasting}:
   \begin{itemize}
-    \item Requisitos de Qualide de ServiÁo (QoS).
+    \item Requisitos de Qualide de Servi√ßo (QoS).
     \begin{itemize}
-      \item Pode ser modelado atravÈs de atraso m·ximo.
-      \item Modelado alternativamente atravÈs da propriedade de \emph{spanner}.
+      \item Pode ser modelado atrav√©s de atraso m√°ximo.
+      \item Modelado alternativamente atrav√©s da propriedade de \emph{spanner}.
     \end{itemize}
-    \item LimitaÁ„o no n˙mero de vizinhos da comunicaÁ„o.
+    \item Limita√ß√£o no n√∫mero de vizinhos da comunica√ß√£o.
     \begin{itemize}
-      \item RestriÁ„o de conexıes, esforÁo de replicaÁ„o de dados, custo de manutenÁ„o da topologia em redes mÛveis.
-      \item Pode ser generalizado pela propriedade de limitaÁ„o do grau m·ximo.
+      \item Restri√ß√£o de conex√µes, esfor√ßo de replica√ß√£o de dados, custo de manuten√ß√£o da topologia em redes m√≥veis.
+      \item Pode ser generalizado pela propriedade de limita√ß√£o do grau m√°ximo.
     \end{itemize}
   \end{itemize}
   \end{itemize}
 \end{frame}
 
-\begin{frame}{Outras aplicaÁıes}
+\begin{frame}{Outras aplica√ß√µes}
   % - A title should summarize the slide in an understandable fashion
   %   for anyone how does not follow everything on the slide itself.
   \begin{itemize}
-  %\item ¡rvores Steiner s„o tipicamente aplicadas na operaÁ„o de \emph{multicasting}.
-  \item AplicaÁıes de \emph{Spanners}:
+  %\item √Årvores Steiner s√£o tipicamente aplicadas na opera√ß√£o de \emph{multicasting}.
+  \item Aplica√ß√µes de \emph{Spanners}:
   \begin{itemize}
     \item Roteamento eficiente.
     \begin{itemize}
-      \item Abondanar o requisito de encaminhar mensagens por caminhos de custo mÌnimo.
+      \item Abondanar o requisito de encaminhar mensagens por caminhos de custo m√≠nimo.
     \end{itemize}
 
-    \item Spanners geomÈtricas s„o utilizadas para diminuir o gasto energÈtico de Redes de Sensores Sem Fio (RSSF).
-    \item Utilizadas para aproximar dist‚ncias de custo mÌnimo.
-    \item Utilizadas por or·culos de dist‚ncia.
+    \item Spanners geom√©tricas s√£o utilizadas para diminuir o gasto energ√©tico de Redes de Sensores Sem Fio (RSSF).
+    \item Utilizadas para aproximar dist√¢ncias de custo m√≠nimo.
+    \item Utilizadas por or√°culos de dist√¢ncia.
   \end{itemize}
-  \item RestriÁıes de grau em ·rvores \emph{Steiner} tambÈm existem em cen·rios onde h· a necessidade de balancear a carga na operaÁ„o de \emph{multicasting}.
+  \item Restri√ß√µes de grau em √°rvores \emph{Steiner} tamb√©m existem em cen√°rios onde h√° a necessidade de balancear a carga na opera√ß√£o de \emph{multicasting}.
   \end{itemize}
 \end{frame}
 
 \begin{frame}{Objetivo}
   \begin{itemize}
-  \item Buscando modelar o problema de ·rvore \emph{Steiner} com as restriÁıes de grau m·ximo e que possua a propriedade de \emph{spanner}, nÛs procuramos tratar no mestrado 
-um novo problema, denominado \emph{¡rvore Steiner com Grau MÌnimo e fator de dilataÁ„o k em Grafos Direcionados} (\emph{Directed k-Spanner with Minimum Degree Steiner Tree Problem} - 
+  \item Buscando modelar o problema de √°rvore \emph{Steiner} com as restri√ß√µes de grau m√°ximo e que possua a propriedade de \emph{spanner}, n√≥s procuramos tratar no mestrado 
+um novo problema, denominado \emph{√Årvore Steiner com Grau M√≠nimo e fator de dilata√ß√£o k em Grafos Direcionados} (\emph{Directed k-Spanner with Minimum Degree Steiner Tree Problem} - 
 DSMDStP).
   \end{itemize}
 \end{frame}
 
-\section{Por quÍ o problema È novo?}
+\section{Por qu√™ o problema √© novo?}
 
-%\subsection[pequeno titulo]{MotivaÁ„o}
-%\subsection[MotivaÁ„o]{MotivaÁ„o}
+%\subsection[pequeno titulo]{Motiva√ß√£o}
+%\subsection[Motiva√ß√£o]{Motiva√ß√£o}
 
 \begin{frame}{Abordagens anteriores dos problemas de Steiner/Spanner/Grau}
   % - A title should summarize the slide in an understandable fashion
   %   for anyone how does not follow everything on the slide itself.
   \begin{itemize}
-  \item Muitos trabalhos assumem espaÁo euclideano.
-  \item Outros trabalhos consideram grafos n„o-direcionados.
+  \item Muitos trabalhos assumem espa√ßo euclideano.
+  \item Outros trabalhos consideram grafos n√£o-direcionados.
   \item Trabalhos que consideram grafos direcionados:
   \begin{itemize}
-    \item Geram ·rvores geradoras (\emph{Spanning trees}) ou grafos que n„o necessariamente s„o ·rvores.
-    \item Tem como objetivo de minizaÁ„o o custo da ·rvore.
-    \item Consideram apenas o requisito de minizaÁ„o do grau.
+    \item Geram √°rvores geradoras (\emph{Spanning trees}) ou grafos que n√£o necessariamente s√£o √°rvores.
+    \item Tem como objetivo de miniza√ß√£o o custo da √°rvore.
+    \item Consideram apenas o requisito de miniza√ß√£o do grau.
   \end{itemize}
   \end{itemize}
 \end{frame}
 
-\begin{frame}{Trabalhos prÛximos}
+\begin{frame}{Trabalhos pr√≥ximos}
   % - A title should summarize the slide in an understandable fashion
   %   for anyone how does not follow everything on the slide itself.
   \begin{itemize}
     \item \cite{Elkin2009,Elkin2011}:
     \begin{itemize}
       \item Geram \emph{narrow-shallow-low-light trees}.
-      \item Resultado final È uma ·rvore geradora.
-      \item Assumem espaÁo euclideano.
+      \item Resultado final √© uma √°rvore geradora.
+      \item Assumem espa√ßo euclideano.
     \end{itemize}
     \item \cite{Elkin2006,Khandekar2011}:
     \begin{itemize}
-      \item Problema consistem em gerar ·rvore \emph{Steiner} que possui grau m·ximo de saÌda minimizado em grafos direcionados.
-      \item O problema em \cite{Khandekar2011} generaliza o problema abordado em \cite{Elkin2006}, visto que n„o impıe a restriÁ„o de cobrir todo o conjunto de terminais.
-      \item N„o consideram a propriedade de \emph{spanner}.
+      \item Problema consistem em gerar √°rvore \emph{Steiner} que possui grau m√°ximo de sa√≠da minimizado em grafos direcionados.
+      \item O problema em \cite{Khandekar2011} generaliza o problema abordado em \cite{Elkin2006}, visto que n√£o imp√µe a restri√ß√£o de cobrir todo o conjunto de terminais.
+      \item N√£o consideram a propriedade de \emph{spanner}.
       \begin{itemize}
-	\item O mais prÛximo que consideram È limitar a altura da ·rvore.
+	\item O mais pr√≥ximo que consideram √© limitar a altura da √°rvore.
       \end{itemize}
-      \item A soluÁ„o para o problema de \emph{Multiple Set-Cover} (MSC) definido pelos autores de \cite{Elkin2006} È base para a nossa soluÁ„o.
+      \item A solu√ß√£o para o problema de \emph{Multiple Set-Cover} (MSC) definido pelos autores de \cite{Elkin2006} √© base para a nossa solu√ß√£o.
     \end{itemize}
   \end{itemize}
 \end{frame}
 
-\section{FormalizaÁ„o do problema}
+\section{Formaliza√ß√£o do problema}
 
-%\begin{frame}{DefiniÁıes preliminares}
+%\begin{frame}{Defini√ß√µes preliminares}
 %  \begin{itemize}
-%    \item Algoritmo de aproximaÁ„o por um fator $\alpha$ \cite{Williamson2011}: consistem em um algoritmo polinomial tal que para todas as inst‚ncias do problema de otimizaÁ„o, 
-%produz uma soluÁ„o cujo valor se aproxima do valor Ûtimo por um fator $\alpha$.
-%    \item Classe de complexidade \emph{DTIME} \cite{Arora2009}: Seja $T : \mathbb{R} \rightarrow \mathbb{R}$ uma funÁ„o. Uma linguagem $L \in$  \textbf{DTIME}($T(n)$) sse 
-%existe uma m·quina de Turing que decide $L$ em um tempo de execuÁ„o de $c \cdot T(n)$, para uma constante $c > 0$.
+%    \item Algoritmo de aproxima√ß√£o por um fator $\alpha$ \cite{Williamson2011}: consistem em um algoritmo polinomial tal que para todas as inst√¢ncias do problema de otimiza√ß√£o, 
+%produz uma solu√ß√£o cujo valor se aproxima do valor √≥timo por um fator $\alpha$.
+%    \item Classe de complexidade \emph{DTIME} \cite{Arora2009}: Seja $T : \mathbb{R} \rightarrow \mathbb{R}$ uma fun√ß√£o. Uma linguagem $L \in$  \textbf{DTIME}($T(n)$) sse 
+%existe uma m√°quina de Turing que decide $L$ em um tempo de execu√ß√£o de $c \cdot T(n)$, para uma constante $c > 0$.
 %  \end{itemize}
 %\end{frame}
 
-\begin{frame}{DefiniÁ„o de DSMDStP}
+\begin{frame}{Defini√ß√£o de DSMDStP}
   \begin{itemize}
     \item Entrada:
     \begin{itemize}
-      \item Um grafo direcionado $G = (V,E)$, onde o peso de cada aresta È definido por uma funÁ„o $C: E \rightarrow \mathbb{R}^+$.
-      \item Um nÛ de origem $s$.
-      \item Um fator de dilataÁ„o $k$ ($k \in \mathbb{R}^+$, $k \ge 1$).
+      \item Um grafo direcionado $G = (V,E)$, onde o peso de cada aresta √© definido por uma fun√ß√£o $C: E \rightarrow \mathbb{R}^+$.
+      \item Um n√≥ de origem $s$.
+      \item Um fator de dilata√ß√£o $k$ ($k \in \mathbb{R}^+$, $k \ge 1$).
       \item Um conjunto de terminais $T \subseteq V \setminus \lbrace s \rbrace$.
     \end{itemize}
-    \item SaÌda: Encontrar uma arborescÍncia $A=(V_A, E_A)$, com nÛ origem em $s$ e que cobre $T$, tal que:
+    \item Sa√≠da: Encontrar uma arboresc√™ncia $A=(V_A, E_A)$, com n√≥ origem em $s$ e que cobre $T$, tal que:
     \begin{itemize}
       \item $dist(s,t,A) \le k \cdot dist(s,t,G)$, $\forall t \in T$;
-      \item o grau m·ximo de saÌda dos nÛs em $A$, denotado por $D_{max}(A)=max_{v \in V_A}\{odeg(v, A)\}$, È minimizado.
+      \item o grau m√°ximo de sa√≠da dos n√≥s em $A$, denotado por $D_{max}(A)=max_{v \in V_A}\{odeg(v, A)\}$, √© minimizado.
     \end{itemize}
   \end{itemize}
 \end{frame}
 
-\begin{frame}{Impossibilidade de aproximaÁ„o sublogarÌtmica: \emph{Background}}
+\begin{frame}{Impossibilidade de aproxima√ß√£o sublogar√≠tmica: \emph{Background}}
   \begin{itemize}
-    \item SvMDST È o acrÙnimo (em inglÍs) para a vers„o \emph{Steiner} do problema de ¡rvore Geradora com Grau MÌnimo em Grafos Direcionados \cite{Fraigniaud2001}.
+    \item SvMDST √© o acr√¥nimo (em ingl√™s) para a vers√£o \emph{Steiner} do problema de √Årvore Geradora com Grau M√≠nimo em Grafos Direcionados \cite{Fraigniaud2001}.
     \begin{itemize}
       \item $T \subseteq V$; $s \in T$.
     \end{itemize}
 %    \item Formalmente, SvMDST pode ser descrito como:
 %    \begin{itemize}
-%      \item Entrada: $G = (V,E)$, $T \subseteq V$ e um nÛ $s \in T$.
-%      \item SaÌda: arborescÍncia com raiz em $s$ e que cubra $T$, tal que o grau m·ximo da arborescÍncia seja minimizado.
+%      \item Entrada: $G = (V,E)$, $T \subseteq V$ e um n√≥ $s \in T$.
+%      \item Sa√≠da: arboresc√™ncia com raiz em $s$ e que cubra $T$, tal que o grau m√°ximo da arboresc√™ncia seja minimizado.
 %    \end{itemize}
-    \item A prova da impossibilidade È baseada na reduÁ„o do DSMDStP para o SvMDST.
+    \item A prova da impossibilidade √© baseada na redu√ß√£o do DSMDStP para o SvMDST.
   \end{itemize}
 
   \begin{teorema}
     \label{teorema:steiner_mdst}
     \cite{Fraigniaud2001}
-    A menos que $NP \subset DTIME(n^{\log \log{n}})$, a soluÁ„o Ûtima para o SvMDST n„o possui aproximaÁ„o polinomial por $(1-\varepsilon)\log_e |T|$, para qualquer $\varepsilon > 0$.
+    A menos que $NP \subset DTIME(n^{\log \log{n}})$, a solu√ß√£o √≥tima para o SvMDST n√£o possui aproxima√ß√£o polinomial por $(1-\varepsilon)\log_e |T|$, para qualquer $\varepsilon > 0$.
   \end{teorema}
   \hyperlink{DTIME_slide}{\beamergotobutton{DTIME}}
   \hypertarget{DTIME}{}
 \end{frame}
 
-\begin{frame}{Impossibilidade de aproximaÁ„o sublogarÌtmica}
+\begin{frame}{Impossibilidade de aproxima√ß√£o sublogar√≠tmica}
   \begin{claim}
     \label{claim:not_approximable}
-    %O problema de ¡rvore Steiner com Grau MÌnimo e fator de dilataÁ„o k em Grafos Direcionados (DSMDStP) n„o admite aproximaÁ„o polinomial por um fator de
-    DSMDStP n„o admite aproximaÁ„o polinomial por um fator de 
+    %O problema de √Årvore Steiner com Grau M√≠nimo e fator de dilata√ß√£o k em Grafos Direcionados (DSMDStP) n√£o admite aproxima√ß√£o polinomial por um fator de
+    DSMDStP n√£o admite aproxima√ß√£o polinomial por um fator de 
 $(1-\varepsilon)\log_e |T|$, para qualquer $\varepsilon > 0$, a menos que $NP \subset DTIME(n^{\log \log{n}})$.
   \end{claim}
 \hypertarget{not_approximable}{}
@@ -311,20 +316,20 @@ $(1-\varepsilon)\log_e |T|$, para qualquer $\varepsilon > 0$, a menos que $NP \s
 
 \subsection{APPROX}
 
-\begin{frame}{Algoritmo de aproximaÁ„o: preliminares}
+\begin{frame}{Algoritmo de aproxima√ß√£o: preliminares}
   \begin{itemize}
-    \item <1-> Nosso algoritmo È baseado no algoritmo apresentado em \cite{Elkin2006}. Este foi adaptado para considerar a propriedade de spanner.
+    \item <1-> Nosso algoritmo √© baseado no algoritmo apresentado em \cite{Elkin2006}. Este foi adaptado para considerar a propriedade de spanner.
     \item <2-> Possui duas fases:
     \begin{itemize}
-      \item <3-> fase 1: cÙmputo da $\sqrt{l}$-partition.
-      \item <4-> fase 2: utilizaÁ„o do problema do \emph{Multiple Set-Cover} (MSC) para cobrir os demais terminais.
+      \item <3-> fase 1: c√¥mputo da $\sqrt{l}$-partition.
+      \item <4-> fase 2: utiliza√ß√£o do problema do \emph{Multiple Set-Cover} (MSC) para cobrir os demais terminais.
     \end{itemize}
     \item <5-> $V = C \ \dot \cup U$. Seja $UT = U \cap T$ e $CT = C \cap T$.
-    \item <6-> Seja $l = |T|$ e $d^*$ o grau m·ximo de uma soluÁ„o Ûtima para uma inst‚ncia de DSMDStP ($d^* \leq l$).
+    \item <6-> Seja $l = |T|$ e $d^*$ o grau m√°ximo de uma solu√ß√£o √≥tima para uma inst√¢ncia de DSMDStP ($d^* \leq l$).
     %\item Seja $N(u, G) = \{v : (u, v) \in E\}$. Seja $N(S, G) = \bigcup_{u \in S} N(u, G)$.
-    \item <7-> Seja $G(S)$ o grafo induzido por um conjunto de nÛs $S$.
-    \item <8-> Para um nÛ $u \in U$, $\Delta$-neigh$(u) = \{ t :$ $t \in UT$ $\land$ $dist(s,u,G) + dist(u,t,G(U)) \leq k \cdot dist(s,t,G) \}$.
-    %\item Seja $SPT(s, S_{leaves}, G)$ uma ·rvore formada pela raiz $s$ e caminhos de custo mÌnimo em $G$ de $s$ para cada nÛ em $S_{leaves}$.
+    \item <7-> Seja $G(S)$ o grafo induzido por um conjunto de n√≥s $S$.
+    \item <8-> Para um n√≥ $u \in U$, $\Delta$-neigh$(u) = \{ t :$ $t \in UT$ $\land$ $dist(s,u,G) + dist(u,t,G(U)) \leq k \cdot dist(s,t,G) \}$.
+    %\item Seja $SPT(s, S_{leaves}, G)$ uma √°rvore formada pela raiz $s$ e caminhos de custo m√≠nimo em $G$ de $s$ para cada n√≥ em $S_{leaves}$.
   \end{itemize}
 \end{frame}
 
@@ -371,16 +376,16 @@ d(u,t_3,G(U)) &= 25 &d(s,u,G) + d(u,t_1,G(U)) &= 10 + 25 \leq 2 \cdot 20
 \end{align*}
 \end{frame}
 
-\begin{frame}{CÙmputo da $\sqrt{l}$-partition (Fase 1)}
+\begin{frame}{C√¥mputo da $\sqrt{l}$-partition (Fase 1)}
   \begin{itemize}
     \item A $\sqrt{l}$-partition divide $V$ em dois conjuntos disjuntos: $C$ e $U$.
-    \item $\Delta$-neigh$(u)$ ($\forall u \in U$) deve conter no m·ximo $\sqrt{l}$ terminais.
-    \item PartiÁ„o computada atravÈs da eliminaÁ„o dos \emph{$\sqrt{l}$-bad nodes}.
-    \item Um nÛ $u$ È um $\sqrt{l}$-bad node se possui mais de $\sqrt{l}$ terminais em $\Delta$-neigh$(u)$.
+    \item $\Delta$-neigh$(u)$ ($\forall u \in U$) deve conter no m√°ximo $\sqrt{l}$ terminais.
+    \item Parti√ß√£o computada atrav√©s da elimina√ß√£o dos \emph{$\sqrt{l}$-bad nodes}.
+    \item Um n√≥ $u$ √© um $\sqrt{l}$-bad node se possui mais de $\sqrt{l}$ terminais em $\Delta$-neigh$(u)$.
   \end{itemize}
 \end{frame}
 
-\begin{frame}{Procedimento para cÙmputo da $\sqrt{l}$-partition (Fase 1)}
+\begin{frame}{Procedimento para c√¥mputo da $\sqrt{l}$-partition (Fase 1)}
 \begin{algorithm}[H]
 \label{alg:compute_partition}
 $C \gets \lbrace s \rbrace$, $U \gets V \setminus \lbrace s \rbrace$, $Roots \gets \emptyset$\\
@@ -418,12 +423,12 @@ Output $(C,U,Roots, H)$
 %\small
 \footnotesize
 \begin{itemize}
-  \item $u$ È $\sqrt{k}$-bad node.
+  \item $u$ √© $\sqrt{k}$-bad node.
   \item $d(s,u,G) = 5$; $d(u,t_4,G(u)) = 5$, $d(u,t_3,G(u)) = 10$, $d(u,t_1,G(u)) = 11$, $d(u,t_2,G(u)) = 13$, $d(u,t_6,G(u)) = 20$, $d(u,t_5,G(u)) = 22$.
 \end{itemize}
 \end{frame}
 
-\begin{frame}{CompPar - $\lfloor \sqrt{l} \rfloor$ terminais mais prÛximos em $UT$}
+\begin{frame}{CompPar - $\lfloor \sqrt{l} \rfloor$ terminais mais pr√≥ximos em $UT$}
 \begin{itemize}
   \item $t = 2$
 \end{itemize}
@@ -435,12 +440,12 @@ Output $(C,U,Roots, H)$
 %\small
 %\footnotesize
 %\begin{itemize}
-%  \item $u$ È $\sqrt{k}$-bad node.
+%  \item $u$ √© $\sqrt{k}$-bad node.
 %  \item $d(s,u,G) = 5$; $d(u,t_4,G(u)) = 5$, $d(u,t_3,G(u)) = 10$, $d(u,t_1,G(u)) = 11$, $d(u,t_2,G(u)) = 13$, $d(u,t_6,G(u)) = 20$, $d(u,t_5,G(u)) = 22$.
 %\end{itemize}
 \end{frame}
 
-\begin{frame}{CompPar - Eliminando os nÛs cobertos}
+\begin{frame}{CompPar - Eliminando os n√≥s cobertos}
 \begin{itemize}
   \item $t = 2$
 \end{itemize}
@@ -468,13 +473,13 @@ Output $(C,U,Roots, H)$
 %\small
 \footnotesize
 \begin{itemize}
-  \item $v$ È $\sqrt{k}$-bad node.
+  \item $v$ √© $\sqrt{k}$-bad node.
   \item $d(v,t_6,G(u)) = 10$, $d(v,t_2,G(u)) = 20$, $d(v,t_5,G(u)) = 24$.
 \end{itemize}
 \end{frame}
 
 
-\begin{frame}{CompPar - $\lfloor \sqrt{l} \rfloor$ terminais mais prÛximos em $UT$}
+\begin{frame}{CompPar - $\lfloor \sqrt{l} \rfloor$ terminais mais pr√≥ximos em $UT$}
 \begin{itemize}
   \item $t = 2$
 \end{itemize}
@@ -486,12 +491,12 @@ Output $(C,U,Roots, H)$
 %\small
 %\footnotesize
 %\begin{itemize}
-%  \item $u$ È $\sqrt{k}$-bad node.
+%  \item $u$ √© $\sqrt{k}$-bad node.
 %  \item $d(s,u,G) = 5$; $d(u,t_4,G(u)) = 5$, $d(u,t_3,G(u)) = 10$, $d(u,t_1,G(u)) = 11$, $d(u,t_2,G(u)) = 13$, $d(u,t_6,G(u)) = 20$, $d(u,t_5,G(u)) = 22$.
 %\end{itemize}
 \end{frame}
 
-\begin{frame}{CompPar - Eliminando os nÛs cobertos}
+\begin{frame}{CompPar - Eliminando os n√≥s cobertos}
 \begin{itemize}
   \item $t = 2$
 \end{itemize}
@@ -510,7 +515,7 @@ Output $(C,U,Roots, H)$
 \begin{frame}{Algoritmo \ref{alg:compute_partition}: lemas}
 \begin{lema} 
 \label{lem:proc_comppar}
-\cite{Elkin2006} O par $(C, U)$ gerado pelo Algoritmo \ref{alg:compute_partition} È uma $\sqrt l$-\emph{partition}.
+\cite{Elkin2006} O par $(C, U)$ gerado pelo Algoritmo \ref{alg:compute_partition} √© uma $\sqrt l$-\emph{partition}.
 \end{lema}
 
 \begin{lema} 
@@ -521,9 +526,9 @@ Output $(C,U,Roots, H)$
 
 \end{frame}
 
-\begin{frame}{ConstruÁ„o de caminhos para $t \in CT$}
+\begin{frame}{Constru√ß√£o de caminhos para $t \in CT$}
   \begin{itemize}
-    \item Algoritmo \ref{alg:compute_graph_first_phase} descreve o procedimento para construÁ„o de um grafo que contÈm caminhos de $s$ para $t \in CT$ e que satisfaz $k \cdot dist(s,t,G)$.
+    \item Algoritmo \ref{alg:compute_graph_first_phase} descreve o procedimento para constru√ß√£o de um grafo que cont√©m caminhos de $s$ para $t \in CT$ e que satisfaz $k \cdot dist(s,t,G)$.
   \end{itemize}
 
 \begin{algorithm}[H]
@@ -542,15 +547,15 @@ Output $(C,U,G_{\sqrt{l}-Par})$
 \end{algorithm}
 
 \begin{itemize}
-  \item Terminais em $G_{\sqrt{l}-Par}$ respeitam a restriÁ„o de spanner.
+  \item Terminais em $G_{\sqrt{l}-Par}$ respeitam a restri√ß√£o de spanner.
 \end{itemize}
 
 \end{frame}
 
-\begin{frame}{Limite no grau m·ximo de $G_{\sqrt{l}-Par}$ (Algoritmo \ref{alg:compute_graph_first_phase})}
+\begin{frame}{Limite no grau m√°ximo de $G_{\sqrt{l}-Par}$ (Algoritmo \ref{alg:compute_graph_first_phase})}
   \begin{lema}
     \label{lem:roots_size}
-    O grau m·ximo dos nÛs em $G_{\sqrt{l}-Par}$ È $\leq 2\sqrt{l} + 2$
+    O grau m√°ximo dos n√≥s em $G_{\sqrt{l}-Par}$ √© $\leq 2\sqrt{l} + 2$
   \end{lema}
 \hypertarget{roots_size}{}
 \hyperlink{roots_size_slide}{\beamergotobutton{Prova}}
@@ -558,11 +563,11 @@ Output $(C,U,G_{\sqrt{l}-Par})$
 
 \begin{frame}{Problema do \emph{Multiple Set-Cover} (MSC)}
   \begin{itemize}
-    \item Seja $\beta(V_1,V_2,E)$ um grafo bipartite. Um conjunto $S \subseteq V_1$ È denominado um \emph{set-cover} de $V_2$ se $N(S,\beta) = V_2$.
-    \item DefiniÁ„o formal do MSC:
+    \item Seja $\beta(V_1,V_2,E)$ um grafo bipartite. Um conjunto $S \subseteq V_1$ √© denominado um \emph{set-cover} de $V_2$ se $N(S,\beta) = V_2$.
+    \item Defini√ß√£o formal do MSC:
     \begin{itemize}
       \item Entrada: Um grafo bipartite $\beta(V_1,V_2,E)$ com $|V_1| + |V_2| = n$. $V_1 = \dot \bigcup_{j=1}^{d}A_j$.
-      \item SaÌda: Um \emph{set-cover} $S \subset V_1$ de $V_2$ que minimiza $val(S)$, onde $val(S) = max\lbrace |S \cap A_i| \rbrace_{i=1}^{d}$.
+      \item Sa√≠da: Um \emph{set-cover} $S \subset V_1$ de $V_2$ que minimiza $val(S)$, onde $val(S) = max\lbrace |S \cap A_i| \rbrace_{i=1}^{d}$.
     \end{itemize}
   \end{itemize}
 \end{frame}
@@ -576,25 +581,25 @@ Output $(C,U,G_{\sqrt{l}-Par})$
 
 \begin{itemize}
   \item $V_1 = \lbrace a,b,c,d,e,f,g,h \rbrace$, $V_2 = \lbrace 1,2,3 \rbrace$.
-  \item Os set-covers $S_1 = \lbrace a,e \rbrace$, $S_2 = \lbrace c,d,f \rbrace$ e $S_3 = \lbrace b,f \rbrace$ s„o soluÁıes Ûtimas, pois $val(S_1) = val(S_2) = val(S_3) = 1$.
+  \item Os set-covers $S_1 = \lbrace a,e \rbrace$, $S_2 = \lbrace c,d,f \rbrace$ e $S_3 = \lbrace b,f \rbrace$ s√£o solu√ß√µes √≥timas, pois $val(S_1) = val(S_2) = val(S_3) = 1$.
 \end{itemize}
 \end{frame}
 
-\begin{frame}{SoluÁ„o de aproximaÁ„o para o MSC}
+\begin{frame}{Solu√ß√£o de aproxima√ß√£o para o MSC}
 \begin{teorema}
   \label{teorema:fator_aproximacao}
-  \cite{Chekuri2004}. Existe uma algoritmo guloso com fator de aproximaÁ„o de $(\log |V_2| + 1)$ para o problema do MSC.
+  \cite{Chekuri2004}. Existe uma algoritmo guloso com fator de aproxima√ß√£o de $(\log |V_2| + 1)$ para o problema do MSC.
 \end{teorema}
 \end{frame}
 
-\begin{frame}{Cobrindo nÛs em $UT$ atravÈs do MSC (Fase 2)}
+\begin{frame}{Cobrindo n√≥s em $UT$ atrav√©s do MSC (Fase 2)}
 \begin{itemize}
-  \item UtilizaÁ„o de uma inst‚ncia do MSC para constuir caminhos para os nÛs em $UT$ ao passo que o grau È limitado (similar a \cite{Elkin2006}).
-  \item Fase dividida em duas partes: utilizaÁ„o do MSC para encontrar um subconjunto de nÛs cobertos; em sequÍncia caminhos para os terminais em $UT$ a partir destes nÛs 
-s„o definidos.
-  \item DefiniÁ„o da inst‚ncia $\beta=(V_1, V_2, \varepsilon)$ do MSC:
+  \item Utiliza√ß√£o de uma inst√¢ncia do MSC para constuir caminhos para os n√≥s em $UT$ ao passo que o grau √© limitado (similar a \cite{Elkin2006}).
+  \item Fase dividida em duas partes: utiliza√ß√£o do MSC para encontrar um subconjunto de n√≥s cobertos; em sequ√™ncia caminhos para os terminais em $UT$ a partir destes n√≥s 
+s√£o definidos.
+  \item Defini√ß√£o da inst√¢ncia $\beta=(V_1, V_2, \varepsilon)$ do MSC:
   \begin{itemize}
-    \item $V_1$ È formado por \emph{pseudo nÛs}. $V_1 = \lbrace x_{u,v} : u \in C, v \in U, (u,v) \in E \rbrace$.
+    \item $V_1$ √© formado por \emph{pseudo n√≥s}. $V_1 = \lbrace x_{u,v} : u \in C, v \in U, (u,v) \in E \rbrace$.
     \item $V_2 = UT$.
     \item Existe uma aresta em $\varepsilon$ entre $x_{u,v}$ e $t \in V_2$ sse $dist(s, u, G) + C(u, v) + dist(v,t,G(U)) \leq k \cdot dist(s,t,G)$.
     \item Seja $A_u = \lbrace x_{u,v} :  v \in N(u, G(U)) \rbrace$. $V_1 = \dot \bigcup_{u \in C}A_u$.
@@ -602,11 +607,11 @@ s„o definidos.
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Inst‚ncia do MSC}
+\begin{frame}{Inst√¢ncia do MSC}
 \scriptsize  
 \begin{itemize}
   \item $t = 2$
-  \item Caminhos coloridos satisfazem a relaÁ„o $dist(s, u, G) + C(u, v) + dist(v,t,G(U)) \leq k \cdot dist(s,t,G)$.
+  \item Caminhos coloridos satisfazem a rela√ß√£o $dist(s, u, G) + C(u, v) + dist(v,t,G(U)) \leq k \cdot dist(s,t,G)$.
 \end{itemize}
 \begin{figure}[H]
 \centering
@@ -616,33 +621,33 @@ s„o definidos.
 
 \scriptsize
 \begin{itemize}
-  \item <2-> $V_1 = \{ X_{u,a}, X_{t_4,b}, X_{s,b}, X_{s,c} \}$, partiÁ„o de $V_1 = \{ \{ X_{u,a} \}, \{ X_{t_4,b} \}, \{ X_{s,b}, X_{s,c} \} \}$.
+  \item <2-> $V_1 = \{ X_{u,a}, X_{t_4,b}, X_{s,b}, X_{s,c} \}$, parti√ß√£o de $V_1 = \{ \{ X_{u,a} \}, \{ X_{t_4,b} \}, \{ X_{s,b}, X_{s,c} \} \}$.
   \item <2-> $V_2 = \{ t_1, t_5, t_7 \}$.
   \item <2-> $\varepsilon = \{ (X_{u,a}, t_1), (X_{t_4,b}, t_5), (X_{s,b}, t_5), (X_{s,c}, t_7) \}$.
 \end{itemize}
 
 \end{frame}
 
-\begin{frame}{Limite superior para a soluÁ„o da inst‚ncia do MSC}
+\begin{frame}{Limite superior para a solu√ß√£o da inst√¢ncia do MSC}
   \begin{lema}
     \label{lem:val_solution}
-    A inst‚ncia $\beta=(V_1, V_2, \varepsilon)$ do MSC admite uma soluÁ„o $S^* \subseteq V_1$ t.q. $val(S^*) \leq d^*$.
+    A inst√¢ncia $\beta=(V_1, V_2, \varepsilon)$ do MSC admite uma solu√ß√£o $S^* \subseteq V_1$ t.q. $val(S^*) \leq d^*$.
   \end{lema}
 \hypertarget{val_solution}{}
 \hyperlink{val_solution_slide}{\beamergotobutton{Prova}}
 \end{frame}
 
-\begin{frame}{Limite da interseÁ„o entre a soluÁ„o do MSC e cada partiÁ„o de $V_1$}
+\begin{frame}{Limite da interse√ß√£o entre a solu√ß√£o do MSC e cada parti√ß√£o de $V_1$}
   \begin{lema}
     \label{lem:max_pseudo_node_degree}
-    Seja $D$ uma soluÁ„o para $\beta=(V_1, V_2, \varepsilon)$ com $V_1 = \dot \bigcup_{v \in C}A_v$ usando o algoritmo apresentado em \cite{Chekuri2004}. 
-Ent„o $max_{v \in C}|D \cap A_v| = O(\log l)\cdot d^*$.
+    Seja $D$ uma solu√ß√£o para $\beta=(V_1, V_2, \varepsilon)$ com $V_1 = \dot \bigcup_{v \in C}A_v$ usando o algoritmo apresentado em \cite{Chekuri2004}. 
+Ent√£o $max_{v \in C}|D \cap A_v| = O(\log l)\cdot d^*$.
   \end{lema}
 \hypertarget{max_pseudo_node_degree}{}
 \hyperlink{max_pseudo_node_degree_slide}{\beamergotobutton{Prova}}
 \end{frame}
 
-\begin{frame}{Algoritmo de AproximaÁ„o}
+\begin{frame}{Algoritmo de Aproxima√ß√£o}
 \begin{algorithm}[H]
 Input: $G=(V, E)$, $s \in V$, $T \subset V$, $k$ \linebreak
 Output: $\mathcal{A}_f =(V_{\mathcal{A}_f}, E_{\mathcal{A}_f})$ \linebreak
@@ -660,21 +665,21 @@ Output: $\mathcal{A}_f =(V_{\mathcal{A}_f}, E_{\mathcal{A}_f})$ \linebreak
  }
   $G_f \gets G_{\sqrt{l}-Par} \cup \varGamma(V_\varGamma,E_\varGamma)$ \\
   $\mathcal{A}_f \gets SPT(s, T, G_f)$
-\caption{Algoritmo de AproximaÁ„o para o DSMDStP} 
+\caption{Algoritmo de Aproxima√ß√£o para o DSMDStP} 
 \label{alg:approximation}
 \end{algorithm}
 \end{frame}
 
-\begin{frame}{Grau m·ximo de $G_f$}
+\begin{frame}{Grau m√°ximo de $G_f$}
   \begin{lema}
     \label{lem:max_degree}
-    O grau m·ximo dos nÛs em $G_f$ È $\leq 2\sqrt{l} + 2 + O(\log l) \cdot d^*$.
+    O grau m√°ximo dos n√≥s em $G_f$ √© $\leq 2\sqrt{l} + 2 + O(\log l) \cdot d^*$.
   \end{lema}
 \hypertarget{max_degree}{}
 \hyperlink{max_degree_slide}{\beamergotobutton{Prova}}
 \end{frame}
 
-\begin{frame}{Custo m·ximo dos caminhos para os terminais}
+\begin{frame}{Custo m√°ximo dos caminhos para os terminais}
   \begin{lema}
     \label{lem:cost_guaranteed}
 $\forall t \in T$, $dist(s,t,G_f) \leq k \cdot ( dist(s,t,G) + dist(s,t_{max},G))$, 
@@ -688,7 +693,7 @@ where $t_{max} \in \{t' |
 \begin{frame}{Teorema Principal}
   \begin{teorema}
     \label{teorema:final_theorem}
-    Algoritmo \ref{alg:approximation} gera uma arborescÍncia $\mathcal{A}_f$ com grau m·ximo $2\sqrt{k} + 2 + O(\log l) \cdot d^*$ e que possui caminhos entre $s$ e 
+    Algoritmo \ref{alg:approximation} gera uma arboresc√™ncia $\mathcal{A}_f$ com grau m√°ximo $2\sqrt{k} + 2 + O(\log l) \cdot d^*$ e que possui caminhos entre $s$ e 
 cada terminal $t \in T$ com custo $\le k \cdot ( dist(s,t,G) + dist(s,t_{max},G))$.
   \end{teorema}
 \hypertarget{final_theorem}{}
@@ -706,17 +711,17 @@ cada terminal $t \in T$ com custo $\le k \cdot ( dist(s,t,G) + dist(s,t_{max},G)
 
 \subsection{SIM}
 
-\begin{frame}{Resumo da heurÌstica}
+\begin{frame}{Resumo da heur√≠stica}
   \begin{itemize}
-    \item SIM: acrÙnimo para \emph{Sliced and Iterative Msc}.
+    \item SIM: acr√¥nimo para \emph{Sliced and Iterative Msc}.
     \begin{itemize}
-      \item AplicaÁ„o iterativa do algoritmo para o MSC.
-      \item O conjunto de terminais È 'fatiado' e o MSC È aplicado È um conjunto menor se comparado ao algoritmo de aproximaÁ„o.
+      \item Aplica√ß√£o iterativa do algoritmo para o MSC.
+      \item O conjunto de terminais √© 'fatiado' e o MSC √© aplicado √© um conjunto menor se comparado ao algoritmo de aproxima√ß√£o.
     \end{itemize}
-    \item Em cada iteraÁ„o, os prÛximos $\lfloor\sqrt{l}\rfloor$ terminais (n„o cobertos) s„o cobertos $\rightarrow Next^{\sqrt{l}}_{ter}$.
-    %\item Apenas nÛs que n„o fizeram parte de uma soluÁ„o para uma prÈvia execuÁ„o do MSC s„o considerados na prÛxima inst‚ncia do MSC.
+    \item Em cada itera√ß√£o, os pr√≥ximos $\lfloor\sqrt{l}\rfloor$ terminais (n√£o cobertos) s√£o cobertos $\rightarrow Next^{\sqrt{l}}_{ter}$.
+    %\item Apenas n√≥s que n√£o fizeram parte de uma solu√ß√£o para uma pr√©via execu√ß√£o do MSC s√£o considerados na pr√≥xima inst√¢ncia do MSC.
     %\begin{itemize}
-    %  \item Se necess·rio, nÛs que j· fizeram parte de uma soluÁ„o tambÈm ser„o considerados.
+    %  \item Se necess√°rio, n√≥s que j√° fizeram parte de uma solu√ß√£o tamb√©m ser√£o considerados.
     %\end{itemize}
   \end{itemize}
 \end{frame}
@@ -757,39 +762,39 @@ Output: $\mathcal{A}_f=(V_{\mathcal{A}_f}, E_{\mathcal{A}_f})$\linebreak
 }
 \end{frame}
 
-\begin{frame}{ExistÍncia de um caminho para todo terminal em $\mathcal{A}_f$}
+\begin{frame}{Exist√™ncia de um caminho para todo terminal em $\mathcal{A}_f$}
   \begin{lema}
     \label{lem:terminals_covered}
-    Seja $\mathcal{A}_f$ a arborescÍncia gerada por SIM. $\forall t \in T$, existe um caminho entre $s$ e $t$ em $\mathcal{A}_f$.
+    Seja $\mathcal{A}_f$ a arboresc√™ncia gerada por SIM. $\forall t \in T$, existe um caminho entre $s$ e $t$ em $\mathcal{A}_f$.
   \end{lema}
 \hypertarget{terminals_covered}{}
 \hyperlink{terminals_covered_slide}{\beamergotobutton{Prova}}
 \end{frame}
 
-\begin{frame}{N˙mero de iteraÁıes do SIM}
+\begin{frame}{N√∫mero de itera√ß√µes do SIM}
   \begin{lema}
     \label{lem:number_iterations}
-    O n˙mero de iteraÁıes do SIM È limitado por $\lfloor\sqrt{l}\rfloor + 2$.
+    O n√∫mero de itera√ß√µes do SIM √© limitado por $\lfloor\sqrt{l}\rfloor + 2$.
   \end{lema}
 \hypertarget{number_iterations}{}
 \hyperlink{number_iterations_slide}{\beamergotobutton{Prova}}
 \end{frame}
 
-\begin{frame}{Grafo gerado por SIM È uma arborescÍncia}
+\begin{frame}{Grafo gerado por SIM √© uma arboresc√™ncia}
   \begin{lema}
     \label{lem:sim_output_arborescence}
-    Seja $\mathcal{A}_f$ o grafo gerado por SIM. $\mathcal{A}_f$ È uma arborescÍncia.
+    Seja $\mathcal{A}_f$ o grafo gerado por SIM. $\mathcal{A}_f$ √© uma arboresc√™ncia.
   \end{lema}
 \hypertarget{sim_output_arborescence}{}
 \hyperlink{sim_output_arborescence_slide}{\beamergotobutton{Prova}}
 %\end{frame}
-%\begin{frame}{Grafo gerado por SIM È uma arborescÍncia}
+%\begin{frame}{Grafo gerado por SIM √© uma arboresc√™ncia}
 \end{frame}
 
-\begin{frame}{Custo m·ximo dos caminhos gerados por SIM}
+\begin{frame}{Custo m√°ximo dos caminhos gerados por SIM}
   \begin{teorema}
     \label{teo:cost}
-    Seja $\mathcal{A}_f$ a arborescÍncia gerada por SIM. $\forall t \in T, dist(s,t,\mathcal{A}_f) \leq (\lfloor\sqrt{l}\rfloor+2) \cdot k \cdot dist(s,t,G)$.
+    Seja $\mathcal{A}_f$ a arboresc√™ncia gerada por SIM. $\forall t \in T, dist(s,t,\mathcal{A}_f) \leq (\lfloor\sqrt{l}\rfloor+2) \cdot k \cdot dist(s,t,G)$.
   \end{teorema}
 \hypertarget{cost}{}
 \hyperlink{cost_slide}{\beamergotobutton{Prova}}
@@ -804,42 +809,42 @@ Output: $\mathcal{A}_f=(V_{\mathcal{A}_f}, E_{\mathcal{A}_f})$\linebreak
 \end{frame}
 
 \section{Experimentos}
-\begin{frame}{Par‚metros e detalhes da implementaÁ„o}
+\begin{frame}{Par√¢metros e detalhes da implementa√ß√£o}
   \begin{itemize}
     \item Algoritmos implementados em Java.
-    \item NÛs espalhados em uma ·rea de $500 x 500$ no espaÁo Euclideano.
-    \item Alcance de cada nÛ È de 125 unidades de medida.
+    \item N√≥s espalhados em uma √°rea de $500 x 500$ no espa√ßo Euclideano.
+    \item Alcance de cada n√≥ √© de 125 unidades de medida.
     \item Faixas de valores:
     \begin{itemize}
       \item Rede: 60 .. 300.
       \item Terminais: 10 .. 50.
-      \item Fator de dilataÁ„o: 1 .. 2.
+      \item Fator de dilata√ß√£o: 1 .. 2.
     \end{itemize}
-    \item 30 simulaÁıes para cada cen·rio.
+    \item 30 simula√ß√µes para cada cen√°rio.
   \end{itemize}
 \end{frame}
 
-\begin{frame}{Algoritmos e MÈtricas}
+\begin{frame}{Algoritmos e M√©tricas}
 \begin{itemize}
   \item <2-> Algoritmos:
   \begin{itemize}
-    \item DSMDStP È um problema novo.
+    \item DSMDStP √© um problema novo.
     \item Comparamos com o SPT.
     \begin{itemize}
-      \item Satisfaz as restriÁıes do problema.
+      \item Satisfaz as restri√ß√µes do problema.
       \item Algoritmo simples e eficiente*.
       \item Similaridades com os algoritmos propostos (principalmente APPROX).
     \end{itemize}
   \end{itemize}
-  \item <3-> 4 mÈtricas:
+  \item <3-> 4 m√©tricas:
   \begin{itemize}
-    \item <4-> Grau m·ximo.
-    \item <5-> Raz„o de violaÁ„o do custo (CVR): $\frac{\sum_{\forall t \in T_{vio}}\frac{dist(s,t,\mathcal{A}_f)}{k \cdot dist(s,t,G)}}{|T_{vio}|}$.
+    \item <4-> Grau m√°ximo.
+    \item <5-> Raz√£o de viola√ß√£o do custo (CVR): $\frac{\sum_{\forall t \in T_{vio}}\frac{dist(s,t,\mathcal{A}_f)}{k \cdot dist(s,t,G)}}{|T_{vio}|}$.
     \begin{itemize}
-      \item Pior caso da raz„o de violaÁ„o ($MAX\_CVR$).
+      \item Pior caso da raz√£o de viola√ß√£o ($MAX\_CVR$).
     \end{itemize}
-    \item <6-> Percentagem de terminais que violam restriÁıes (PVT): $\frac{|T_{vio}|}{|T|} \cdot 100 \%$.
-    \item <7-> Percentagem de cen·rios violados (PVR).
+    \item <6-> Percentagem de terminais que violam restri√ß√µes (PVT): $\frac{|T_{vio}|}{|T|} \cdot 100 \%$.
+    \item <7-> Percentagem de cen√°rios violados (PVR).
   \end{itemize}
 \end{itemize}
 \end{frame}
@@ -863,25 +868,25 @@ Output: $\mathcal{A}_f=(V_{\mathcal{A}_f}, E_{\mathcal{A}_f})$\linebreak
 \label{fig:grau_terminal}
 \end{figure}
 \begin{itemize}
-  \item Crescrimento do grau para APPROX e SIM j· era esperado.
+  \item Crescrimento do grau para APPROX e SIM j√° era esperado.
   \begin{itemize}
-    \item Em cada fase, o grau m·ximo do(s) algoritmo(s) È afetado pela quantidade de terminais.
+    \item Em cada fase, o grau m√°ximo do(s) algoritmo(s) √© afetado pela quantidade de terminais.
   \end{itemize}
   \item Taxa de crescimento bem maior para SPT.
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Grau x Fator de DilataÁ„o}
+\begin{frame}{Grau x Fator de Dilata√ß√£o}
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.60]{imagens/defesa-grau_sf}
 \label{fig:grau_sf}
 \end{figure}
 \begin{itemize}
-  \item Comportamento de SIM È est·vel.
-  \item APPROX escala bem, exceto para o caso restritivo do fator de dilataÁ„o.
+  \item Comportamento de SIM √© est√°vel.
+  \item APPROX escala bem, exceto para o caso restritivo do fator de dilata√ß√£o.
   %\begin{itemize}
-  %  \item Assemelha-se ao SPT pois os caminhos disponÌveis para configurar a inst‚ncia do MSC s„o os mesmos caminhos da ·rvore do SPT*.
+  %  \item Assemelha-se ao SPT pois os caminhos dispon√≠veis para configurar a inst√¢ncia do MSC s√£o os mesmos caminhos da √°rvore do SPT*.
   %\end{itemize}
 \end{itemize}
 \end{frame}
@@ -893,11 +898,11 @@ Output: $\mathcal{A}_f=(V_{\mathcal{A}_f}, E_{\mathcal{A}_f})$\linebreak
 \label{fig:grau_rede_sf1}
 \end{figure}
 \begin{itemize}
-  %\item Objetivo È manter os caminhos de custo mÌnimo.
-  \item Curva do APPROX assemelha-se ‡ curva do SPT.
+  %\item Objetivo √© manter os caminhos de custo m√≠nimo.
+  \item Curva do APPROX assemelha-se √† curva do SPT.
   \begin{itemize}
-    \item $<$ sf $\Leftrightarrow$ menos opÁıes de caminhos para os terminais n„o-cobertos.
-    \item Basicamente os caminhos que sobram fazem parte da ·rvore de custo mÌnimo (SPT).
+    \item $<$ sf $\Leftrightarrow$ menos op√ß√µes de caminhos para os terminais n√£o-cobertos.
+    \item Basicamente os caminhos que sobram fazem parte da √°rvore de custo m√≠nimo (SPT).
   \end{itemize}
 \end{itemize}
 \end{frame}
@@ -909,9 +914,9 @@ Output: $\mathcal{A}_f=(V_{\mathcal{A}_f}, E_{\mathcal{A}_f})$\linebreak
 \label{fig:cvr_rede}
 \end{figure}
 \begin{itemize}
-  \item Valores de APROX prÛximos de 1, ou n„o h· violaÁ„o.
+  \item Valores de APROX pr√≥ximos de 1, ou n√£o h√° viola√ß√£o.
   \item SIM apresenta valores uniformes e baixos.
-  \item MAX\_CVR abaixo de 2 para o SIM e prÛximo do CVR para APPROX.
+  \item MAX\_CVR abaixo de 2 para o SIM e pr√≥ximo do CVR para APPROX.
 \end{itemize}
 \end{frame}
 
@@ -922,18 +927,18 @@ Output: $\mathcal{A}_f=(V_{\mathcal{A}_f}, E_{\mathcal{A}_f})$\linebreak
 \label{fig:cvr_terminal}
 \end{figure}
 \begin{itemize}
-  \item Comportamente semelhante ao gr·fico anterior.
+  \item Comportamente semelhante ao gr√°fico anterior.
 \end{itemize}
 \end{frame}
 
-\begin{frame}{CVR x Fator de dilataÁ„o}
+\begin{frame}{CVR x Fator de dilata√ß√£o}
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.60]{imagens/defesa-cvr_sf}
 \label{fig:cvr_sf}
 \end{figure}
 \begin{itemize}
-  \item Comportamente semelhante ao gr·fico anterior.
+  \item Comportamente semelhante ao gr√°fico anterior.
 \end{itemize}
 \end{frame}
 
@@ -955,9 +960,9 @@ Output: $\mathcal{A}_f=(V_{\mathcal{A}_f}, E_{\mathcal{A}_f})$\linebreak
 \label{fig:pvr_rede}
 \end{figure}
 \begin{itemize}
-  \item APPROX causa violaÁ„o em uma percentagem relativamente baixa de cen·rios.
+  \item APPROX causa viola√ß√£o em uma percentagem relativamente baixa de cen√°rios.
   \begin{itemize}
-    \item Apenas um terminal È suficiente para considerar que ocorreu violaÁ„o no cen·rio.
+    \item Apenas um terminal √© suficiente para considerar que ocorreu viola√ß√£o no cen√°rio.
   \end{itemize}
 \end{itemize}
 \end{frame}
@@ -966,13 +971,13 @@ Output: $\mathcal{A}_f=(V_{\mathcal{A}_f}, E_{\mathcal{A}_f})$\linebreak
 \begin{itemize}
   \item <1-> Grau baixo para os algoritmos propostos.
   \begin{itemize}
-    \item <2-> Exceto para APPROX no pior cen·rio com relaÁ„o ao FD.
-    \item <2-> Neste cen·rio, APPROX equivale ao SPT com relaÁ„o ao grau.
+    \item <2-> Exceto para APPROX no pior cen√°rio com rela√ß√£o ao FD.
+    \item <2-> Neste cen√°rio, APPROX equivale ao SPT com rela√ß√£o ao grau.
   \end{itemize}
   \item <3-> SIM possui melhor grau e escala bem.
-  \item <4-> APPROX È melhor que SIM nas mÈtricas que concerne a propriedade de spanner.
-  \item <5-> Com APPROX, em metade das situaÁıes n„o ocorreu violaÁ„o; na outra metade, a violaÁ„o foi por um fator (CVR) baixo.
-  \item <6-> Com relaÁ„o ao spanner, SIM apresenta bons resultados para a principal mÈtrica (CVR), a mÈtrica qualitativa.
+  \item <4-> APPROX √© melhor que SIM nas m√©tricas que concerne a propriedade de spanner.
+  \item <5-> Com APPROX, em metade das situa√ß√µes n√£o ocorreu viola√ß√£o; na outra metade, a viola√ß√£o foi por um fator (CVR) baixo.
+  \item <6-> Com rela√ß√£o ao spanner, SIM apresenta bons resultados para a principal m√©trica (CVR), a m√©trica qualitativa.
   \begin{itemize}
     \item <6-> CVR: 1.4.
     \item <6-> MAX\_CVR: 2.
@@ -980,57 +985,57 @@ Output: $\mathcal{A}_f=(V_{\mathcal{A}_f}, E_{\mathcal{A}_f})$\linebreak
 \end{itemize}
 \end{frame}
 
-\section{FunÁ„o Submodular e Matroids}
+\section{Fun√ß√£o Submodular e Matroids}
 
-\begin{frame}{FunÁıes submodulares e Matroids}
+\begin{frame}{Fun√ß√µes submodulares e Matroids}
 \begin{itemize}
-  \item MCG pode ser modelado atravÈs dos conceitos de \emph{funÁıes submodulares} e \emph{matroids} (\cite{Calinescu2011}).
+  \item MCG pode ser modelado atrav√©s dos conceitos de \emph{fun√ß√µes submodulares} e \emph{matroids} (\cite{Calinescu2011}).
 \end{itemize}
 \hypertarget{matroid}{}
 \hyperlink{matroid_slide}{\beamergotobutton{Formalismo}}
 \end{frame}
 
-\begin{frame}{MaximizaÁ„o de funÁ„o submodular}
+\begin{frame}{Maximiza√ß√£o de fun√ß√£o submodular}
 \begin{itemize}
-  \item <1-> O problema abordado em \cite{Calinescu2011} foi o da maximizaÁ„o de funÁ„o submodular sob restriÁ„o de uma matroid (SUB-M).
-  \item <2-> Este problema j· tinha sido abordado em outros trabalhos \cite{Nemhauser1978,Fisher1978}.
-  \item <3-> Os autores em \cite{Calinescu2011} conseguem generalizar o resultado para qualquer tipo de matroid (incluindo matroid de partiÁ„o), mantendo a garantia de 
-aproximaÁ„o ($(e/(e-1))$).
+  \item <1-> O problema abordado em \cite{Calinescu2011} foi o da maximiza√ß√£o de fun√ß√£o submodular sob restri√ß√£o de uma matroid (SUB-M).
+  \item <2-> Este problema j√° tinha sido abordado em outros trabalhos \cite{Nemhauser1978,Fisher1978}.
+  \item <3-> Os autores em \cite{Calinescu2011} conseguem generalizar o resultado para qualquer tipo de matroid (incluindo matroid de parti√ß√£o), mantendo a garantia de 
+aproxima√ß√£o ($(e/(e-1))$).
   \begin{itemize}
-    \item <4-> O resultado dos autores È probabilÌstico:
+    \item <4-> O resultado dos autores √© probabil√≠stico:
     \begin{itemize}
-      \item <5-> Garantia do grau passaria a ser probabilÌstica.
-      \item <6-> Para o MSC, o limite no n˙mero de iteraÁıes para cobrir todos os terminais seria probabilÌstico.
+      \item <5-> Garantia do grau passaria a ser probabil√≠stica.
+      \item <6-> Para o MSC, o limite no n√∫mero de itera√ß√µes para cobrir todos os terminais seria probabil√≠stico.
     \end{itemize}
   \end{itemize}
 \end{itemize}
 \end{frame}
 
-\section{Conclus„o}
-\begin{frame}[allowframebreaks]{Conclus„o}
+\section{Conclus√£o}
+\begin{frame}[allowframebreaks]{Conclus√£o}
 \begin{itemize}
-  \item Propomos um novo problema, denominado \emph{¡rvore Steiner com Grau MÌnimo e fator de dilataÁ„o k em Grafos Direcionados} (DSMDStP).
-  \item Provamos que este problema n„o È aproxim·vel sublogaritimicamente.
-  \item Propomos duas soluÁıes: um algoritmo de aproximaÁ„o e uma heurÌstica.
+  \item Propomos um novo problema, denominado \emph{√Årvore Steiner com Grau M√≠nimo e fator de dilata√ß√£o k em Grafos Direcionados} (DSMDStP).
+  \item Provamos que este problema n√£o √© aproxim√°vel sublogaritimicamente.
+  \item Propomos duas solu√ß√µes: um algoritmo de aproxima√ß√£o e uma heur√≠stica.
   \item Provamos as propriedades e garantias de ambos os algoritmos.
-  \item Algoritmo de aproximaÁ„o:
+  \item Algoritmo de aproxima√ß√£o:
   \begin{itemize}
     \item Garantia do grau: $2\sqrt{|T|} + 2 + O(\log{|T|})\cdot d^*$.
-    \item Custo m·ximo: $\le k \cdot ( dist(s,t,G) + dist(s,t_{max},G))$.
+    \item Custo m√°ximo: $\le k \cdot ( dist(s,t,G) + dist(s,t_{max},G))$.
   \end{itemize}
   \item SIM:
   \begin{itemize}
-    \item Custo m·ximo: $(|T| + 2) \cdot k \cdot dist(s,t,G)$.
+    \item Custo m√°ximo: $(|T| + 2) \cdot k \cdot dist(s,t,G)$.
   \end{itemize}
-  \item Extensa simulaÁ„o foi apresentada.
+  \item Extensa simula√ß√£o foi apresentada.
   \begin{itemize}
     \item Ambos os algoritmos apresentam grau muito baixo.
     \item SIM possui grau uniforme e apresentou melhores resultados que APPROX e SPT.
-    \item A qualidade da violaÁ„o apresentada È baixa (1.4 na mÈdia).
+    \item A qualidade da viola√ß√£o apresentada √© baixa (1.4 na m√©dia).
     \item APPROX apresentou resultados muito bons para a propriedade spanner:
     \begin{itemize}
-      \item Em metade das situaÁıes n„o ocorreu violaÁ„o.
-      \item Na outra metade, a violaÁ„o muito baixa qualitativamente (em mÈdia $1$ - praticamente sem violaÁ„o) e quantitativamente.
+      \item Em metade das situa√ß√µes n√£o ocorreu viola√ß√£o.
+      \item Na outra metade, a viola√ß√£o muito baixa qualitativamente (em m√©dia $1$ - praticamente sem viola√ß√£o) e quantitativamente.
     \end{itemize}
   \end{itemize}
 \end{itemize}
@@ -1038,34 +1043,34 @@ aproximaÁ„o ($(e/(e-1))$).
 
 \begin{frame}{Trabalhos Futuros}
 \begin{itemize}
-  \item <2-> Tentar garantir as restriÁıes de spanner.
-  \item <3-> SoluÁ„o distribuÌda.
-  \item <4-> Modelar a soluÁ„o atravÈs de funÁ„o submodular e matroids.
+  \item <2-> Tentar garantir as restri√ß√µes de spanner.
+  \item <3-> Solu√ß√£o distribu√≠da.
+  \item <4-> Modelar a solu√ß√£o atrav√©s de fun√ß√£o submodular e matroids.
 \end{itemize}
 
 \end{frame}
 
 
-\begin{frame}{DefiniÁıes preliminares}
+\begin{frame}{Defini√ß√µes preliminares}
 \hypertarget{DTIME_slide}{}
   \begin{itemize}
-    \item Algoritmo de aproximaÁ„o por um fator $\alpha$ \cite{Williamson2011}: consistem em um algoritmo polinomial tal que para todas as inst‚ncias do problema de otimizaÁ„o, 
-produz uma soluÁ„o cujo valor se aproxima do valor Ûtimo por um fator $\alpha$.
-    \item Classe de complexidade \emph{DTIME} \cite{Arora2009}: Seja $T : \mathbb{R} \rightarrow \mathbb{R}$ uma funÁ„o. Uma linguagem $L \in$  \textbf{DTIME}($T(n)$) sse 
-existe uma m·quina de Turing que decide $L$ em um tempo de execuÁ„o de $c \cdot T(n)$, para uma constante $c > 0$. \hyperlink{DTIME}{\beamergotobutton{Back}}
+    \item Algoritmo de aproxima√ß√£o por um fator $\alpha$ \cite{Williamson2011}: consistem em um algoritmo polinomial tal que para todas as inst√¢ncias do problema de otimiza√ß√£o, 
+produz uma solu√ß√£o cujo valor se aproxima do valor √≥timo por um fator $\alpha$.
+    \item Classe de complexidade \emph{DTIME} \cite{Arora2009}: Seja $T : \mathbb{R} \rightarrow \mathbb{R}$ uma fun√ß√£o. Uma linguagem $L \in$  \textbf{DTIME}($T(n)$) sse 
+existe uma m√°quina de Turing que decide $L$ em um tempo de execu√ß√£o de $c \cdot T(n)$, para uma constante $c > 0$. \hyperlink{DTIME}{\beamergotobutton{Back}}
   \end{itemize}
 \end{frame}
 
-\begin{frame}{FunÁıes submodulares e Matroids \hyperlink{matroid}{\beamergotobutton{Voltar}}}
+\begin{frame}{Fun√ß√µes submodulares e Matroids \hyperlink{matroid}{\beamergotobutton{Voltar}}}
 \hypertarget{matroid_slide}{}
 \begin{itemize}
-  %\item MCG pode ser modelado atravÈs dos conceitos de \emph{funÁıes submodulares} e \emph{matroids} (\cite{Calinescu2011}).
-  \item $f: 2^{X} \rightarrow \mathbb{R}^+$ È submodular sse $f(A \cup B) + f(A \cap B) \le f(A) + f(B)$.
+  %\item MCG pode ser modelado atrav√©s dos conceitos de \emph{fun√ß√µes submodulares} e \emph{matroids} (\cite{Calinescu2011}).
+  \item $f: 2^{X} \rightarrow \mathbb{R}^+$ √© submodular sse $f(A \cup B) + f(A \cap B) \le f(A) + f(B)$.
   \item Matroid:
   \begin{itemize}
     \item Conjunto base $X$.
-    \item FamÌlia de elementos independentes $I \subseteq 2^{X}$.
-    \item Matroid È um par $M = (X,I)$ tal que:
+    \item Fam√≠lia de elementos independentes $I \subseteq 2^{X}$.
+    \item Matroid √© um par $M = (X,I)$ tal que:
     \begin{itemize}
       \item $\forall B \in I, A \subset B \Rightarrow A \in I$.
       \item $\forall A,B \in I; |A| < |B| \Rightarrow \exists x \in B \setminus A; A \cup x \in I$.
@@ -1074,46 +1079,46 @@ existe uma m·quina de Turing que decide $L$ em um tempo de execuÁ„o de $c \cdot 
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Impossibilidade de aproximaÁ„o sublogarÌtmica \hyperlink{not_approximable}{\beamergotobutton{Voltar}}}
+\begin{frame}{Impossibilidade de aproxima√ß√£o sublogar√≠tmica \hyperlink{not_approximable}{\beamergotobutton{Voltar}}}
 \hypertarget{not_approximable_slide}{}
   \begin{proof}%<2->
     \begin{itemize}
-      \item <1-> Seja $\mathcal{S}$ uma inst‚ncia de SvMDST ($G = (V,E)$, $T \subseteq V$ e $s \in T$). Seja $\Delta_\mathcal{S}^*$ uma soluÁ„o Ûtima para $\mathcal{S}$. 
-      \item <2-> Inst‚ncia $\mathcal{D}$ de DSMDStP: $G = (V,E)$, $s \in T$, $T_\mathcal{D} = T \setminus \lbrace s \rbrace$ e $k=\infty$ ($\frac{\sum_{e \in E} C(e)}{min_{v\in V}\{dist(s,t,G)\}}$).
-      \item <3-> Seja $\Delta_\mathcal{D}^*$ uma soluÁ„o Ûtima para $\mathcal{D}$.
-      \item <4-> Para $k=\infty$, qualquer que seja a soluÁ„o para $\mathcal{S}$, ela satisfaz a restriÁ„o de spanner $\Longrightarrow \Delta_\mathcal{S}^* = \Delta_\mathcal{D}^*$.
-      \item <5-> Seja $\mathcal{A}$ uma algoritmo de aproximaÁ„o por um fator $\alpha$ para o DSMDStP. Seja $\Delta^*$ o grau resultante.
+      \item <1-> Seja $\mathcal{S}$ uma inst√¢ncia de SvMDST ($G = (V,E)$, $T \subseteq V$ e $s \in T$). Seja $\Delta_\mathcal{S}^*$ uma solu√ß√£o √≥tima para $\mathcal{S}$. 
+      \item <2-> Inst√¢ncia $\mathcal{D}$ de DSMDStP: $G = (V,E)$, $s \in T$, $T_\mathcal{D} = T \setminus \lbrace s \rbrace$ e $k=\infty$ ($\frac{\sum_{e \in E} C(e)}{min_{v\in V}\{dist(s,t,G)\}}$).
+      \item <3-> Seja $\Delta_\mathcal{D}^*$ uma solu√ß√£o √≥tima para $\mathcal{D}$.
+      \item <4-> Para $k=\infty$, qualquer que seja a solu√ß√£o para $\mathcal{S}$, ela satisfaz a restri√ß√£o de spanner $\Longrightarrow \Delta_\mathcal{S}^* = \Delta_\mathcal{D}^*$.
+      \item <5-> Seja $\mathcal{A}$ uma algoritmo de aproxima√ß√£o por um fator $\alpha$ para o DSMDStP. Seja $\Delta^*$ o grau resultante.
       \item <6-> $\Delta^* \le \alpha \cdot \Delta_\mathcal{D}^* \Longrightarrow \frac{\Delta^*}{\Delta_\mathcal{S}^*} \le \alpha$.
-      \item <7-> Ent„o nÛs podemos aproximar $\Delta_\mathcal{S}^*$ por um fator $\alpha$.
-      \item <8-> O fator de aproximaÁ„o de $\Delta_\mathcal{S}^*$ È $ > (1-\varepsilon)\log_e |T|$ (Afirm. \ref{teorema:steiner_mdst}). Ent„o $(1-\varepsilon)\log_e |T| < \frac{\Delta^*}{\Delta_\mathcal{S}^*} \leq \alpha \Longrightarrow \alpha > (1-\varepsilon)\log_e |T|$.
+      \item <7-> Ent√£o n√≥s podemos aproximar $\Delta_\mathcal{S}^*$ por um fator $\alpha$.
+      \item <8-> O fator de aproxima√ß√£o de $\Delta_\mathcal{S}^*$ √© $ > (1-\varepsilon)\log_e |T|$ (Afirm. \ref{teorema:steiner_mdst}). Ent√£o $(1-\varepsilon)\log_e |T| < \frac{\Delta^*}{\Delta_\mathcal{S}^*} \leq \alpha \Longrightarrow \alpha > (1-\varepsilon)\log_e |T|$.
     \end{itemize}
   \end{proof}
 \end{frame}
 
-\begin{frame}{Limite no grau m·ximo de $G_{\sqrt{l}-Par}$ (Algoritmo \ref{alg:compute_graph_first_phase}) \hyperlink{roots_size}{\beamergotobutton{Voltar}}}
+\begin{frame}{Limite no grau m√°ximo de $G_{\sqrt{l}-Par}$ (Algoritmo \ref{alg:compute_graph_first_phase}) \hyperlink{roots_size}{\beamergotobutton{Voltar}}}
 \hypertarget{roots_size_slide}{}
   \begin{proof}%<2->
     \begin{itemize}
-      \item <1-> As ·rvores $T_v$ computadas na linha 5 de Algoritmo \ref{alg:compute_partition} s„o disjuntas. 
-      \item <2-> Cada nÛ em $T_v$ possui grau m·ximo de $\sqrt{l}$.
-      \item <3-> $A_{Roots}$ È uma SPT de $s$ para todos os nÛs em $Roots$ e a cardinalidade m·xima de $Roots$ È de $\sqrt{l} + 2$ (Lema \ref{lem:roots_cardinality}) $\Rightarrow$ 
-grau m·ximo de $A_{Roots}$ È $\sqrt{l} + 2$.
-      \item <4-> $G_{\sqrt{l}-Par}$ corresponde ‡ uni„o de todas estas ·rvores ($A_{Roots}$ e $T_v$) $\Longrightarrow$ grau m·ximo de qualquer nÛ È de $\sqrt{l} + \sqrt{l} + 2 = 2\sqrt{l} + 2$.
+      \item <1-> As √°rvores $T_v$ computadas na linha 5 de Algoritmo \ref{alg:compute_partition} s√£o disjuntas. 
+      \item <2-> Cada n√≥ em $T_v$ possui grau m√°ximo de $\sqrt{l}$.
+      \item <3-> $A_{Roots}$ √© uma SPT de $s$ para todos os n√≥s em $Roots$ e a cardinalidade m√°xima de $Roots$ √© de $\sqrt{l} + 2$ (Lema \ref{lem:roots_cardinality}) $\Rightarrow$ 
+grau m√°ximo de $A_{Roots}$ √© $\sqrt{l} + 2$.
+      \item <4-> $G_{\sqrt{l}-Par}$ corresponde √† uni√£o de todas estas √°rvores ($A_{Roots}$ e $T_v$) $\Longrightarrow$ grau m√°ximo de qualquer n√≥ √© de $\sqrt{l} + \sqrt{l} + 2 = 2\sqrt{l} + 2$.
     \end{itemize}
   \end{proof}
 \end{frame}
 
-\begin{frame}{Limite superior para a soluÁ„o da inst‚ncia do MSC \hyperlink{val_solution}{\beamergotobutton{Voltar}}}
+\begin{frame}{Limite superior para a solu√ß√£o da inst√¢ncia do MSC \hyperlink{val_solution}{\beamergotobutton{Voltar}}}
 \hypertarget{val_solution_slide}{}
   \begin{proof}%<2->
     \begin{itemize}
-      \item <1-> Seja $T^*$ uma soluÁ„o Ûtima para uma inst‚ncia do DSMDStP. 
+      \item <1-> Seja $T^*$ uma solu√ß√£o √≥tima para uma inst√¢ncia do DSMDStP. 
       \item <2-> $\forall_{t \in UT}$ existe um caminho entre $s$ e $t$ em $T^*$. Seja $P_{T^*}(s,t)$ este caminho.
-      \item <3-> Seja $u$ o ˙ltimo nÛ de $P_{T^*}(s,t)$ que pertence a $C$. Seja $v$ o prÛximo nÛ em $P_{T^*}(s,t)$.
-      \item <4-> $x_{u, v}$ pertencer· a $V_1$ e $(x_{u, v}, t)$ pertencer· a $\varepsilon$.
-      \item <5-> Todos os nÛs em $UT$ possuem esta propriedade e $T^*$ possui grau m·ximo $d^*$.
+      \item <3-> Seja $u$ o √∫ltimo n√≥ de $P_{T^*}(s,t)$ que pertence a $C$. Seja $v$ o pr√≥ximo n√≥ em $P_{T^*}(s,t)$.
+      \item <4-> $x_{u, v}$ pertencer√° a $V_1$ e $(x_{u, v}, t)$ pertencer√° a $\varepsilon$.
+      \item <5-> Todos os n√≥s em $UT$ possuem esta propriedade e $T^*$ possui grau m√°ximo $d^*$.
       \begin{itemize}
-	\item $\rightarrow$ Existe uma soluÁ„o $S^*$ t.q. $\forall_{u}$ existe no m·ximo $d^*$ pseudo nÛs $x_{u,v}$ em $S^*$, visto que $x_{u,v} \in S^*$ sse $v$ È filho de $u$ em $T^*$.
+	\item $\rightarrow$ Existe uma solu√ß√£o $S^*$ t.q. $\forall_{u}$ existe no m√°ximo $d^*$ pseudo n√≥s $x_{u,v}$ em $S^*$, visto que $x_{u,v} \in S^*$ sse $v$ √© filho de $u$ em $T^*$.
 	\begin{itemize}
 	  \item $\Rightarrow max_{c \in C}\{|S^* \cap A_c|\}\le d^*$.
 	\end{itemize}
@@ -1122,38 +1127,38 @@ grau m·ximo de $A_{Roots}$ È $\sqrt{l} + 2$.
   \end{proof}
 \end{frame}
 
-\begin{frame}{Limite da interseÁ„o entre a soluÁ„o do MSC e cada partiÁ„o de $V_1$ \hyperlink{max_pseudo_node_degree}{\beamergotobutton{Voltar}}}
+\begin{frame}{Limite da interse√ß√£o entre a solu√ß√£o do MSC e cada parti√ß√£o de $V_1$ \hyperlink{max_pseudo_node_degree}{\beamergotobutton{Voltar}}}
 \hypertarget{max_pseudo_node_degree_slide}{}
   \begin{proof}%<2->
     \begin{itemize}
-      \item <2-> $d^* \ge val(S^*)$ para uma soluÁ„o Ûtima $S^*$ de $\beta$.
+      \item <2-> $d^* \ge val(S^*)$ para uma solu√ß√£o √≥tima $S^*$ de $\beta$.
       \item <3-> $|V_2| \le l$.
-      \item <4-> O lema È direto.
+      \item <4-> O lema √© direto.
     \end{itemize}
   \end{proof}
 \end{frame}
 
-\begin{frame}{Grau m·ximo de $G_f$ \hyperlink{max_degree}{\beamergotobutton{Voltar}}}
+\begin{frame}{Grau m√°ximo de $G_f$ \hyperlink{max_degree}{\beamergotobutton{Voltar}}}
 \hypertarget{max_degree_slide}{}
   \begin{proof}%<2->
     \begin{itemize}
-      \item <1-> NÛs s„o adicionados nas duas fases. 
-      \item <2-> $G_f$ tem grau m·ximo de $2\sqrt{l} + 2$ ao final da primeira fase (Lema \ref{lem:roots_size}).
-      \item <3-> Novos nÛs adicionados (fase 2) tem no m·ximo grau $\sqrt{l}$ (ausÍncia de $\sqrt{l}$-bad nodes).
-      \item <4-> NÛ $u$ È selecionado apenas se $x_{u,v} \in D$.
-      \item <5-> NÛ $u$ pode ter seu grau incrementado por no m·ximo $O(\log l) \cdot d^*$ (Lema \ref{lem:max_pseudo_node_degree}).
+      \item <1-> N√≥s s√£o adicionados nas duas fases. 
+      \item <2-> $G_f$ tem grau m√°ximo de $2\sqrt{l} + 2$ ao final da primeira fase (Lema \ref{lem:roots_size}).
+      \item <3-> Novos n√≥s adicionados (fase 2) tem no m√°ximo grau $\sqrt{l}$ (aus√™ncia de $\sqrt{l}$-bad nodes).
+      \item <4-> N√≥ $u$ √© selecionado apenas se $x_{u,v} \in D$.
+      \item <5-> N√≥ $u$ pode ter seu grau incrementado por no m√°ximo $O(\log l) \cdot d^*$ (Lema \ref{lem:max_pseudo_node_degree}).
       \item <6-> Provado o limite de $\leq 2\sqrt{l} + 2 + O(\log l) \cdot d^*$.
     \end{itemize}
   \end{proof}
 \end{frame}
 
-\begin{frame}{Custo m·ximo dos caminhos para os terminais \hyperlink{cost_guaranteed}{\beamergotobutton{Voltar}}}
+\begin{frame}{Custo m√°ximo dos caminhos para os terminais \hyperlink{cost_guaranteed}{\beamergotobutton{Voltar}}}
 \hypertarget{cost_guaranteed_slide}{}
   \begin{proof}%<2->
     \begin{itemize}
-      \item <1-> Se $t$ È coberto na primeira fase, $dist(s, t, G_f) \le k \cdot dist(s,t,G)$. 
-      \item <2-> Todos os nÛs $v$ cobertos na fase 1 fazem parte de um caminho entre $s$ e um $t$ t.q. seu custo È $\le k \cdot dist(s,t,G) \rightarrow \le k \cdot dist(s,t_{max},G)$.
-      \item <3-> $\forall_{t \in T}$ cobertos apenas na fase 2, $x_{u,v}$ e $(x_{u,v},t)$ s„o inseridas na inst‚ncia do MSC se $dist(s, u, G)+C(u,v)+dist(v,t,G(U)) \leq k \cdot dist(s,t,G)$.
+      \item <1-> Se $t$ √© coberto na primeira fase, $dist(s, t, G_f) \le k \cdot dist(s,t,G)$. 
+      \item <2-> Todos os n√≥s $v$ cobertos na fase 1 fazem parte de um caminho entre $s$ e um $t$ t.q. seu custo √© $\le k \cdot dist(s,t,G) \rightarrow \le k \cdot dist(s,t_{max},G)$.
+      \item <3-> $\forall_{t \in T}$ cobertos apenas na fase 2, $x_{u,v}$ e $(x_{u,v},t)$ s√£o inseridas na inst√¢ncia do MSC se $dist(s, u, G)+C(u,v)+dist(v,t,G(U)) \leq k \cdot dist(s,t,G)$.
       \item <4-> Em particular, $C(u,v)+dist(v,t,G(U)) \le k \cdot dist(s,t,G)$.
       \item <5-> Como $dist(s, u, G) \le k \cdot dist(s,t_{max},G) \Rightarrow dist(s,t,G_f) \leq k \cdot (dist(s,t,G) + \cdot dist(s,t_{max},G))$.
     \end{itemize}
@@ -1164,56 +1169,56 @@ grau m·ximo de $A_{Roots}$ È $\sqrt{l} + 2$.
 \hypertarget{final_theorem_slide}{}
   \begin{proof}%<2->
     \begin{itemize}
-      \item <2-> $\mathcal{A}_f$ È gerada computando caminhos de custo mÌnimo em $G_f$ entre $s$ e $t \in T$.
-      \item <3-> O teorema segue do resultado de grau m·ximo (Lema \ref{lem:max_degree}) e do resultado de custo m·ximo (Lema \ref{lem:cost_guaranteed}).
+      \item <2-> $\mathcal{A}_f$ √© gerada computando caminhos de custo m√≠nimo em $G_f$ entre $s$ e $t \in T$.
+      \item <3-> O teorema segue do resultado de grau m√°ximo (Lema \ref{lem:max_degree}) e do resultado de custo m√°ximo (Lema \ref{lem:cost_guaranteed}).
     \end{itemize}
   \end{proof}
 \end{frame}
 
-\begin{frame}{ExistÍncia de um caminho para todo terminal em $\mathcal{A}_f$ \hyperlink{terminals_covered}{\beamergotobutton{Voltar}}}
+\begin{frame}{Exist√™ncia de um caminho para todo terminal em $\mathcal{A}_f$ \hyperlink{terminals_covered}{\beamergotobutton{Voltar}}}
 \hypertarget{terminals_covered_slide}{}
   \begin{proof}%<2->
     \begin{itemize}
-      \item <2-> Seja $T^*$ uma soluÁ„o Ûtima para uma inst‚ncia de DSMDStP.
-      \item <3-> Considere $u$ e $v$ os nÛs no caminho entre $s$ e $t$ como mencionados na prova do Lema \ref{lem:val_solution}.
-      \item <4-> Ent„o, existir· um $x_{u,v}$ em $V_1$ e uma aresta $(x_{u,v},t)$ em $\varepsilon$ (idependente da iteraÁ„o).
-      \item <5-> ApÛs aplicar algoritmo de \cite{Chekuri2004} (linha 8), pelo menos um caminho existir· entre $u$ e $t$.
+      \item <2-> Seja $T^*$ uma solu√ß√£o √≥tima para uma inst√¢ncia de DSMDStP.
+      \item <3-> Considere $u$ e $v$ os n√≥s no caminho entre $s$ e $t$ como mencionados na prova do Lema \ref{lem:val_solution}.
+      \item <4-> Ent√£o, existir√° um $x_{u,v}$ em $V_1$ e uma aresta $(x_{u,v},t)$ em $\varepsilon$ (idependente da itera√ß√£o).
+      \item <5-> Ap√≥s aplicar algoritmo de \cite{Chekuri2004} (linha 8), pelo menos um caminho existir√° entre $u$ e $t$.
       \begin{itemize}
-	\item <6-> $\rightarrow$ Pelo menos um caminho ser· escolhido por SIM para fazer parte de $\mathcal{A}_f$ (linha 11).
+	\item <6-> $\rightarrow$ Pelo menos um caminho ser√° escolhido por SIM para fazer parte de $\mathcal{A}_f$ (linha 11).
       \end{itemize}
     \end{itemize}
   \end{proof}
 \end{frame}
 
-\begin{frame}{N˙mero de iteraÁıes do SIM}
+\begin{frame}{N√∫mero de itera√ß√µes do SIM}
   \begin{proof}%<2->
     \begin{itemize}
-      \item <1-> Considere o n˙mero de terminais $l$.
-      \item <2-> Se $l$ È um Quadrado Perfeito (QP), todos os terminais ser„o cobertos em $\sqrt{l}$ iteraÁıes ($\lfloor\sqrt{l}\rfloor = \sqrt{l}$).
-      \item <3-> Considere $l$ n„o sendo um quadrado perfeito.
-      \item <4-> Seja $\sqrt{l} = \lfloor\sqrt{l}\rfloor + \mathcal{F}$, onde $\mathcal{F} \in ]0,1[$. Ent„o $l = (\lfloor\sqrt{l}\rfloor + \mathcal{F}) \cdot (\lfloor\sqrt{l}\rfloor + \mathcal{F})$.
+      \item <1-> Considere o n√∫mero de terminais $l$.
+      \item <2-> Se $l$ √© um Quadrado Perfeito (QP), todos os terminais ser√£o cobertos em $\sqrt{l}$ itera√ß√µes ($\lfloor\sqrt{l}\rfloor = \sqrt{l}$).
+      \item <3-> Considere $l$ n√£o sendo um quadrado perfeito.
+      \item <4-> Seja $\sqrt{l} = \lfloor\sqrt{l}\rfloor + \mathcal{F}$, onde $\mathcal{F} \in ]0,1[$. Ent√£o $l = (\lfloor\sqrt{l}\rfloor + \mathcal{F}) \cdot (\lfloor\sqrt{l}\rfloor + \mathcal{F})$.
       \begin{itemize}
 	\item <5-> $\rightarrow l = \lfloor\sqrt{l}\rfloor \cdot \left(\lfloor\sqrt{l}\rfloor + \left[(2 \cdot \mathcal{F}) + \left(\mathcal{F} \cdot \frac{\mathcal{F}}{\lfloor\sqrt{l}\rfloor}\right)\right]\right)$.
       \end{itemize}
-      \item <6-> Podemos dividir $l$ em dois n˙meros: $\lfloor\sqrt{l}\rfloor$ e $(\lfloor\sqrt{l}\rfloor + [(2 \cdot \mathcal{F}) + (\mathcal{F} \cdot \frac{\mathcal{F}}{\lfloor\sqrt{l}\rfloor})])$.
+      \item <6-> Podemos dividir $l$ em dois n√∫meros: $\lfloor\sqrt{l}\rfloor$ e $(\lfloor\sqrt{l}\rfloor + [(2 \cdot \mathcal{F}) + (\mathcal{F} \cdot \frac{\mathcal{F}}{\lfloor\sqrt{l}\rfloor})])$.
       \begin{itemize}
-	\item <7-> $\lfloor\sqrt{l}\rfloor$: coincide com o n˙mero de terminais cobertos em cada iteraÁ„o.
-	\item <8-> Precisamos encontrar um inteiro $I_{UB}$ que representa um limite para o n˙mero real $(\lfloor\sqrt{l}\rfloor + [(2 \cdot \mathcal{F}) + (\mathcal{F} \cdot \frac{\mathcal{F}}{\lfloor\sqrt{l}\rfloor})])$.
+	\item <7-> $\lfloor\sqrt{l}\rfloor$: coincide com o n√∫mero de terminais cobertos em cada itera√ß√£o.
+	\item <8-> Precisamos encontrar um inteiro $I_{UB}$ que representa um limite para o n√∫mero real $(\lfloor\sqrt{l}\rfloor + [(2 \cdot \mathcal{F}) + (\mathcal{F} \cdot \frac{\mathcal{F}}{\lfloor\sqrt{l}\rfloor})])$.
 	\begin{itemize}
-	  \item <9-> $I_{UB}$ iteraÁıes È suficiente para cobrir $l$ terminais.
+	  \item <9-> $I_{UB}$ itera√ß√µes √© suficiente para cobrir $l$ terminais.
 	\end{itemize}
       \end{itemize}
     \end{itemize}
   \end{proof}
 \end{frame}
 
-\begin{frame}{N˙mero de iteraÁıes do SIM \hyperlink{number_iterations}{\beamergotobutton{Voltar}}}
+\begin{frame}{N√∫mero de itera√ß√µes do SIM \hyperlink{number_iterations}{\beamergotobutton{Voltar}}}
 \hypertarget{number_iterations_slide}{}
   \begin{proof}
     %\begin{itemize}
       \begin{itemize}
 	\item <1-> $\lfloor\sqrt{l}\rfloor + (2 \cdot \mathcal{F}) + (\mathcal{F} \cdot \frac{\mathcal{F}}{\lfloor\sqrt{l}\rfloor}) = \lfloor\sqrt{l}\rfloor + \frac{l - {\lfloor\sqrt{l}\rfloor}^{2}}{\lfloor\sqrt{l}\rfloor}$.
-	\item <2-> Como ${\lfloor\sqrt{l}\rfloor}^{2}$ È o maior quadrado perfeito menor que $l \rightarrow (l - {\lfloor\sqrt{l}\rfloor}^{2}) \le 2 \cdot \lfloor\sqrt{l}\rfloor$ (prova adiada).
+	\item <2-> Como ${\lfloor\sqrt{l}\rfloor}^{2}$ √© o maior quadrado perfeito menor que $l \rightarrow (l - {\lfloor\sqrt{l}\rfloor}^{2}) \le 2 \cdot \lfloor\sqrt{l}\rfloor$ (prova adiada).
 	\begin{itemize}
 	  \item <3-> $\rightarrow \lfloor\sqrt{l}\rfloor + \frac{l - {\lfloor\sqrt{l}\rfloor}^{2}}{\lfloor\sqrt{l}\rfloor} \le \lfloor\sqrt{l}\rfloor + \frac{2 \cdot \lfloor\sqrt{l}\rfloor}{\lfloor\sqrt{l}\rfloor} = \lfloor\sqrt{l}\rfloor + 2$.
 	\end{itemize}
@@ -1222,7 +1227,7 @@ grau m·ximo de $A_{Roots}$ È $\sqrt{l} + 2$.
 	  \item <5-> Seja $SR_{x}$ um quadrado perfeito e $R_x$ sua raiz.
 	  \item <6-> Para dois quadrados perfeitos consecutivos $SR_{i}$ e $SR_{j} \rightarrow SR_{j} - SR_{i} = R_i + R_j$.
 	  \item <7-> Em outras palavras: $SR_{j} - SR_{i} = 2 \cdot R_i + 1$.
-	  \item <8-> Seja $X$ um quadrado n„o-perfeito e seja $GSR_X$ o maior quadrado perfeito menor que $X$. Seja $R_X$ a raiz de $GSR_X$.
+	  \item <8-> Seja $X$ um quadrado n√£o-perfeito e seja $GSR_X$ o maior quadrado perfeito menor que $X$. Seja $R_X$ a raiz de $GSR_X$.
 	  \begin{itemize}
 	    \item <9-> $X - GSR_{X} \le 2 \cdot R_{X}$.
 	  \end{itemize}
@@ -1234,33 +1239,33 @@ grau m·ximo de $A_{Roots}$ È $\sqrt{l} + 2$.
   \end{proof}
 \end{frame}
 
-\begin{frame}{Grafo gerado por SIM È uma arborescÍncia \hyperlink{sim_output_arborescence}{\beamergotobutton{Voltar}}}
+\begin{frame}{Grafo gerado por SIM √© uma arboresc√™ncia \hyperlink{sim_output_arborescence}{\beamergotobutton{Voltar}}}
  \hypertarget{sim_output_arborescence_slide}{}
   \begin{proof}%<2->
     \begin{itemize}
-      \item <2-> No inÌcio, $C$ contÈm apenas $s$.
-      \item <3-> Ao final da primeira iteraÁ„o, $\mathcal{A}_f$ ser· uma arborescÍncia, pois apenas caminhos de menor custo a partir de $s$ s„o adicionados.
-      \item <4-> De forma an·loga, a partir da segunda iteraÁ„o, para cada $(x_{u,v})$, apenas caminhos de custo mÌnimo entre $u$ e $t$ s„o adicionados a $\mathcal{A}_f$.
+      \item <2-> No in√≠cio, $C$ cont√©m apenas $s$.
+      \item <3-> Ao final da primeira itera√ß√£o, $\mathcal{A}_f$ ser√° uma arboresc√™ncia, pois apenas caminhos de menor custo a partir de $s$ s√£o adicionados.
+      \item <4-> De forma an√°loga, a partir da segunda itera√ß√£o, para cada $(x_{u,v})$, apenas caminhos de custo m√≠nimo entre $u$ e $t$ s√£o adicionados a $\mathcal{A}_f$.
       \begin{itemize}
-	\item <5-> Estes caminhos s„o formados por nÛs apenas de $U$ (exceto para o primeiro nÛ $u$) $\rightarrow$ inexistÍncia de ciclos e m˙ltiplos caminhos entre nÛs.
+	\item <5-> Estes caminhos s√£o formados por n√≥s apenas de $U$ (exceto para o primeiro n√≥ $u$) $\rightarrow$ inexist√™ncia de ciclos e m√∫ltiplos caminhos entre n√≥s.
       \end{itemize}
     \end{itemize}
   \end{proof}
 \end{frame}
 
-\begin{frame}{Custo m·ximo dos caminhos gerados por SIM \hyperlink{cost}{\beamergotobutton{Voltar}}}
+\begin{frame}{Custo m√°ximo dos caminhos gerados por SIM \hyperlink{cost}{\beamergotobutton{Voltar}}}
 \hypertarget{cost_slide}{}
   \begin{proof}%<2->
     \begin{itemize}
-      \item <1-> Seja $t_h$ o terminal $u \in Next^{\sqrt{l}}_{ter}$ cujo valor de $dist(s,u,G)$ È m·ximo.
-      \item <2-> Todos os caminhos adicionados a $\mathcal{A}_f$ na iteraÁ„o $i$ ter„o custo $\le k \cdot dist(s,t_h,G)$.
+      \item <1-> Seja $t_h$ o terminal $u \in Next^{\sqrt{l}}_{ter}$ cujo valor de $dist(s,u,G)$ √© m√°ximo.
+      \item <2-> Todos os caminhos adicionados a $\mathcal{A}_f$ na itera√ß√£o $i$ ter√£o custo $\le k \cdot dist(s,t_h,G)$.
       \begin{itemize}
-	\item <3-> $(x_{u,v},t)$ pertencer· a $\varepsilon$ se $C(u,v)+dist(v,t,G(U)) \le k \cdot dist(s,t,G) \le k \cdot dist(s,t_h,G)$.
+	\item <3-> $(x_{u,v},t)$ pertencer√° a $\varepsilon$ se $C(u,v)+dist(v,t,G(U)) \le k \cdot dist(s,t,G) \le k \cdot dist(s,t_h,G)$.
       \end{itemize}
-      \item <4-> Haver· no m·ximo $\lfloor\sqrt{l}\rfloor+2$ iterations (Lema \ref{lem:number_iterations}).
-      \item <5-> Seja $t$ um terminal adicionado a $\mathcal{A}_f$ na iteraÁ„o $j$.
-      \item <6-> $t$ pode ser alcanÁado a partir de $s$ atravÈs de uma sÈrie de caminhos adicionados a $\mathcal{A}_f$ em $j-1$ iteraÁıes.
-      \item <7-> Em cada iteraÁ„o, os terminais em $Next^{\sqrt{l}}_{ter}$ seguem uma ordem n„o-decrescente de custo.
+      \item <4-> Haver√° no m√°ximo $\lfloor\sqrt{l}\rfloor+2$ iterations (Lema \ref{lem:number_iterations}).
+      \item <5-> Seja $t$ um terminal adicionado a $\mathcal{A}_f$ na itera√ß√£o $j$.
+      \item <6-> $t$ pode ser alcan√ßado a partir de $s$ atrav√©s de uma s√©rie de caminhos adicionados a $\mathcal{A}_f$ em $j-1$ itera√ß√µes.
+      \item <7-> Em cada itera√ß√£o, os terminais em $Next^{\sqrt{l}}_{ter}$ seguem uma ordem n√£o-decrescente de custo.
       \item <8-> O teorema segue.
     \end{itemize}
   \end{proof}
@@ -1271,28 +1276,28 @@ grau m·ximo de $A_{Roots}$ È $\sqrt{l} + 2$.
 \begin{itemize}
   \item <2-> Procedimento \emph{CompPar} $\rightarrow (\sqrt{|T|} + 2)O(|V|^3)$:
   \begin{itemize}
-    \item $\sqrt{|T|} + 2$: n˙mero de iteraÁıes (Lema \ref{lem:roots_cardinality}).
-    \item $O(|V|^3)$: construÁ„o da SPT para os candidatos a $\sqrt{l}$-bad node.
+    \item $\sqrt{|T|} + 2$: n√∫mero de itera√ß√µes (Lema \ref{lem:roots_cardinality}).
+    \item $O(|V|^3)$: constru√ß√£o da SPT para os candidatos a $\sqrt{l}$-bad node.
   \end{itemize}
-  \item <3-> Procedimento \emph{CompGraphFirstPh}: $O(|V|^2)$ (construÁ„o da SPT).
-  \item <4-> ConstruÁo da inst‚ncia do MSC:
+  \item <3-> Procedimento \emph{CompGraphFirstPh}: $O(|V|^2)$ (constru√ß√£o da SPT).
+  \item <4-> Constru√ßo da inst√¢ncia do MSC:
   \begin{itemize}
-    \item ComposiÁ„o de $V_1$: $O(|V|^2)$.
-    \item ComposiÁ„o de $\varepsilon$: $O(|V|^3)$ (executar o algoritmo de APSP).
+    \item Composi√ß√£o de $V_1$: $O(|V|^2)$.
+    \item Composi√ß√£o de $\varepsilon$: $O(|V|^3)$ (executar o algoritmo de APSP).
   \end{itemize}
   \item <5-> Algoritmo guloso de \cite{Chekuri2004}:
   \begin{itemize}
-    \item Depende da execuÁ„o do algoritmo para o MCG.
+    \item Depende da execu√ß√£o do algoritmo para o MCG.
     \begin{itemize}
-      \item O algoritmo para o MCG depende da execuÁ„o de or·culo $\rightarrow O(|V|^2|T|)$ no nosso caso.
+      \item O algoritmo para o MCG depende da execu√ß√£o de or√°culo $\rightarrow O(|V|^2|T|)$ no nosso caso.
       \item Complexidade do algoritmo para o MCG: $O(|V|^3|T|^2)$.
     \end{itemize}
     \item O algoritmo para o MSC aplica iterativamente o algorito para o MCG $\rightarrow O((\log{|T|})(|V|^3|T|^2)$.
   \end{itemize}
   \item <6-> Loop entre as linhas 8 e 12:
   \begin{itemize}
-    \item Linha 10 se beneficia da execuÁ„o do algoritmo do APSP.
-    \item Linha 9: $|D|$ È proporcional a $|S_{(u,v)}|$ que È proporcional a $O(|V|)$.
+    \item Linha 10 se beneficia da execu√ß√£o do algoritmo do APSP.
+    \item Linha 9: $|D|$ √© proporcional a $|S_{(u,v)}|$ que √© proporcional a $O(|V|)$.
     \item Linha 8: $|V_2| = |T|$.
     \item Complexidade do loop: $|T|O(|V|)$.
   \end{itemize}
@@ -1303,21 +1308,21 @@ grau m·ximo de $A_{Roots}$ È $\sqrt{l} + 2$.
 \begin{frame}{Complexidade \hyperlink{comp_sim}{\beamergotobutton{Voltar}}}
 \hypertarget{comp_sim_slide}{}
 \begin{itemize}
-  \item Complexidade semelhante em algumas partes. O tamanho de $V_2$ È $\sqrt{|T|}$ ao invÈs de $O(|T|)$.
+  \item Complexidade semelhante em algumas partes. O tamanho de $V_2$ √© $\sqrt{|T|}$ ao inv√©s de $O(|T|)$.
   \item <2-> Linha 4: $O(|V|^3)$ (semelhante ao \emph{APPROX}).
   \item <3-> Loop (5-7): 
   \begin{itemize}
-    \item <4-> $\lfloor\sqrt{|T|}\rfloor$: m˙mero m·ximo de iteraÁıes.
-    \item <5-> $O(|T| \sqrt{|T|})$: tamanho m·ximo de $Marked$ na ˙ltima iteraÁ„o.
-    \item <6-> As outras instruÁıes se beneficiam dos resultados da APSP e da SPT.
+    \item <4-> $\lfloor\sqrt{|T|}\rfloor$: m√∫mero m√°ximo de itera√ß√µes.
+    \item <5-> $O(|T| \sqrt{|T|})$: tamanho m√°ximo de $Marked$ na √∫ltima itera√ß√£o.
+    \item <6-> As outras instru√ß√µes se beneficiam dos resultados da APSP e da SPT.
     \item <7-> Complexidade do loop: $O(|T|^2)$.
   \end{itemize}
   \item <8-> Algoritmo para o MSC (linha 8): $O((\log \sqrt{|T|})(|V|^3|T|))$ (novo tamanho de $V_2$).
   \item <9-> Loop (10-15): 
   \begin{itemize}
-    \item <10-> $\sqrt{|T|}+2)$: n˙mero m·ximo de iteraÁıes.
+    \item <10-> $\sqrt{|T|}+2)$: n√∫mero m√°ximo de itera√ß√µes.
     \item <11-> $O(V)$: tamanho de $D$.
-    \item <12-> $O(1)$ para as outras instruÁıes (tambÈm se beneficial do resultado do APSP e da SPT).
+    \item <12-> $O(1)$ para as outras instru√ß√µes (tamb√©m se beneficial do resultado do APSP e da SPT).
   \end{itemize}
   \item <13-> Complexidade final: $O((\log \sqrt{|T|})(|V|^3|T| \sqrt{|T|}))$.
 \end{itemize}

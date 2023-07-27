@@ -1,4 +1,9 @@
+% !TEX encoding = UTF-8 Unicode
 \documentclass[dvipsnames]{beamer}
+\usepackage[brazil]{babel}
+\usepackage[T1]{fontenc}
+%\usepackage[latin1]{inputenc}
+\usepackage[utf8x]{inputenc}
 \usepackage[portuguese,algosection,ruled,vlined,boxed]{algorithm2e}
 %% \usepackage[ruled,linesnumbered,vlined,boxed]{algorithm2e}
 
@@ -20,11 +25,11 @@
 }
 
 %\usepackage[english]{babel}
-\usepackage[brazil]{babel}
-
-%\usepackage[utf8]{inputenc}
-\usepackage[latin1]{inputenc}
-\usepackage[T1]{fontenc}
+%\usepackage[brazil]{babel}
+%
+%%\usepackage[utf8]{inputenc}
+%\usepackage[latin1]{inputenc}
+%\usepackage[T1]{fontenc}
 
 \usepackage{times}
 
@@ -45,7 +50,7 @@
 \usepackage{color}
 
 %beamer e subfig colidem.
-%soluÁ„o: https://tex.stackexchange.com/questions/426088/texlive-pretest-2018-beamer-and-subfig-collide
+%solu√ß√£o: https://tex.stackexchange.com/questions/426088/texlive-pretest-2018-beamer-and-subfig-collide
 \usepackage{subfig}
 \makeatletter
 \let\@@magyar@captionfix\relax
@@ -102,23 +107,23 @@
 \usetikzlibrary{arrows, automata, arrows.meta, decorations.markings}
 
 \newtheorem{fato}{Fato}
-\newtheorem*{defi}{DefiniÁ„o}
+\newtheorem*{defi}{Defini√ß√£o}
 \newtheorem*{propri}{Propriedades}
-\newtheorem*{prop}{ProposiÁ„o}
- \newtheorem{ex}{ExercÌcio}
+\newtheorem*{prop}{Proposi√ß√£o}
+ \newtheorem{ex}{Exerc√≠cio}
 %\newtheorem{theorem}{Teorema}[section]
 \newtheorem{conjecture}{Conjectura}
-\newtheorem{definicao}{DefiniÁ„o}
-\newtheorem{notacao}{NotaÁ„o}
+\newtheorem{definicao}{Defini√ß√£o}
+\newtheorem{notacao}{Nota√ß√£o}
 \newtheorem{teorema}{Teorema}
 %\newtheorem{proposition}{Proposition}
-\newtheorem{afirmacao}{AfirmaÁ„o}[teorema]
+\newtheorem{afirmacao}{Afirma√ß√£o}[teorema]
 \newtheorem{lema}{Lema}
-\newtheorem{observacao}{ObservaÁ„o}
-%\newtheorem{proposicao}{ProposiÁ„o}[section]
-\newtheorem{proposicao}{ProposiÁ„o}
-%\newtheorem{corolario}{Corol¡rio}[section]
-\newtheorem{corolario}{Corol·rio}
+\newtheorem{observacao}{Observa√ß√£o}
+%\newtheorem{proposicao}{Proposi√ß√£o}[section]
+\newtheorem{proposicao}{Proposi√ß√£o}
+%\newtheorem{corolario}{Corol√Årio}[section]
+\newtheorem{corolario}{Corol√°rio}
 \newtheorem{conjectura}{Conjectura}
 \newtheorem{problema}{Problema}
 \newtheorem{exemplo}{Exemplo}
@@ -182,7 +187,7 @@
 %----------------------------
 \DeclareMathOperator*{\argmin}{arg\,min}
 %----------------------------
-%comandos para novas letras/exppress√µes
+%comandos para novas letras/exppress√É¬µes
 \newcommand{\incid}{\mathcal{X}}
 \newcommand{\incidY}{\mathcal{Y}}
 \newcommand{\maxstretchfactor}{\mathcal{T}}
@@ -312,17 +317,17 @@
   % You might wish to add the option [pausesections]
 \end{frame}
 
-\section{IntroduÁ„o}
+\section{Introdu√ß√£o}
 
-\begin{frame}{DefiniÁ„o}
+\begin{frame}{Defini√ß√£o}
 
 \begin{itemize}
  \item $G = (V,E)$  grafo conexo
    %% $H \subseteq G$ subgrafo gerador de $G$.\\
-   $w: E \to \mathbb{R}^+$ pesos associados ‡s arestas de $G$\\
-   $t \ge 1$, n˙mero real
+   $w: E \to \mathbb{R}^+$ pesos associados √†s arestas de $G$\\
+   $t \ge 1$, n√∫mero real
    \item <2-> Dado $(G,w,t)$
- \item <3->Um \textcolor{red}{$t$-\emph{spanner}} de $G$ È um subgrafo gerador $H$
+ \item <3->Um \textcolor{red}{$t$-\emph{spanner}} de $G$ √© um subgrafo gerador $H$
    de $G$ t.q.
 \begin{equation*}
   \dist_{H}(u,v) \le t \cdot \dist_{G}(u,v), \quad \forall\;u,v \in V,
@@ -336,8 +341,8 @@
 %% str_{H,G}(u,v) = \frac{dist_{H}(u,v)}{dist_{G}(u,v)}.
 %% \end{equation*}
 %% \label{eq:def_spanner}
-\item <4->$t$ - \textcolor{red}{\emph{fator de dilataÁ„o}}
-\item <5->Exemplo (com peso unit·rio):
+\item <4->$t$ - \textcolor{red}{\emph{fator de dilata√ß√£o}}
+\item <5->Exemplo (com peso unit√°rio):
 
 %% \begin{minipage}[t][.5\textheight][t]{\textwidth}
     
@@ -491,10 +496,10 @@ edge     node                    {} (l4)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}{¡rvore $t$-spanner}
+\begin{frame}{√Årvore $t$-spanner}
 \begin{itemize}
 
-\item $H$ È uma ·rvore $\rightarrow H$ È uma \textcolor{red}{\emph{·rvore t-spanner}} de $G$
+\item $H$ √© uma √°rvore $\rightarrow H$ √© uma \textcolor{red}{\emph{√°rvore t-spanner}} de $G$
 
 \begin{figure}
   \centering
@@ -555,7 +560,7 @@ edge     node                    {} (l4)
 \node[state] (l4) [below of=l1] {};
 \node[state] (l5) [below of=l2] {};
 \node[state] (l6) [below of=l3] {};
-\node[state, label=below:\text{¡rvore 3-spanner de $G$}] (l7) [below of=l5] {};
+\node[state, label=below:\text{√Årvore 3-spanner de $G$}] (l7) [below of=l5] {};
 %% \node[left] at (l4.west){$H'$:};
 \node[left] at (l4.west){};
 
@@ -589,7 +594,7 @@ edge     node                    {} (l4)
 \node[state] (l4) [below of=l1] {};
 \node[state] (l5) [below of=l2] {};
 \node[state] (l6) [below of=l3] {};
-\node[state, label=below:\text{¡rvore 2-spanner de $G$}] (l7) [below of=l5] {};
+\node[state, label=below:\text{√Årvore 2-spanner de $G$}] (l7) [below of=l5] {};
 %% \node[left] at (l4.west){$H$:};
 \node[left] at (l4.west){};
 
@@ -613,61 +618,61 @@ edge     node                    {} (l4)
 
 \begin{frame}{Problemas centrais}
   \begin{itemize}
-    \item \textcolor{blue}{¡rvore $t$-spanner de peso mÌnimo}:\\
+    \item \textcolor{blue}{√Årvore $t$-spanner de peso m√≠nimo}:\\
       dado $(G,w,t)$\\
       %% Dado $G=(V,E)$, (real) $t > 1$ e $w: E \rightarrow \R^{+}$, \\
-      encontrar uma ·rvore $t$-spanner em $G$ de peso mÌnimo
+      encontrar uma √°rvore $t$-spanner em $G$ de peso m√≠nimo
       %% \begin{itemize}
-      %%   \item caso unit·rio: problema cl·ssico de decis„o
+      %%   \item caso unit√°rio: problema cl√°ssico de decis√£o
       %%   \end{itemize}
-    \item <2->\textcolor{blue}{$t$-spanner de peso mÌnimo}:\\
+    \item <2->\textcolor{blue}{$t$-spanner de peso m√≠nimo}:\\
       dado $(G,w,t)$\\
       %% Dado $G=(V,E)$, (real) $t > 1$ e $w: E \rightarrow \R^{+}$, \\
-      encontrar um $t$-spanner em $G$ de peso mÌnimo
+      encontrar um $t$-spanner em $G$ de peso m√≠nimo
       %% \begin{itemize}
-      %%   \item <2->caso unit·rio: $t$-spanner mÌnimo
+      %%   \item <2->caso unit√°rio: $t$-spanner m√≠nimo
       %%   \end{itemize}
   \end{itemize}
 \end{frame}
 
 
-\section{HistÛrico}
+\section{Hist√≥rico}
 
 %% \begin{frame}{Problemas sobre spanners}
 %%   \begin{itemize}
-%%     \item ¡rvore spanner de dilataÁ„o mÌnima:\\
+%%     \item √Årvore spanner de dilata√ß√£o m√≠nima:\\
 %%       $G=(V,E)$ e $w(E) \rightarrow \R^{+}$\\
-%%       Qual o menor $t$ t.q. $G$ contÈm um $t$-spanner?
+%%       Qual o menor $t$ t.q. $G$ cont√©m um $t$-spanner?
 %%   \end{itemize}
 %% \end{frame}
 
 %% \begin{frame}{Problemas sobre spanners}
 %%   \begin{itemize}
-%%     \item <1->$t$-spanner de peso mÌnimo:\\
+%%     \item <1->$t$-spanner de peso m√≠nimo:\\
 %%       $G=(V,E)$, (real) $t$ e $w(E) \rightarrow \R^{+}$.\\
-%%       Encontrar um $t$-spanner de $G$ de peso mÌnimo.
-%%     \item <2->Peso unit·rio $\rightarrow$ problema de \emph{spanner esparsa}.
+%%       Encontrar um $t$-spanner de $G$ de peso m√≠nimo.
+%%     \item <2->Peso unit√°rio $\rightarrow$ problema de \emph{spanner esparsa}.
 %%   \end{itemize}
 %% \end{frame}
 
-\begin{frame}{AplicaÁıes}
+\begin{frame}{Aplica√ß√µes}
   \begin{itemize}
-    \item Necessidade de economia de recursos ou computaÁ„o r·pida
-  %% \item Redes de comunicaÁ„o.
-      %% \item Sistemas distribuÌdos.
-      \item <2->ComputaÁ„o distribuÌda
-  %% \item RobÛtica.
+    \item Necessidade de economia de recursos ou computa√ß√£o r√°pida
+  %% \item Redes de comunica√ß√£o.
+      %% \item Sistemas distribu√≠dos.
+      \item <2->Computa√ß√£o distribu√≠da
+  %% \item Rob√≥tica.
   %% \item Modelo \emph{stream} de dados.
   \end{itemize}
 \end{frame}
 
-\begin{frame}{HistÛrico
+\begin{frame}{Hist√≥rico
     %% \hyperlink{histmaior}{\beamergotobutton{$\rightarrow$}}
   }
   \hypertarget{hist}{}
   \begin{itemize}
 %    \item <1-> Chew, 1986: Presented the problem of approximating complete euclidean graphs by planar subgraphs.% \cite{Chew1986}.
-    \item Peleg \& Ullman, 1987: noÁ„o de spanner
+    \item Peleg \& Ullman, 1987: no√ß√£o de spanner
 %was introduced by Peleg and Ullman \cite{PelegU1987} 
 %to build synchronizers.
     \item <2->Peleg \& Sch\"{a}ffer, 1989: spanner esparsa
@@ -677,7 +682,7 @@ edge     node                    {} (l4)
 %           \item Polynomial algorithm to build a $(4t + 1)$-spanner with $O(n^{1+1/t})$ 
 % edges, for $t \ge 1$ (arbitrary graphs).
 %         \end{itemize}
-%    \item Alth\"{o}fer et al., 1993: esparsidade $x$ fator de dilataÁ„o.
+%    \item Alth\"{o}fer et al., 1993: esparsidade $x$ fator de dilata√ß√£o.
 % for constructing $(2t + 1)$-spanner with at most 
 % $n\lceil n^{1/t}  \rceil$ edges.
 % %, for $t \ge 1$ (arbitrary weighted graphs).% \cite{AlthoferDDJS1993}.
@@ -693,14 +698,14 @@ edge     node                    {} (l4)
 
 \begin{frame}{Complexidade}
   \begin{itemize}
-  \item \textcolor{blue}{¡rvore spanner de peso mÌnimo} (vers„o de decis„o):\\
+  \item \textcolor{blue}{√Årvore spanner de peso m√≠nimo} (vers√£o de decis√£o):\\
       %% Cai \& Corneil, 1995:\\
       \begin{itemize}
-      \item {\makebox[3.3cm]{peso unit·rio: \hfill}$t \ge 4$ (fixo): \textcolor{red}{NP-completo}}\\
+      \item {\makebox[3.3cm]{peso unit√°rio: \hfill}$t \ge 4$ (fixo): \textcolor{red}{NP-completo}}\\
           {\makebox[3.3cm]{\hfill}$t = 3$: \textcolor{red}{aberto}}\\
           {\makebox[3.3cm]{\hfill}$t = 2$: \textcolor{red}{P}}\\
           \quad
-        \item <2->{\makebox[3.3cm]{peso arbitr·rio: \hfill}$t > 1$: \textcolor{red}{NP-completo}}\\
+        \item <2->{\makebox[3.3cm]{peso arbitr√°rio: \hfill}$t > 1$: \textcolor{red}{NP-completo}}\\
           \quad
           \item[] Cai \& Corneil, 1995
       \end{itemize}
@@ -709,25 +714,25 @@ edge     node                    {} (l4)
 
 \begin{frame}{Complexidade}
   \begin{itemize}
-  \item \textcolor{blue}{$t$-spanner de peso mÌnimo} (vers„o de decis„o):\\
+  \item \textcolor{blue}{$t$-spanner de peso m√≠nimo} (vers√£o de decis√£o):\\
     \begin{itemize}
-    \item {\makebox[3.3cm]{peso unit·rio: \hfill}$t \ge 2$ (fixo): \textcolor{red}{NP-completo}}\\
+    \item {\makebox[3.3cm]{peso unit√°rio: \hfill}$t \ge 2$ (fixo): \textcolor{red}{NP-completo}}\\
       \quad
     \item[] Cai, 1994
     \end{itemize}
   \end{itemize}
 \end{frame}
 
-\begin{frame}{DefiniÁ„o equivalente de spanner
+\begin{frame}{Defini√ß√£o equivalente de spanner
     %% \hyperlink{defspan}{\beamergotobutton{def}}
   }
   \hypertarget{span}{}
   \begin{itemize}
-  \item S„o equivalentes:
+  \item S√£o equivalentes:
       \begin{itemize}
       \item[{\rm (a)}]<1-> $\dist_{H}(u,v) \le t \cdot \dist_{G}(u,v) \;\forall\,u,v \in V$\\
         \quad
-        %$H$ È um $t$-spanner de $G$, isto È, $H$ satisfaz (\ref{eq:def_spanner});
+        %$H$ √© um $t$-spanner de $G$, isto √©, $H$ satisfaz (\ref{eq:def_spanner});
         %\item[{\rm (b)}] $\dist_{H}(u,v) \le t \cdot \dist_{G}(u,v) \;\forall\,uv \in E$;
       \item[{\rm (b)}]<2-> \textcolor{blue}{$\dist_{H}(u,v) \le t \cdot w_{uv} \;\forall\,uv \in E$}\\
         \quad
@@ -736,50 +741,50 @@ edge     node                    {} (l4)
     \end{itemize}
 \end{frame}
 
-\section{¡rvore $t$-spanner}
+\section{√Årvore $t$-spanner}
 
-\begin{frame}{FormulaÁıes}
+\begin{frame}{Formula√ß√µes}
   \begin{center}
     %% \item Dado $(G,w,t)$.
-    ¡rvore $t$-spanner de peso mÌnimo
-      %% encontrar uma ·rvore $t$-spanner em $G$ de peso mÌnimo.
+    √Årvore $t$-spanner de peso m√≠nimo
+      %% encontrar uma √°rvore $t$-spanner em $G$ de peso m√≠nimo.
   \end{center}
 \end{frame}
 
-%% \begin{frame}{Poliedro das ·rvores $t$-spanner}
+%% \begin{frame}{Poliedro das √°rvores $t$-spanner}
 %%   \begin{itemize}
 %%     \item<1-> Dada uma tripla $(G,w,t)$:\\
 %% \begin{equation*}
 %% \begin{split}
-%% P(G,t) = \text{conv}\{\incid^{F} \in \espacoX\; |\; \text{$G[F]$ È uma ·rvore $t$-spanner\}}. 
+%% P(G,t) = \text{conv}\{\incid^{F} \in \espacoX\; |\; \text{$G[F]$ √© uma √°rvore $t$-spanner\}}. 
 %% \end{split}
 %% \end{equation*}
 %% %     \item<2-> dim($P_{span}(G,t)$) = $|E| - |\BridgeG|$, onde\\
-%% % $\BridgeG = \{e \in E\; |\; e$ È uma aresta $t$-essencial de $G\}$.
+%% % $\BridgeG = \{e \in E\; |\; e$ √© uma aresta $t$-essencial de $G\}$.
 %%     \end{itemize}
 %% \end{frame}
 
-\begin{frame}{Poliedro das ·rvores $t$-spanner}
+\begin{frame}{Poliedro das √°rvores $t$-spanner}
   \begin{itemize}
     \item[] $F \subseteq E: \; G[F]:$ subgrafo de $G$ induzido por $F$
     \end{itemize}
 \begin{equation*}
   \begin{split}    
-P_{tree}(G,t) :=  \text{conv}\{\incid^{F} \in \espacoX\; |\; \text{$G[F]$ È uma ·rvore $t$-spanner\}} 
+P_{tree}(G,t) :=  \text{conv}\{\incid^{F} \in \espacoX\; |\; \text{$G[F]$ √© uma √°rvore $t$-spanner\}} 
 \end{split}
 \end{equation*}  
   \end{frame}
 
-%% \begin{frame}{PrÈ-processamento}
+%% \begin{frame}{Pr√©-processamento}
 %%   \begin{itemize}
-%%   \item Peso unit·rio (considerando o MWTSP):
+%%   \item Peso unit√°rio (considerando o MWTSP):
 %%     \begin{itemize}
-%%     \item Problema da ·rvore geradora mÌnima com di‚metro limitado (BDMSTP).
+%%     \item Problema da √°rvore geradora m√≠nima com di√¢metro limitado (BDMSTP).
 %%       \item Entrada: $G = (V,E),\, 2 \le D \le n - 2$.
 %%     \end{itemize}
-%%   \item ResoluÁ„o do BDMSTP com peso unit·rio:
+%%   \item Resolu√ß√£o do BDMSTP com peso unit√°rio:
 %%     \begin{itemize}
-%%     \item BFS para cada $v \in V$ atÈ que altura $\le \floor{D / 2}$.
+%%     \item BFS para cada $v \in V$ at√© que altura $\le \floor{D / 2}$.
 %%     \end{itemize}
 %%   \end{itemize}
 %% \end{frame}
@@ -890,7 +895,7 @@ P_{tree}(G,t) :=  \text{conv}\{\incid^{F} \in \espacoX\; |\; \text{$G[F]$ È uma 
     \item $G = (V,E)$, $D = (V,A)$
   \item Fixe $r \in V$
     \\$z^{r} = (z_{ij}^{r})_{ij \in A}$
-  %% \item Seja $x \in \espacoXBinary$. Para cada~$e \in E$, \hbox{$x(e) = 1$} sse $e$ faz parte da soluÁ„o.    
+  %% \item Seja $x \in \espacoXBinary$. Para cada~$e \in E$, \hbox{$x(e) = 1$} sse $e$ faz parte da solu√ß√£o.    
   \end{itemize}
 
 \begin{lpformulation}[]
@@ -1021,7 +1026,7 @@ P_{tree}(G,t) :=  \text{conv}\{\incid^{F} \in \espacoX\; |\; \text{$G[F]$ È uma 
 \begin{frame}{Relacionando os subgrafos $T^{r}$}
   \begin{itemize}
   \item $x \in \espacoXBinary$ \\
-    Para cada~$e \in E$, \hbox{$x(e) = 1$} sse $e$ faz parte da soluÁ„o
+    Para cada~$e \in E$, \hbox{$x(e) = 1$} sse $e$ faz parte da solu√ß√£o
 
     \begin{align}
       &\sum_{i \in \delta^{-}(j)}z^{r}_{ij} = 1 && \forall r \in V,\,\forall j \in V \setminus \{r\} \nonumber\\
@@ -1057,26 +1062,26 @@ P_{tree}(G,t) :=  \text{conv}\{\incid^{F} \in \espacoX\; |\; \text{$G[F]$ È uma 
 %%   \widetilde{T}^{v} = \widetilde{T}^{w}, \: \forall v, w \in V;
 %% \end{align*}
 
-%% \item <5->$T^{v}$ n„o tem circuitos, $\forall v \in V$. 
-%% \item <6->$T^{v}$ È uma \textcolor{red}{arborescÍncia} de $D$ ($T^v$ tem $|V|-1$ arcos), com raiz $v$, $\forall v \in V$.
-%%   \item <7->\textcolor{red}{$T$} $ = \widetilde{T}^{v}, \forall v \in V$, È uma \textcolor{red}{·rvore} geradora de $G$.
+%% \item <5->$T^{v}$ n√£o tem circuitos, $\forall v \in V$. 
+%% \item <6->$T^{v}$ √© uma \textcolor{red}{arboresc√™ncia} de $D$ ($T^v$ tem $|V|-1$ arcos), com raiz $v$, $\forall v \in V$.
+%%   \item <7->\textcolor{red}{$T$} $ = \widetilde{T}^{v}, \forall v \in V$, √© uma \textcolor{red}{√°rvore} geradora de $G$.
 %% %% \begin{fato}
 %% %%   \label{afirm:arv_geradora}
-%% %%   Seja $T \subseteq G$ tal que $E(T) = \{e \in E: x_e = 1\}$. Ent„o $T$
-%% %%   È uma ·rvore geradora de~$G$, e $T=\widetilde{T}^{v}$ para todo
+%% %%   Seja $T \subseteq G$ tal que $E(T) = \{e \in E: x_e = 1\}$. Ent√£o $T$
+%% %%   √© uma √°rvore geradora de~$G$, e $T=\widetilde{T}^{v}$ para todo
 %% %%   $v\in V$.
 %% %% \end{fato}
     
 %% %% \begin{align}
 %% %%   \label{afirm:arborescence}
-%% %%   T^{v} \text{ È uma arborescÍncia de }D, \text{ com raiz }v, \: \forall v \in V.
+%% %%   T^{v} \text{ √© uma arboresc√™ncia de }D, \text{ com raiz }v, \: \forall v \in V.
 %% %% \end{align}
 
 %%   \end{itemize}
   
 %% \end{frame}
 
-\begin{frame}{ArborescÍncias $T^v$ e $T^w$ se sobrepondo}
+\begin{frame}{Arboresc√™ncias $T^v$ e $T^w$ se sobrepondo}
 
 \begin{figure}[t]
   \centering
@@ -1179,7 +1184,7 @@ P_{tree}(G,t) :=  \text{conv}\{\incid^{F} \in \espacoX\; |\; \text{$G[F]$ È uma 
     \end{itemize}
   \end{frame}
 
-\begin{frame}{FormulaÁ„o 1: sem rÛtulos para dist‚ncias
+\begin{frame}{Formula√ß√£o 1: sem r√≥tulos para dist√¢ncias
     %% \hyperlink{sig_y}{\beamergotobutton{sig. y}}
   }
   \hypertarget{form_1}{}
@@ -1201,12 +1206,12 @@ P_{tree}(G,t) :=  \text{conv}\{\incid^{F} \in \espacoX\; |\; \text{$G[F]$ È uma 
   %% }
 \end{frame}
 
-\begin{frame}{FormulaÁ„o 2}
+\begin{frame}{Formula√ß√£o 2}
   \begin{itemize}
-  \item Os seguintes elementos s„o definidos da mesma forma como na FormulaÁ„o 1:
+  \item Os seguintes elementos s√£o definidos da mesma forma como na Formula√ß√£o 1:
     \begin{itemize}
     \item <2->$G = (V,E)$, $D = (V,A)$
-    \item <3->Vari·veis:\\
+    \item <3->Vari√°veis:\\
       $x_e \in \espacoBinary \qquad \forall e \in E$\\
       %% $y_e^f \in \espacoBinary \qquad \forall e,f \in E$.\\
       $z^{v}_{ij} \in \espacoBinary \qquad \forall v \in V,\, \forall ij \in A$
@@ -1217,16 +1222,16 @@ P_{tree}(G,t) :=  \text{conv}\{\incid^{F} \in \espacoX\; |\; \text{$G[F]$ È uma 
     \end{itemize}
   \end{frame}
 
-\begin{frame}{Vari·vel que representa dist‚ncia
+\begin{frame}{Vari√°vel que representa dist√¢ncia
     %% \hyperlink{sig_u}{\beamergotobutton{sig. u}}
   }
   \hypertarget{var_u}{}
   \begin{itemize}
   \item Para cada $r \in V$, $u^{r} \in \espacoUr$ \\
   \item <2->Para cada $i \in V:$\\
-    \textcolor{red}{$u^{r}_{i}$}: dist‚ncia entre $r$ e $i$ em $T^{r}$\\
+    \textcolor{red}{$u^{r}_{i}$}: dist√¢ncia entre $r$ e $i$ em $T^{r}$\\
     $M_{ij}^{r}:$ limite superior para $u^{r}_{i} - u^{r}_{j}$
-%% \item InequaÁıes que definem $u^r$:
+%% \item Inequa√ß√µes que definem $u^r$:
 %% {\tiny
 %%   \begin{lpformulation}[]
 %%     \lpeq[res:mtz_var]{u_{i} - u_{j} + (M_{ij} + w_{ij}) z^r_{ij} + (M_{ij} - w_{ij})z^r_{ji} \le M_{ij}}{ij \in A, j \ne r}
@@ -1237,7 +1242,7 @@ P_{tree}(G,t) :=  \text{conv}\{\incid^{F} \in \espacoX\; |\; \text{$G[F]$ È uma 
 %%   }
 
 %% \item
-%%   %<4-> Validade da inequaÁ„o \ref{res:mtz_var}:\\
+%%   %<4-> Validade da inequa√ß√£o \ref{res:mtz_var}:\\
 %%   %%   $z_{ij} = 1, z_{ji} = 0 \Rightarrow u_j \ge u_i + w_{ij}$\\
 %%   %% $z_{ij} = 0, z_{ji} = 1 \Rightarrow u_i - u_j \le w_{ij}$ \\
 %%   $z^r_{ij} = 0, z^r_{ji} = 0 \Rightarrow u_i - u_j \le M_{ij}$ 
@@ -1246,9 +1251,9 @@ P_{tree}(G,t) :=  \text{conv}\{\incid^{F} \in \espacoX\; |\; \text{$G[F]$ È uma 
   
 \end{frame}
 
-\begin{frame}{Vari·vel que representa dist‚ncia}
+\begin{frame}{Vari√°vel que representa dist√¢ncia}
   \begin{itemize}
-    \item[] Exemplo (peso unit·rio):
+    \item[] Exemplo (peso unit√°rio):
     \end{itemize}
 \begin{figure}[t]
   \centering
@@ -1304,10 +1309,10 @@ P_{tree}(G,t) :=  \text{conv}\{\incid^{F} \in \espacoX\; |\; \text{$G[F]$ È uma 
   \end{frame}
 
 
-%% \begin{frame}{Vari·vel que representa dist‚ncia}
+%% \begin{frame}{Vari√°vel que representa dist√¢ncia}
 
 %%   \begin{itemize}
-%%     \item[] Exemplo (peso unit·rio):
+%%     \item[] Exemplo (peso unit√°rio):
 %%   \end{itemize}
   
 %% \begin{figure}[t]
@@ -1362,7 +1367,7 @@ P_{tree}(G,t) :=  \text{conv}\{\incid^{F} \in \espacoX\; |\; \text{$G[F]$ È uma 
   
 %%   \end{frame}
 
-\begin{frame}{FormulaÁ„o 2: com rÛtulos para dist‚ncias}
+\begin{frame}{Formula√ß√£o 2: com r√≥tulos para dist√¢ncias}
   \tiny
   \Fontvi
   \begin{lpformulation} %[{\rm (PI)}]
@@ -1384,9 +1389,9 @@ P_{tree}(G,t) :=  \text{conv}\{\incid^{F} \in \espacoX\; |\; \text{$G[F]$ È uma 
 
 \section{$t$-spanner}
 
-\begin{frame}{FormulaÁ„o}
+\begin{frame}{Formula√ß√£o}
   \begin{center}
-    $t$-spanner de peso mÌnimo
+    $t$-spanner de peso m√≠nimo
     \end{center}
 \end{frame}
 
@@ -1394,17 +1399,17 @@ P_{tree}(G,t) :=  \text{conv}\{\incid^{F} \in \espacoX\; |\; \text{$G[F]$ È uma 
 \begin{frame}{Poliedro dos grafos $t$-spanner}
   \begin{equation*}
     \begin{split}
-      P_{span}(G,t) := \text{conv}\{\incid^{F} \in \espacoX\; |\; \text{$G[F]$ È um $t$-spanner de $G$\}}
+      P_{span}(G,t) := \text{conv}\{\incid^{F} \in \espacoX\; |\; \text{$G[F]$ √© um $t$-spanner de $G$\}}
     \end{split}
   \end{equation*}
   
   \end{frame}
 
-\begin{frame}{Vari·veis de decis„o}
+\begin{frame}{Vari√°veis de decis√£o}
   \begin{itemize}
   \item Interessados em $F\subseteq E$ tais que $\incid^{F} \in P_{span}(G,t)$
     \item <2->Para $u,v \in V:\; \PathuvF$ - conjunto de caminhos $t$-spanner entre $u$ e $v$ em $G[F]$
-  \item <3->Vari·veis de decis„o:
+  \item <3->Vari√°veis de decis√£o:
     \begin{itemize}
     \item <3->$x \in \espacoX$: $\forall e \in E, x(e) = 1$ sse $e \in F$
     \item <4->$Y \in \espacoY$: $\forall e=uv \in E$ deve existir
@@ -1416,13 +1421,13 @@ P_{tree}(G,t) :=  \text{conv}\{\incid^{F} \in \espacoX\; |\; \text{$G[F]$ È uma 
   \end{itemize}
 \end{frame}
 
-\begin{frame}{FormulaÁ„o
+\begin{frame}{Formula√ß√£o
     %% \hyperlink{supminimal}{\beamergotobutton{$\rightarrow$}}
   }
   \hypertarget{formmwsp}{}
   %% \begin{itemize}
   %% \item $F\subseteq E$ tais que $\incid^{F} \in P_{span}(G,t)$.
-  %%   \item Vari·veis de decis„o: $x \in \espacoX$ e $Y \in \espacoY$.
+  %%   \item Vari√°veis de decis√£o: $x \in \espacoX$ e $Y \in \espacoY$.
   %% \end{itemize}
 
 {\small
@@ -1442,7 +1447,7 @@ $P(G,t)= \{(x, Y): x \in \espacoX, Y \in \espacoY\; |\; (x,Y) \text{ satisfaz } 
   
 \end{frame}
 
-\begin{frame}{CorrespondÍncia entre $P_{span}(G,t)$ e $P(G,t)$}
+\begin{frame}{Correspond√™ncia entre $P_{span}(G,t)$ e $P(G,t)$}
   \begin{itemize}
     \item[] Seja $P_{x}(G,t) = \{x \in \espacoX\; |\; \exists Y \in \espacoY$ t.q. 
 $(x,Y) \in P(G,t)\}$
@@ -1452,7 +1457,7 @@ $(x,Y) \in P(G,t)\}$
 \end{proposicao}
   \end{frame}
 
-\begin{frame}{SeparaÁ„o das inequaÁıes de corte}
+\begin{frame}{Separa√ß√£o das inequa√ß√µes de corte}
 %% \begin{lpformulation}[(P)]
 %% \lpobj*{min}{\sum_{e\in E} w_ex_e}
 %% \lpeq*{(x,Y) \in P(G,t)}{}
@@ -1461,14 +1466,14 @@ $(x,Y) \in P(G,t)\}$
 %% \end{lpformulation}
   
   \begin{itemize}
-  \item InequaÁıes (\ref{res_mmst:path}): n˙mero exponencial
-    \item <2->InequaÁıes (\ref{res_mmst:path}) podem ser separadas em tempo polinomial
+  \item Inequa√ß√µes (\ref{res_mmst:path}): n√∫mero exponencial
+    \item <2->Inequa√ß√µes (\ref{res_mmst:path}) podem ser separadas em tempo polinomial
     \end{itemize}
   \end{frame}
 
-%% \begin{frame}{Fator de (in)aproximaÁ„o para o MMST}
+%% \begin{frame}{Fator de (in)aproxima√ß√£o para o MMST}
 %%   \begin{itemize}
-%%     \item InaproximaÁ„o:
+%%     \item Inaproxima√ß√£o:
 %%       \begin{itemize}
 %%         \item <1-> Com peso: $(1 + \sqrt{5})/2$ \textcolor{ProcessBlue}{\footnotesize{\cite{PelegR1999}}}.
 %%         %\item <2-> Sem peso: $(2 - \epsilon), \epsilon > 0$ \textcolor{ProcessBlue}{\footnotesize{\cite{Galbiati2001}}}.
@@ -1477,7 +1482,7 @@ $(x,Y) \in P(G,t)\}$
 %% %     \item <2-> This result was improved to $(2 - \epsilon), \epsilon > 0$, for unweighted 
 %% % graphs \cite{Galbiati2001}.
 %%       \end{itemize}
-%%     \item <3->AproximaÁ„o:
+%%     \item <3->Aproxima√ß√£o:
 %%       \begin{itemize}
 %%         \item <3->$O(\log n)$ \textcolor{ProcessBlue}{\footnotesize{\cite{EmekP2008}}}.
 %%         \item <3-> Sem peso: $O(\log n)$ \textcolor{ProcessBlue}{\footnotesize{\cite{DraganK2014}}}.
@@ -1488,24 +1493,24 @@ $(x,Y) \in P(G,t)\}$
 
 %% \section{GC}
 
-\begin{frame}{GeraÁ„o de colunas}
+\begin{frame}{Gera√ß√£o de colunas}
   \begin{center}
     Algoritmo de \emph{branch-and-price}
     \end{center}
   \end{frame}
 
-%% \begin{frame}{DefiniÁıes}
+%% \begin{frame}{Defini√ß√µes}
 %%   \begin{itemize}
 %%     \item Dado $(G,w,t)$.
 %%     \item Seja $u,v \in V$.
-%%   \item $\Pathuv$ coleÁ„o caminhos $t$-spanner de $u$ a $v$ em~$G$.
+%%   \item $\Pathuv$ cole√ß√£o caminhos $t$-spanner de $u$ a $v$ em~$G$.
 %%   \item $\spanPath = \bigcup\limits_{uv \in E} \Pathuv$.
 %%   \item $\PathuvPrime \subseteq \Pathuv$, t.q. $|\PathuvPrime| \ge 1$.
 %%     \item $\spanPathPrime = \bigcup\limits_{uv \in E} \PathuvPrime$.
 %%     \end{itemize}
 %%   \end{frame}
 
-\begin{frame}{FormulaÁ„o linear para o $t$-spanner}
+\begin{frame}{Formula√ß√£o linear para o $t$-spanner}
 
 \begin{lpformulation}[\FullPrimalPL]
 \lpobj*{min}{\sum_{e\in E} w_ex_e}
@@ -1533,11 +1538,11 @@ $(x,Y) \in P(G,t)\}$
 
 %% \end{frame}
 
-%% \begin{frame}{Dual da relaxaÁ„o do PL~$\FullPrimalPL$ \hyperlink{provacustoreduzido}{\beamergotobutton{$\rightarrow$}}}
+%% \begin{frame}{Dual da relaxa√ß√£o do PL~$\FullPrimalPL$ \hyperlink{provacustoreduzido}{\beamergotobutton{$\rightarrow$}}}
 %% \hypertarget{dualrelax}{}
 %%   \begin{itemize}
 %%   \item $\forall uv, e \in E$, sejam $\pi^{u,v}_{e}$ e $\sigma_{u,v}$
-%%     vari·veis duais de (\ref{res_mwsp_cg:relate_vars}) e
+%%     vari√°veis duais de (\ref{res_mwsp_cg:relate_vars}) e
 %%     (\ref{res_mwsp_cg:caminho}).
 %%     \end{itemize}
 %% \begin{lpformulation}[\FullDualPL]
@@ -1557,7 +1562,7 @@ $(x,Y) \in P(G,t)\}$
   \begin{itemize}
 
     \item $\forall uv, e \in E$, sejam $\pi^{u,v}_{e}$ e $\sigma_{u,v}$
-    vari·veis duais de (\ref{res_mwsp_cg:relate_vars}) e
+    vari√°veis duais de (\ref{res_mwsp_cg:relate_vars}) e
     (\ref{res_mwsp_cg:caminho}).
     
     \item <2->Custo reduzido:
@@ -1571,7 +1576,7 @@ $(x,Y) \in P(G,t)\}$
   \min_{p \in \Pathuv}\sum_{e \in E} \delta^{e}_{p}\pi^{u,v}_{e} - \sigma_{u,v}
 \end{align*}
 \begin{itemize}
-  \item <3->\textcolor{red}{Problema do caminho mÌnimo restrito} (CSPP)
+  \item <3->\textcolor{red}{Problema do caminho m√≠nimo restrito} (CSPP)
   \end{itemize}
 
   \end{itemize}
@@ -1583,36 +1588,36 @@ $(x,Y) \in P(G,t)\}$
 \SetKwInOut{Input}{Input}
 \SetKwInOut{Output}{Output}
 
-\begin{frame}{HeurÌstica primal}
+\begin{frame}{Heur√≠stica primal}
   \hypertarget{heurprimal}{}
   \begin{itemize}
-  %% \item<1-> Spanner baseado em partiÁ„o em \emph{clusters} \hyperlink{heurcluster}{\beamergotobutton{$\rightarrow$}}
+  %% \item<1-> Spanner baseado em parti√ß√£o em \emph{clusters} \hyperlink{heurcluster}{\beamergotobutton{$\rightarrow$}}
   %%   \begin{itemize}
-  %%   \item<1-> \emph{Clusters} esparsos s„o construÌdos.
-  %%   \item<1-> Para cada \emph{cluster} È gerado uma ACM.
-  %%   \item<1-> AdjacÍncia existente entre vÈrtice externo e \emph{cluster} ser· mantida.
+  %%   \item<1-> \emph{Clusters} esparsos s√£o constru√≠dos.
+  %%   \item<1-> Para cada \emph{cluster} √© gerado uma ACM.
+  %%   \item<1-> Adjac√™ncia existente entre v√©rtice externo e \emph{cluster} ser√° mantida.
   %%   \end{itemize}
-  \item<1-> Algoritmo Guloso de Althˆfer et al., 1993
+  \item<1-> Algoritmo Guloso de Alth√∂fer et al., 1993
     %% \hyperlink{heurguloso}{\beamergotobutton{$\rightarrow$}}
     \begin{itemize}
-    \item<2-> Ordena arestas por peso de maneira n„o-decrescente
-    \item<3-> Aresta È adicionada se $\nexists$ caminho $t$-spanner entre extremos
+    \item<2-> Ordena arestas por peso de maneira n√£o-decrescente
+    \item<3-> Aresta √© adicionada se $\nexists$ caminho $t$-spanner entre extremos
     \end{itemize}
   \end{itemize}
 \end{frame}
 
-%% \begin{frame}{HeurÌstica dual \hyperlink{heurmst}{\beamergotobutton{$\rightarrow$}}}
+%% \begin{frame}{Heur√≠stica dual \hyperlink{heurmst}{\beamergotobutton{$\rightarrow$}}}
 %%   \hypertarget{heurdual}{}
 %%   \begin{itemize}
 %%   \item Gerar uma MST que conecta os componentes induzidos pelas arestas
-%%     fixadas para ·rvore de B\&B.
+%%     fixadas para √°rvore de B\&B.
 %%     \end{itemize}
 %%   \end{frame}
 
-  \begin{frame}{EstratÈgias}
+  \begin{frame}{Estrat√©gias}
     \begin{itemize}
-    \item Vari·vel fracion·ria: vari·vel cujo valor est· mais prÛximo de $\num{0,5}$
-    \item <2->PrÛximo nÛ da ·rvore de B\&B: nÛ que possui menor limitante inferior
+    \item Vari√°vel fracion√°ria: vari√°vel cujo valor est√° mais pr√≥ximo de $\num{0,5}$
+    \item <2->Pr√≥ximo n√≥ da √°rvore de B\&B: n√≥ que possui menor limitante inferior
     \end{itemize}
   \end{frame}
   
@@ -1626,26 +1631,26 @@ $(x,Y) \in P(G,t)\}$
 
 \begin{frame}{Objetivos}
   \begin{itemize}
-  \item ComparaÁ„o das formulaÁıes exatas propostas para o problema de ·rvore $t$-spanner
-  \item <2->An·lise do desempenho do algoritmo de \emph{branch-and-price} para o
+  \item Compara√ß√£o das formula√ß√µes exatas propostas para o problema de √°rvore $t$-spanner
+  \item <2->An√°lise do desempenho do algoritmo de \emph{branch-and-price} para o
     problema de $t$-spanner
     \end{itemize}
 \end{frame}
 
-\begin{frame}{Par‚metros}
+\begin{frame}{Par√¢metros}
   \begin{itemize}
   \item Ordem
   \item <2->Densidade
-  \item <3->Tipo do grafo (peso unit·rio, dist‚ncia euclidiana, peso aleatÛrio)
+  \item <3->Tipo do grafo (peso unit√°rio, dist√¢ncia euclidiana, peso aleat√≥rio)
     \begin{itemize}
-    \item <4->Peso aleatÛrio:
+    \item <4->Peso aleat√≥rio:
       \begin{itemize}
-      \item <4->mais espaÁado: $\{1, 2, 4, 8, 16\}$
-      \item <5->menos espaÁado: $\{1, 2, 3\}$
+      \item <4->mais espa√ßado: $\{1, 2, 4, 8, 16\}$
+      \item <5->menos espa√ßado: $\{1, 2, 3\}$
       \end{itemize}
     \end{itemize}
-  \item <6->Fator de dilataÁ„o
-  \item <7->Grau mÈdio
+  \item <6->Fator de dilata√ß√£o
+  \item <7->Grau m√©dio
     \item <8->Tempo limite
   \end{itemize}
 \end{frame}
@@ -1653,11 +1658,11 @@ $(x,Y) \in P(G,t)\}$
 
 \begin{frame}{Parte I}
   \begin{center}
-    ¡rvore $t$-spanner de peso mÌnimo
+    √Årvore $t$-spanner de peso m√≠nimo
   \end{center}
 \end{frame}
 
-\begin{frame}{Quantidade de inst‚ncias resolvidas}
+\begin{frame}{Quantidade de inst√¢ncias resolvidas}
   \begin{figure}[t]%
     %% \centering
     \subfloat{\includegraphics[scale=0.45]{figures/2inst_den-sf4-s40-unit}}%
@@ -1672,22 +1677,22 @@ $(x,Y) \in P(G,t)\}$
     \end{itemize}
 \end{frame}
 
-%% \begin{frame}{Quantidade de inst‚ncias resolvidas para $t = 3$, peso unit·rio e ordem baixa}
+%% \begin{frame}{Quantidade de inst√¢ncias resolvidas para $t = 3$, peso unit√°rio e ordem baixa}
 %% \begin{figure}%
 %%     \centering
 %%     \subfloat{{\includegraphics[scale=0.45]{figures/2inst_den-sf3-s20-unit} }}%
 %%     %\;
 %%     \subfloat{{\includegraphics[scale=0.45]{figures/2inst_den-sf3-s30-unit} }}
-%%     %% \caption{Quantidade de inst‚ncias resolvidas para $t = 3$, peso unit·rio e ordem baixa}%
+%%     %% \caption{Quantidade de inst√¢ncias resolvidas para $t = 3$, peso unit√°rio e ordem baixa}%
 %%     \caption{}
 %%     \label{fig:tree_sf3_s20_30_unit}%
 %% \end{figure}
 %% \begin{itemize}
-%%   \item Para $t, |V|, den$ pequenos e peso unit·rio, $SR$ È melhor.
+%%   \item Para $t, |V|, den$ pequenos e peso unit√°rio, $SR$ √© melhor.
 %%   \end{itemize}
 %% \end{frame}
 
-\begin{frame}{Quantidade de inst‚ncias resolvidas}
+\begin{frame}{Quantidade de inst√¢ncias resolvidas}
 \begin{figure}%
     \centering
     \subfloat{{\includegraphics[scale=0.45]{figures/find-2inst_den-sf4-s20_50-random} }}%
@@ -1698,13 +1703,13 @@ $(x,Y) \in P(G,t)\}$
 \end{figure}
 
 \begin{itemize}
-  \item Comportamento È semelhante para pesos aleatÛrios menos espaÁados
+  \item Comportamento √© semelhante para pesos aleat√≥rios menos espa√ßados
   \end{itemize}
 \end{frame}
 
-%% \begin{frame}{Inst‚ncias que admitem ·rvore $t$-spanner}
+%% \begin{frame}{Inst√¢ncias que admitem √°rvore $t$-spanner}
 %%   \begin{itemize}
-%%   \item Peso unit·rio:
+%%   \item Peso unit√°rio:
 %%     \begin{itemize}
 %%     \item $t$ alto (ver Figura~\ref{fig:tree_sf4_s40_50_unit} e lado direito da
 %%       Figura~\ref{fig:tree_sf3_s20_30_unit}).
@@ -1720,29 +1725,29 @@ $(x,Y) \in P(G,t)\}$
 
 \begin{frame}{Maior tempo e ordem e menor $t$}
   \begin{itemize}
-  \item <1->Maior tempo limite de execuÁ„o
+  \item <1->Maior tempo limite de execu√ß√£o
     \begin{itemize}
-      \item <1->peso aleat. menos espaÁado: CR e SR se comportam da mesma forma
+      \item <1->peso aleat. menos espa√ßado: CR e SR se comportam da mesma forma
     \end{itemize}
   \item <2->Valores maiores de ordem
     \begin{itemize}
-      \item <2->peso aleat. menos espaÁado: CR e SR se comportam da mesma forma
+      \item <2->peso aleat. menos espa√ßado: CR e SR se comportam da mesma forma
     \end{itemize}
   \item <3->Menor $t$
     \begin{itemize}
-    \item <3->CR: todas as inst‚ncias resolvidas em menos de $3s$
-      \item <3->SR: tempo de execuÁ„o bem maior
+    \item <3->CR: todas as inst√¢ncias resolvidas em menos de $3s$
+      \item <3->SR: tempo de execu√ß√£o bem maior
       \end{itemize}
     \end{itemize}
   \end{frame}
 
-%% \begin{frame}{Maior tempo limite de execuÁ„o}
+%% \begin{frame}{Maior tempo limite de execu√ß√£o}
 %%   \begin{itemize}
-%%   \item Peso aleatÛrio menos espaÁado:
+%%   \item Peso aleat√≥rio menos espa√ßado:
 %%     \begin{itemize}
-%%     \item CR e SR se comportam de maneira semelhante quando o tempo limite È maior.
-%%     \item Para $t = 3$, $|V| = 20$ ou $30$, todas as inst‚ncias foram resolvidas por CR, exceto para $den = 20\%$.
-%%     \item Para $t = 4$ e densidades altas, poucas inst‚ncias resolvidas.
+%%     \item CR e SR se comportam de maneira semelhante quando o tempo limite √© maior.
+%%     \item Para $t = 3$, $|V| = 20$ ou $30$, todas as inst√¢ncias foram resolvidas por CR, exceto para $den = 20\%$.
+%%     \item Para $t = 4$ e densidades altas, poucas inst√¢ncias resolvidas.
 %%     \end{itemize}
 %%   \end{itemize}
 %% \end{frame}
@@ -1750,20 +1755,20 @@ $(x,Y) \in P(G,t)\}$
 %% \begin{frame}{Valores maiores de ordem}
 %%   \begin{itemize}
 %%     \item $60 \le |V| \le 80$
-%%     \item Peso aleat. menos espaÁado:
+%%     \item Peso aleat. menos espa√ßado:
 %%     \begin{itemize}
 %%     \item CR e SR se comportam de maneira semalhante quando comparado ao tamanho menor de $|V|$.
 %%       \begin{itemize}
 %%         \item $> |V|, t, den \rightarrow $ $< \#$ inst. resolvidas.
 %%         \end{itemize}
 %%     \end{itemize}
-%%   \item Peso unit·rio ($den = 20\%$):\\
+%%   \item Peso unit√°rio ($den = 20\%$):\\
 %%     CR resolve poucas inst. para $t = 3$;\\
 %%     SR resolve poucas inst. para $t = 4$.
 %%     \end{itemize}
 %% \end{frame}
 
-%% \begin{frame}{Quantidade de inst‚ncias resolvidas pela formulaÁ„o CR para peso aleatÛrio menos espaÁado}
+%% \begin{frame}{Quantidade de inst√¢ncias resolvidas pela formula√ß√£o CR para peso aleat√≥rio menos espa√ßado}
 %% \begin{center}
 %% \noindent
 %% \footnotesize{
@@ -1792,14 +1797,14 @@ $(x,Y) \in P(G,t)\}$
 %% \end{center}  
 %%  \end{frame}
 
-%% \begin{frame}{Fator de dilataÁ„o baixo}
+%% \begin{frame}{Fator de dilata√ß√£o baixo}
 %%   \begin{itemize}
 %%     \item $t = \num{1,2}$ e $2$.
-%%     \item CR: todas as inst‚ncias resolvidas em menos de $3s$.
+%%     \item CR: todas as inst√¢ncias resolvidas em menos de $3s$.
 %%     \item SR:
 %%       \begin{itemize}
-%%       \item Tempo de execuÁ„o bem maior.
-%%         \item Inst‚ncias n„o s„o resolvidas para $|V| = 50$ e $den \ge 80\%$.
+%%       \item Tempo de execu√ß√£o bem maior.
+%%         \item Inst√¢ncias n√£o s√£o resolvidas para $|V| = 50$ e $den \ge 80\%$.
 %%         \end{itemize}
 %%   \end{itemize}
 
@@ -1812,7 +1817,7 @@ $(x,Y) \in P(G,t)\}$
 %% \end{figure}  
 %%   \end{frame}
 
-\begin{frame}{RecomendaÁ„o de uso das formulaÁıes SR e CR}
+\begin{frame}{Recomenda√ß√£o de uso das formula√ß√µes SR e CR}
 %\scalebox{0.7}{
 \begin{table}
   \centering
@@ -1837,7 +1842,7 @@ Dens. baixa & Ord. grande & CR & CR & SR & CR (SR) \\
 
 \begin{frame}{Parte II}
   \begin{center}
-    $t$-spanner de peso mÌnimo
+    $t$-spanner de peso m√≠nimo
   \end{center}
 \end{frame}
 
@@ -1863,8 +1868,8 @@ $t = 4$ & $(10)$ & $(10)$ & $\num{99,7693944444444} (10)$ & - & - & - & $\num{22
 \hline
 \end{tabular}
 }
-%% \caption{Inst‚ncias resolvidas por GC e tempo de execuÁ„o para peso aleatÛrio}
-\caption{Peso aleatÛrio}
+%% \caption{Inst√¢ncias resolvidas por GC e tempo de execu√ß√£o para peso aleat√≥rio}
+\caption{Peso aleat√≥rio}
 \label{tab:mwsp_random}
 \end{table}
 
@@ -1889,8 +1894,8 @@ $t = 4$ & $(10)$ & $\num{6,1226376} (10)$ & $\num{312,173572} (10)$ & - & - & - 
 \hline
 \end{tabular}
 }
-%% \caption{Inst‚ncias resolvidas por GC e tempo de execuÁ„o para dist‚ncia euclidiana}
-\caption{Dist‚ncia euclidiana}
+%% \caption{Inst√¢ncias resolvidas por GC e tempo de execu√ß√£o para dist√¢ncia euclidiana}
+\caption{Dist√¢ncia euclidiana}
 \label{tab:mwsp_euclidean}
 \end{table}
 \end{frame}
@@ -1900,16 +1905,16 @@ $t = 4$ & $(10)$ & $\num{6,1226376} (10)$ & $\num{312,173572} (10)$ & - & - & - 
   \item Variando grau:
     \begin{itemize}
     \item Com peso:\\
-      $t = 2$: GC È melhor com dist‚ncia euclidiana\\
-      $t = 3$: GC È melhor com dist‚ncia euclidiana\\
-      $t = 4$: GC È melhor com pesos aleatÛrios
+      $t = 2$: GC √© melhor com dist√¢ncia euclidiana\\
+      $t = 3$: GC √© melhor com dist√¢ncia euclidiana\\
+      $t = 4$: GC √© melhor com pesos aleat√≥rios
     \end{itemize}
   \item <2->Variando densidade:
     \begin{itemize}
       \item <2->Sem peso:\\
-        $t = 2$: GC È melhor com dist‚ncia euclidiana\\
-        $t = 3$: GC È melhor com pesos aleatÛrios\\
-        $t = 4$: GC È melhor com pesos aleatÛrios
+        $t = 2$: GC √© melhor com dist√¢ncia euclidiana\\
+        $t = 3$: GC √© melhor com pesos aleat√≥rios\\
+        $t = 4$: GC √© melhor com pesos aleat√≥rios
       \end{itemize}
     \end{itemize}
   \end{frame}
@@ -1922,7 +1927,7 @@ $t = 4$ & $(10)$ & $\num{6,1226376} (10)$ & $\num{312,173572} (10)$ & - & - & - 
 %% \item Dist. euclidiana:
 %%   \begin{itemize}
 %%   \item $t = 3$: escala bem para grau~4; para grau~8, admite-se ordens maiores.
-%%   \item $t = 4$: GC se comporta melhor neste cen·rio quando comparado com os pesos aleatÛrios.
+%%   \item $t = 4$: GC se comporta melhor neste cen√°rio quando comparado com os pesos aleat√≥rios.
 %%   \end{itemize}
 %% \end{itemize}  
 %% \end{frame}
@@ -1949,11 +1954,11 @@ $t = 4$ & $(10)$ & $\num{6,1226376} (10)$ & $\num{312,173572} (10)$ & - & - & - 
 %% \begin{itemize}
 %% \item Ambos os pesos:
 %%   \begin{itemize}
-%%   \item $t = 2$: resolve quase todas inst‚ncias.
-%%   \item $t = 3$: muito menos inst‚ncias s„o resolvidas quando $|V|$ aumenta de 32 para 64.
-%%   \item GC È melhor com o peso aleatÛrio.
+%%   \item $t = 2$: resolve quase todas inst√¢ncias.
+%%   \item $t = 3$: muito menos inst√¢ncias s√£o resolvidas quando $|V|$ aumenta de 32 para 64.
+%%   \item GC √© melhor com o peso aleat√≥rio.
 %%   \end{itemize}
-%%   \item Caso unit·rio: $> t, |V| \rightarrow < \#$ inst. resolvidas.
+%%   \item Caso unit√°rio: $> t, |V| \rightarrow < \#$ inst. resolvidas.
 %% \end{itemize}  
 %%   \end{frame}
 
@@ -1966,10 +1971,10 @@ $t = 4$ & $(10)$ & $\num{6,1226376} (10)$ & $\num{312,173572} (10)$ & - & - & - 
 %% \end{figure}
   
 %%   \begin{itemize}
-%%   \item Para $t = 4$, $|V| = 32$ e peso aleatÛrio: curva apresenta
+%%   \item Para $t = 4$, $|V| = 32$ e peso aleat√≥rio: curva apresenta
 %%     comportamento de decaimento.
 %%   \item Peso unit.: $> t, |V| \rightarrow < \#$ inst. resolvidas.
-%%     \item Em geral: $> t, den \rightarrow > \#$ sol. vi·veis.
+%%     \item Em geral: $> t, den \rightarrow > \#$ sol. vi√°veis.
 %%     \end{itemize}
 %%   \end{frame}
 
@@ -1981,25 +1986,25 @@ $t = 4$ & $(10)$ & $\num{6,1226376} (10)$ & $\num{312,173572} (10)$ & - & - & - 
 
 \appendix
 
-\begin{frame}{HistÛrico \hyperlink{hist}{\beamergotobutton{$\leftarrow$}}}
+\begin{frame}{Hist√≥rico \hyperlink{hist}{\beamergotobutton{$\leftarrow$}}}
   \hypertarget{histmaior}{}
   \begin{itemize}    
-  \item <1-> 1992 - 1995: resultados cl·ssicos de complexidade.
-  \item <2-> 1993 - 2001: classes especÌficas de grafos.
+  \item <1-> 1992 - 1995: resultados cl√°ssicos de complexidade.
+  \item <2-> 1993 - 2001: classes espec√≠ficas de grafos.
   \item <3-> 2001 - 2008: (in)aproximabilidade para classes gerais.
-  \item <4-> 2009 - 2014: algoritmos de aproximaÁ„o baseados em PL.
-  \item <5-> 2015 - 2018: spanners distribuÌdos, or·culos de dist‚ncia e
+  \item <4-> 2009 - 2014: algoritmos de aproxima√ß√£o baseados em PL.
+  \item <5-> 2015 - 2018: spanners distribu√≠dos, or√°culos de dist√¢ncia e
     spanners esparsos.    
   \end{itemize}
 \end{frame}
 
 
-\begin{frame}{DefiniÁıes equivalentes de spanner \hyperlink{span}{\beamergotobutton{$\leftarrow$}}}
+\begin{frame}{Defini√ß√µes equivalentes de spanner \hyperlink{span}{\beamergotobutton{$\leftarrow$}}}
   \hypertarget{defspan}{}
   \begin{itemize}
-    \item AfirmaÁıes equivalentes:
+    \item Afirma√ß√µes equivalentes:
       \begin{itemize}
-        \item[{\rm (a)}] $H$ È um $t$-spanner de $G$, isto È, $H$ satisfaz (\ref{eq:def_spanner});
+        \item[{\rm (a)}] $H$ √© um $t$-spanner de $G$, isto √©, $H$ satisfaz (\ref{eq:def_spanner});
         \item[{\rm (b)}] $\dist_{H}(u,v) \le t \cdot \dist_{G}(u,v) \;\forall\,uv \in E$;
         \item[{\rm (b')}] $\dist_{H}(u,v) \le t \cdot \dist_{G}(u,v) \;\forall\,uv \in E \setminus E(H)$;
         \item[{\rm (c)}] $\dist_{H}(u,v) \le t \cdot w_{uv} \;\forall\,uv \in E$.
@@ -2008,7 +2013,7 @@ $t = 4$ & $(10)$ & $\num{6,1226376} (10)$ & $\num{312,173572} (10)$ & - & - & - 
     \end{itemize}
 \end{frame}
 
-\begin{frame}{Significado da vari·vel $y$ \hyperlink{form_1}{\beamergotobutton{$\leftarrow$}}}
+\begin{frame}{Significado da vari√°vel $y$ \hyperlink{form_1}{\beamergotobutton{$\leftarrow$}}}
   \hypertarget{sig_y}{}
   {\footnotesize
   \begin{itemize}
@@ -2023,7 +2028,7 @@ $t = 4$ & $(10)$ & $\num{6,1226376} (10)$ & $\num{312,173572} (10)$ & - & - & - 
 %\small
 \begin{center}
   \noindent
-  %\captionof{table}{DiferenÁas e somas relativas ‡ vari·vel $z$}
+  %\captionof{table}{Diferen√ßas e somas relativas √† vari√°vel $z$}
   \label{tab:sum_diff} 
 \begin{tabular}{|r|r|r|r|}\hline
 {$d^{uv}_{ij}$ $s^{uv}_{ij}$} & {$z^{u}_{ij}$ $z^{v}_{ij}$} & {$z^{u}_{ji}$ $z^{v}_{ji}$} & {$d^{uv}_{ji}$ $s^{uv}_{ji}$}
@@ -2051,7 +2056,7 @@ $0\quad 0$ & $0\quad 0$ & $0\quad 0$ & $0\quad 0$ \\
 
 \end{frame}
 
-\begin{frame}{Significado da vari·vel $u^{r}$ \hyperlink{var_u}{\beamergotobutton{$\leftarrow$}}}
+\begin{frame}{Significado da vari√°vel $u^{r}$ \hyperlink{var_u}{\beamergotobutton{$\leftarrow$}}}
   \hypertarget{sig_u}{}
 
 \begin{figure}[t]
@@ -2108,12 +2113,12 @@ $0\quad 0$ & $0\quad 0$ & $0\quad 0$ & $0\quad 0$ \\
   {\footnotesize
   \begin{itemize}
 
-  \item Ineq. \ref{res:mtz_var} com relaÁ„o ao arco $ij:$
+  \item Ineq. \ref{res:mtz_var} com rela√ß√£o ao arco $ij:$
     \begin{align*}
   u^{r}_i - u^{r}_j + (M^{r}_{ij} + w_{ij}) \cdot 1 + (M^{r}_{ij} - w_{ij}) \cdot 0 \le M^{r}_{ij} \Rightarrow u^{r}_j \ge u^{r}_i + w_{ij}.
 \end{align*}
     
-  \item Ineq. \ref{res:mtz_var} com relaÁ„o ao arco $ji:$
+  \item Ineq. \ref{res:mtz_var} com rela√ß√£o ao arco $ji:$
     \begin{align*}
   u^{r}_j - u^{r}_i + (M^{r}_{ji} + w_{ij}) \cdot 0 + (M^{r}_{ji} - w_{ij}) \cdot 1 \le M^{r}_{ji} \Rightarrow u^{r}_j \le u^{r}_i + w_{ij}.
 \end{align*}
@@ -2128,45 +2133,45 @@ $0\quad 0$ & $0\quad 0$ & $0\quad 0$ & $0\quad 0$ \\
   
 \end{frame}
 
-\begin{frame}{HeurÌstica primal \hyperlink{heurprimal}{\beamergotobutton{$\leftarrow$}}}
+\begin{frame}{Heur√≠stica primal \hyperlink{heurprimal}{\beamergotobutton{$\leftarrow$}}}
   \hypertarget{heurcluster}{}
   \scalebox{0.7}{
     \begin{algorithm}[H]
       \SetAlgoLined
       \Input{$G=(V, E)$, onde $|V|=n$, e um inteiro positivo $k$}
-      \Output{partiÁ„o $\partition$ de $V$}
+      \Output{parti√ß√£o $\partition$ de $V$}
       \BlankLine  
       $\partition \gets \emptyset$\;
       Seja $G'=(V',E')$ um grafo isomorfo a $G$\;
       \While{$V' \neq \emptyset$}{
-        Selecione um vÈrtice arbitr·rio $v' \in V'$\;
+        Selecione um v√©rtice arbitr√°rio $v' \in V'$\;
         $S' \gets \{v'\}$\;
         \While{$|\verneigh(S')| < n^{1/k}|S'|$}{
           $S' \gets \verneigh(S')$\;
         }
-        Seja $S = \{v \in V\;|\; \exists\; v' \in S' \text{ t.q. } v' \text{ È o vÈrtice correspondente a } v \text{ no isomorfismo}\}$\;
+        Seja $S = \{v \in V\;|\; \exists\; v' \in S' \text{ t.q. } v' \text{ √© o v√©rtice correspondente a } v \text{ no isomorfismo}\}$\;
         $\partition \gets \partition \cup \{S\}$\;
         $V' \gets V' \setminus S'$\;
       }
-      \caption{PartiÁ„o b·sica} 
+      \caption{Parti√ß√£o b√°sica} 
       \label{alg:basic_part}
     \end{algorithm}
     }
   \end{frame}
 
-  \begin{frame}{HeurÌstica primal \hyperlink{heurprimal}{\beamergotobutton{$\leftarrow$}}}
+  \begin{frame}{Heur√≠stica primal \hyperlink{heurprimal}{\beamergotobutton{$\leftarrow$}}}
     \scalebox{0.7}{
     \begin{algorithm}[H]
       \LinesNumbered
       %% \SetAlgoLined
       \Input{$G=(V,E)$, inteiro positivo $k$}
-      \Output{Um grafo $G'=(V,E')$ que È um $(2k-1)$-spanner de $G$ com no m·ximo $O(n^{1 + 1/k})$ arestas}
+      \Output{Um grafo $G'=(V,E')$ que √© um $(2k-1)$-spanner de $G$ com no m√°ximo $O(n^{1 + 1/k})$ arestas}
       \BlankLine
-      Construir uma partiÁ„o $\partition$ de $V$ usando o Algoritmo~\ref{alg:basic_part} (PartiÁ„o b·sica)\;
+      Construir uma parti√ß√£o $\partition$ de $V$ usando o Algoritmo~\ref{alg:basic_part} (Parti√ß√£o b√°sica)\;
 
       \ForEach{$S_i \in \partition$}{
-        $T_i$ $\gets$ uma ·rvore de caminhos mÌnimos de $G[S_i]$
-        enraizada em algum vÈrtice;
+        $T_i$ $\gets$ uma √°rvore de caminhos m√≠nimos de $G[S_i]$
+        enraizada em algum v√©rtice;
       }
       $E' \gets \bigcup_{S_i \in \partition}E(T_i)$\;
       $\breve{E} \gets \emptyset$\;
@@ -2177,39 +2182,39 @@ $0\quad 0$ & $0\quad 0$ & $0\quad 0$ & $0\quad 0$ \\
         }
       }
       $E' \gets E' \cup \breve{E}$\;
-      \caption{Spanner baseado em partiÁ„o em clusters} 
+      \caption{Spanner baseado em parti√ß√£o em clusters} 
       \label{alg:unweighted_span}
     \end{algorithm}
     }
   \end{frame}
 
-  \begin{frame}{Spanner baseado em partiÁ„o de clusters \hyperlink{heurprimal}{\beamergotobutton{$\leftarrow$}}}    
+  \begin{frame}{Spanner baseado em parti√ß√£o de clusters \hyperlink{heurprimal}{\beamergotobutton{$\leftarrow$}}}    
 \begin{teorema}
   O Algoritmo~\ref{alg:unweighted_span} aplicado a um grafo $G$ de
-  ordem $n$, e um inteiro positivo~$k$,  constrÛi um $(2k-1)$-spanner de
-  $G$ com no m·ximo $O(n^{1+1/k})$ arestas.
+  ordem $n$, e um inteiro positivo~$k$,  constr√≥i um $(2k-1)$-spanner de
+  $G$ com no m√°ximo $O(n^{1+1/k})$ arestas.
   \end{teorema}
     \end{frame}
 
-  \begin{frame}{Outra heurÌstica primal \hyperlink{heurprimal}{\beamergotobutton{$\leftarrow$}}}
+  \begin{frame}{Outra heur√≠stica primal \hyperlink{heurprimal}{\beamergotobutton{$\leftarrow$}}}
 \hypertarget{heurguloso}{}
 \begin{algorithm}[H]
   \SetAlgoLined
-  \Input{$G=(V, E)$ com pesos n„o-negativos nas arestas, real $t \ge 1$}
+  \Input{$G=(V, E)$ com pesos n√£o-negativos nas arestas, real $t \ge 1$}
   \Output{$t$-spanner $G'$ de $G$ com peso pequeno}
   \BlankLine
-  Ordene as arestas de $E$ em ordem n„o-decrescente de seus pesos\;
+  Ordene as arestas de $E$ em ordem n√£o-decrescente de seus pesos\;
   $G' \gets (V,E')$, onde $E'= \emptyset$\;
   \ForEach{$e=uv \in E$}{
     \lIf{$t \cdot w(e) < \dist_{G'}(u,v)$}{$E'$ $\gets$ $E' \cup e$}
   }
-  \caption{Algoritmo Guloso de Althˆfer et al.} 
+  \caption{Algoritmo Guloso de Alth√∂fer et al.} 
   \label{alg:greedy_spanner}
 \end{algorithm}
 
   \end{frame}
 
-  \begin{frame}{HeurÌstica dual \hyperlink{heurdual}{\beamergotobutton{$\leftarrow$}}}
+  \begin{frame}{Heur√≠stica dual \hyperlink{heurdual}{\beamergotobutton{$\leftarrow$}}}
     \hypertarget{heurmst}{}
     \scalebox{0.7}{
       \begin{algorithm}[H]
@@ -2236,9 +2241,9 @@ $0\quad 0$ & $0\quad 0$ & $0\quad 0$ & $0\quad 0$ \\
   \begin{frame}{Custo reduzido \hyperlink{dualrelax}{\beamergotobutton{$\leftarrow$}}}
     \hypertarget{provacustoreduzido}{}
     \begin{teorema}
-      Considerede $x$ uma soluÁ„o vi·vel b·sica associada a uma matrix base $B$,
+      Considerede $x$ uma solu√ß√£o vi√°vel b√°sica associada a uma matrix base $B$,
       e seja $\tilde{c}$ o vetor custo reduzido correspondente.
-      Se $\tilde{c} \ge 0$, ent„o $x$ È Ûtima.
+      Se $\tilde{c} \ge 0$, ent√£o $x$ √© √≥tima.
       \end{teorema}
   \end{frame}
 
@@ -2248,23 +2253,23 @@ $0\quad 0$ & $0\quad 0$ & $0\quad 0$ & $0\quad 0$ \\
 \begin{algorithm}[H]
   \SetAlgoLined
   \Input{$G=(V, E)$, $w: E \to \mathbb{Z}^+$, $c: E \to \mathbb{Z}^+$, real $B$, real $M$, $s \in V$, $d \in V$}
-  \Output{caminho $p_f$ entre $s$ e $d$ de menor custo satisfazendo a restriÁ„o de peso m·ximo $B$ e de custo m·ximo $M$}
+  \Output{caminho $p_f$ entre $s$ e $d$ de menor custo satisfazendo a restri√ß√£o de peso m√°ximo $B$ e de custo m√°ximo $M$}
   \BlankLine
   $p_f \gets null$\;
-  Calcula as ·rvores de caminhos de peso e custo mÌnimos $T^w$ e $T^c$\;
+  Calcula as √°rvores de caminhos de peso e custo m√≠nimos $T^w$ e $T^c$\;
   $H \gets \{(\{\},s,0,0)\}$\;
   \While{$H \neq \emptyset$}{
-    Escolha o rÛtulo $(p,n,w,c)$ mais barato (em termos de custo) no conjunto $H$\;
+    Escolha o r√≥tulo $(p,n,w,c)$ mais barato (em termos de custo) no conjunto $H$\;
     \If{$n = d$}{
       $p_f \gets p$\;
       \Return $p_f$.
     }
     \ForEach{$n_i \in \neigh_{G}(n)$}{
       Seja $e_i = nn_i$.
-      Crie o novo rÛtulo $(p \cup \{e_i\}, n_i, w + w_{e_i}, c + c_{e_i})$\;
-      Descarte todos os novos rÛtulos tal que $w + w_{e_i} + T^{w}(n_i) > B$ ou
+      Crie o novo r√≥tulo $(p \cup \{e_i\}, n_i, w + w_{e_i}, c + c_{e_i})$\;
+      Descarte todos os novos r√≥tulos tal que $w + w_{e_i} + T^{w}(n_i) > B$ ou
       $c + c_{e_i} + T^{c}(n_i) > M$. Para os demais, armazene em $H$\;
-      Descarte (de $H$) rÛtulos dominados\;
+      Descarte (de $H$) r√≥tulos dominados\;
     }
     \Return $p_f$.
   }
@@ -2275,14 +2280,14 @@ $0\quad 0$ & $0\quad 0$ & $0\quad 0$ & $0\quad 0$ \\
   \end{frame}
   
 
-\begin{frame}{SoluÁ„o vi·vel sem suporte minimal \hyperlink{formmwsp}{\beamergotobutton{$\leftarrow$}}}
+\begin{frame}{Solu√ß√£o vi√°vel sem suporte minimal \hyperlink{formmwsp}{\beamergotobutton{$\leftarrow$}}}
 \hypertarget{supminimal}{}
 \begin{figure}[t] 
   \centering
   \scalebox{0.7}{  
     \includegraphics[scale=0.45]{figures/exemplo_Y_minimal}
     }
-\caption{Um grafo $G$ com seu respectivo 2-spanner ($H$) de peso mÌnimo}
+\caption{Um grafo $G$ com seu respectivo 2-spanner ($H$) de peso m√≠nimo}
 \label{fig:exemplo_Y_minimal}
 \end{figure}
 
@@ -2296,14 +2301,14 @@ Y^*(e,f) &=
 \begin{cases}
     1& \text{se $f \in E(H_{p,q}),$}\\
     1& \text{se $e = xy, f = xz,$}\\
-    0& \text{caso contr·rio.}
+    0& \text{caso contr√°rio.}
     %% 0& \text{se $f \in E \setminus E(H_{p,q}).$}
 \end{cases}
 \end{align*}
 
 \begin{itemize}
-\item $(x^*,Y^*)$ È uma sol. Ûtima t.q. $Y^*$
-  n„o tem sup. minimal.
+\item $(x^*,Y^*)$ √© uma sol. √≥tima t.q. $Y^*$
+  n√£o tem sup. minimal.
 \end{itemize}
 
   \end{frame}
@@ -2312,26 +2317,26 @@ Y^*(e,f) &=
   \begin{frame}{Prova \hyperlink{dualrelax}{\beamergotobutton{$\leftarrow$}}}
     \begin{proof}
       \begin{itemize}
-      \item <1-> Seja $y$ uma sol. vi·vel qualquer e defina $d = y - x$.
-      \item <2-> $x$ e $y$ s„o vi·veis $\Rightarrow$ $Ax = Ay = b$ e $Ad = 0$.
+      \item <1-> Seja $y$ uma sol. vi√°vel qualquer e defina $d = y - x$.
+      \item <2-> $x$ e $y$ s√£o vi√°veis $\Rightarrow$ $Ax = Ay = b$ e $Ad = 0$.
       \item <3-> $Ad = Bd_{B} + \sum_{i \in N} A_{i}d_{i} = 0$.
-      \item <4-> $B$ È inversÌvel $\Rightarrow$ $d_{B} = - \sum_{i \in N} B^{-1}A_{i}d_{i}$.
+      \item <4-> $B$ √© invers√≠vel $\Rightarrow$ $d_{B} = - \sum_{i \in N} B^{-1}A_{i}d_{i}$.
       \item <5-> $cd = c_{B}d_{B} + \sum_{i \in N}c_{i}d_{i} = \sum_{i \in N}(c_i - c_{B}B^{-1}A_{i})d_i = \sum_{i \in N} \tilde{c_i}d_i$.
-      \item <6-> $x_i = 0$ ($x$ È sol. b·s. vi·vel) e $y_i \ge 0$ ($y$ È vi·vel) $\forall i \in N$.
-      \item <7-> Ent„o $d_i = y_i - x_i \ge 0, \forall i \in N$.
-      \item <8-> $\tilde{c_i} \ge 0$ (por hipÛt.) $\forall i \in N \Rightarrow \tilde{c_i}d_i \ge 0 \forall i \in N$.
+      \item <6-> $x_i = 0$ ($x$ √© sol. b√°s. vi√°vel) e $y_i \ge 0$ ($y$ √© vi√°vel) $\forall i \in N$.
+      \item <7-> Ent√£o $d_i = y_i - x_i \ge 0, \forall i \in N$.
+      \item <8-> $\tilde{c_i} \ge 0$ (por hip√≥t.) $\forall i \in N \Rightarrow \tilde{c_i}d_i \ge 0 \forall i \in N$.
       \item <9-> $c(y - x) = cd = \sum_{i \in N} \tilde{c_i}d_i$.
-        \item <10-> Como o problema È de min e $y$ È vi·vel qualquer, o teorema segue.
+        \item <10-> Como o problema √© de min e $y$ √© vi√°vel qualquer, o teorema segue.
         \end{itemize}
       \end{proof}
     \end{frame}
 
-%% \begin{frame}[t,allowframebreaks]{ReferÍncias}
+%% \begin{frame}[t,allowframebreaks]{Refer√™ncias}
 %% %% \bibliographystyle{sbc}
-%% \bibliographystyle{alpha-ime}% citaÁ„o bibliogr·fica alpha
+%% \bibliographystyle{alpha-ime}% cita√ß√£o bibliogr√°fica alpha
 %% \bibliography{181214-defesa}  
 %% \end{frame}
-%% \bibliographystyle{alpha-ime}% citaÁ„o bibliogr·fica alpha
+%% \bibliographystyle{alpha-ime}% cita√ß√£o bibliogr√°fica alpha
 %% \bibliography{181214-defesa} 
 
 \end{document}

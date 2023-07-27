@@ -1,4 +1,9 @@
+% !TEX encoding = UTF-8 Unicode
 \documentclass[dvipsnames]{beamer}
+\usepackage[brazil]{babel}
+\usepackage[T1]{fontenc}
+%\usepackage[latin1]{inputenc}
+\usepackage[utf8x]{inputenc}
 \usepackage[ruled,linesnumbered,vlined,boxed]{algorithm2e}
 
 \usepackage{color,colortbl}
@@ -15,11 +20,11 @@
 }
 
 %\usepackage[english]{babel}
-\usepackage[brazil]{babel}
-
-%\usepackage[utf8]{inputenc}
-\usepackage[latin1]{inputenc}
-\usepackage[T1]{fontenc}
+%\usepackage[brazil]{babel}
+%
+%%\usepackage[utf8]{inputenc}
+%\usepackage[latin1]{inputenc}
+%\usepackage[T1]{fontenc}
 
 \usepackage{times}
 
@@ -60,23 +65,23 @@
 \newcommand\Fontvimaior{\fontsize{8}{7.2}\selectfont}
 
 \newtheorem{fato}{Fato}
-\newtheorem*{defi}{DefiniÁ„o}
+\newtheorem*{defi}{Defini√ß√£o}
 \newtheorem*{propri}{Propriedades}
-\newtheorem*{prop}{ProposiÁ„o}
- \newtheorem{ex}{ExercÌcio}
+\newtheorem*{prop}{Proposi√ß√£o}
+ \newtheorem{ex}{Exerc√≠cio}
 %\newtheorem{theorem}{Teorema}[section]
 \newtheorem{conjecture}{Conjectura}
-\newtheorem{definicao}{DefiniÁ„o}
-\newtheorem{notacao}{NotaÁ„o}
+\newtheorem{definicao}{Defini√ß√£o}
+\newtheorem{notacao}{Nota√ß√£o}
 \newtheorem{teorema}{Teorema}
 %\newtheorem{proposition}{Proposition}
-\newtheorem{afirmacao}{AfirmaÁ„o}[teorema]
+\newtheorem{afirmacao}{Afirma√ß√£o}[teorema]
 \newtheorem{lema}{Lema}
-\newtheorem{observacao}{ObservaÁ„o}
-%\newtheorem{proposicao}{ProposiÁ„o}[section]
-\newtheorem{proposicao}{ProposiÁ„o}
-%\newtheorem{corolario}{Corol¡rio}[section]
-\newtheorem{corolario}{Corol·rio}
+\newtheorem{observacao}{Observa√ß√£o}
+%\newtheorem{proposicao}{Proposi√ß√£o}[section]
+\newtheorem{proposicao}{Proposi√ß√£o}
+%\newtheorem{corolario}{Corol√Årio}[section]
+\newtheorem{corolario}{Corol√°rio}
 \newtheorem{conjectura}{Conjectura}
 \newtheorem{problema}{Problema}
 \newtheorem{exemplo}{Exemplo}
@@ -139,7 +144,7 @@
 %----------------------------
 \DeclareMathOperator*{\argmin}{arg\,min}
 %----------------------------
-%comandos para novas letras/exppress√µes
+%comandos para novas letras/exppress√É¬µes
 \newcommand{\incid}{\mathcal{X}}
 \newcommand{\incidY}{\mathcal{Y}}
 \newcommand{\maxstretchfactor}{\mathcal{T}}
@@ -216,7 +221,7 @@
 
 
 \title[Spanners]
-{¡rvore Spanner de Custo MÌnimo}
+{√Årvore Spanner de Custo M√≠nimo}
 
 \author[hugo]
 {Hugo Braga}
@@ -230,7 +235,7 @@
 }
 
 \date[Short Occasion]
-{II Encontro de Teoria da ComputaÁ„o \\ 04 de Julho de 2017  }
+{II Encontro de Teoria da Computa√ß√£o \\ 04 de Julho de 2017  }
 
 \subject{Talks}
 
@@ -245,9 +250,9 @@
 %%   % You might wish to add the option [pausesections]
 %% \end{frame}
 
-\section{IntroduÁ„o}
+\section{Introdu√ß√£o}
 
-\begin{frame}{DefiniÁ„o}
+\begin{frame}{Defini√ß√£o}
 
 \begin{itemize}
  \item $G$ grafo conexo. $u,v \in V(G)$.\\
@@ -269,7 +274,7 @@
 %% \end{equation*}
 %% \label{eq:def_spanner}
 
-\item Exemplo (com custo unit·rio):
+\item Exemplo (com custo unit√°rio):
 
 \begin{minipage}[t][.5\textheight][t]{\textwidth}
 %\begin{figure}[H]
@@ -283,10 +288,10 @@
 
 \end{frame}
 
-\begin{frame}{¡rvore $t$-spanner}
+\begin{frame}{√Årvore $t$-spanner}
 \begin{itemize}
 
- \item $H$ È uma ·rvore $\rightarrow H$ È uma \textcolor{red}{\emph{·rvore t-spanner}} de $G$.
+ \item $H$ √© uma √°rvore $\rightarrow H$ √© uma \textcolor{red}{\emph{√°rvore t-spanner}} de $G$.
 
 \begin{figure}[H]
 \centering
@@ -301,35 +306,35 @@
 \section{Background}
 \begin{frame}{Problema central}
   \begin{itemize}
-    \item ¡rvore $t$-spanner de custo mÌnimo (MWTS):\\
+    \item √Årvore $t$-spanner de custo m√≠nimo (MWTS):\\
       Dado $G=(V,E)$, (real) $t > 1$ e $w: E \rightarrow \R^{+}$, \\
-      % Dado um grafo $G=(V,E)$, um (real) $t$ e $w(E) \rightarrow \R^{+}$, È possÌvel 
-    encontrar uma ·rvore $t$-spanner em $G$ de custo mÌnimo.
-    %\item <2->Custo unit·rio $\rightarrow$ problema de \emph{spanner esparsa}.
+      % Dado um grafo $G=(V,E)$, um (real) $t$ e $w(E) \rightarrow \R^{+}$, √© poss√≠vel 
+    encontrar uma √°rvore $t$-spanner em $G$ de custo m√≠nimo.
+    %\item <2->Custo unit√°rio $\rightarrow$ problema de \emph{spanner esparsa}.
   \end{itemize}
 \end{frame}
 
 %% \begin{frame}{Problemas sobre spanners}
 %%   \begin{itemize}
-%%     \item ¡rvore spanner de dilataÁ„o mÌnima:\\
+%%     \item √Årvore spanner de dilata√ß√£o m√≠nima:\\
 %%       $G=(V,E)$ e $w(E) \rightarrow \R^{+}$\\
-%%       Qual o menor $t$ t.q. $G$ contÈm um $t$-spanner?
+%%       Qual o menor $t$ t.q. $G$ cont√©m um $t$-spanner?
 %%   \end{itemize}
 %% \end{frame}
 
 %% \begin{frame}{Problemas sobre spanners}
 %%   \begin{itemize}
-%%     \item <1->$t$-spanner de custo mÌnimo:\\
+%%     \item <1->$t$-spanner de custo m√≠nimo:\\
 %%       $G=(V,E)$, (real) $t$ e $w(E) \rightarrow \R^{+}$.\\
-%%       Encontrar um $t$-spanner de $G$ de custo mÌnimo.
-%%     \item <2->Custo unit·rio $\rightarrow$ problema de \emph{spanner esparsa}.
+%%       Encontrar um $t$-spanner de $G$ de custo m√≠nimo.
+%%     \item <2->Custo unit√°rio $\rightarrow$ problema de \emph{spanner esparsa}.
 %%   \end{itemize}
 %% \end{frame}
 
-\begin{frame}{HistÛrico}
+\begin{frame}{Hist√≥rico}
   \begin{itemize}
 %    \item <1-> Chew, 1986: Presented the problem of approximating complete euclidean graphs by planar subgraphs.% \cite{Chew1986}.
-    \item Peleg \& Ullman, 1987: noÁ„o de spanner.
+    \item Peleg \& Ullman, 1987: no√ß√£o de spanner.
 %was introduced by Peleg and Ullman \cite{PelegU1987} 
 %to build synchronizers.
     \item Peleg \& Sch\"{a}ffer, 1989: spanner esparsa.
@@ -339,7 +344,7 @@
 %           \item Polynomial algorithm to build a $(4t + 1)$-spanner with $O(n^{1+1/t})$ 
 % edges, for $t \ge 1$ (arbitrary graphs).
 %         \end{itemize}
-%    \item Alth\"{o}fer et al., 1993: esparsidade $x$ fator de dilataÁ„o.
+%    \item Alth\"{o}fer et al., 1993: esparsidade $x$ fator de dilata√ß√£o.
 % for constructing $(2t + 1)$-spanner with at most 
 % $n\lceil n^{1/t}  \rceil$ edges.
 % %, for $t \ge 1$ (arbitrary weighted graphs).% \cite{AlthoferDDJS1993}.
@@ -349,10 +354,10 @@
   \end{itemize}
 \end{frame}
 
-%% \begin{frame}{AplicaÁ„o}
+%% \begin{frame}{Aplica√ß√£o}
 %%   \begin{itemize}
-%%    \item <1->Sistemas distribuÌdos.
-%%    \item <2->Redes de comunicaÁ„o.
+%%    \item <1->Sistemas distribu√≠dos.
+%%    \item <2->Redes de comunica√ß√£o.
 %%   \end{itemize}
 %% \end{frame}
 
@@ -372,14 +377,14 @@
 
 \begin{frame}{Complexidade}
   \begin{itemize}
-  \item ¡rvore $t$-spanner:\\
-    Dado um grafo $G$ e um (real) $t > 1$, $G$ admite um ·rvore $t$-spanner?\\
+  \item √Årvore $t$-spanner:\\
+    Dado um grafo $G$ e um (real) $t > 1$, $G$ admite um √°rvore $t$-spanner?\\
 %      Given a graph $G$ and (real) $t$, does $G$ admits a tree $t$-spanner?\\
       Cai \& Corneil, 1995:\\
       \begin{itemize}
-        \item {\makebox[3.3cm]{custo arbitr·rio: \hfill}$t > 1$: NP-completo.}\\
+        \item {\makebox[3.3cm]{custo arbitr√°rio: \hfill}$t > 1$: NP-completo.}\\
           {\makebox[3.3cm]{\hfill}$t = 1$: P.}
-        \item {\makebox[3.3cm]{custo unit·rio: \hfill}$t \ge 4$ (fixo): NP-completo.}\\
+        \item {\makebox[3.3cm]{custo unit√°rio: \hfill}$t \ge 4$ (fixo): NP-completo.}\\
           {\makebox[3.3cm]{\hfill}$t \le 2$: P.}\\
           {\makebox[3.3cm]{\hfill}$t = 3$: aberto.}\\
       \end{itemize}
@@ -394,9 +399,9 @@
   \end{itemize}
 \end{frame}
 
-%% \begin{frame}{Fator de (in)aproximaÁ„o para o MMST}
+%% \begin{frame}{Fator de (in)aproxima√ß√£o para o MMST}
 %%   \begin{itemize}
-%%     \item InaproximaÁ„o:
+%%     \item Inaproxima√ß√£o:
 %%       \begin{itemize}
 %%         \item <1-> Com peso: $(1 + \sqrt{5})/2$ \textcolor{ProcessBlue}{\footnotesize{\cite{PelegR1999}}}.
 %%         %\item <2-> Sem peso: $(2 - \epsilon), \epsilon > 0$ \textcolor{ProcessBlue}{\footnotesize{\cite{Galbiati2001}}}.
@@ -405,7 +410,7 @@
 %% %     \item <2-> This result was improved to $(2 - \epsilon), \epsilon > 0$, for unweighted 
 %% % graphs \cite{Galbiati2001}.
 %%       \end{itemize}
-%%     \item <3->AproximaÁ„o:
+%%     \item <3->Aproxima√ß√£o:
 %%       \begin{itemize}
 %%         \item <3->$O(\log n)$ \textcolor{ProcessBlue}{\footnotesize{\cite{EmekP2008}}}.
 %%         \item <3-> Sem peso: $O(\log n)$ \textcolor{ProcessBlue}{\footnotesize{\cite{DraganK2014}}}.
@@ -413,35 +418,35 @@
 %%   \end{itemize}
 %% \end{frame}
 
-\section{FormulaÁ„o}
-\begin{frame}{DefiniÁ„o equivalente de spanner \hyperlink{def_span}{\beamergotobutton{def}}}
+\section{Formula√ß√£o}
+\begin{frame}{Defini√ß√£o equivalente de spanner \hyperlink{def_span}{\beamergotobutton{def}}}
   \hypertarget{span}{}
   \begin{itemize}
-    \item S„o equivalentes:
+    \item S√£o equivalentes:
       \begin{itemize}
       \item[{\rm (a)}] $\dist_{H}(u,v) \le t \cdot \dist_{G}(u,v) \;\forall\,u,v \in V$;
-        %$H$ È um $t$-spanner de $G$, isto È, $H$ satisfaz (\ref{eq:def_spanner});
+        %$H$ √© um $t$-spanner de $G$, isto √©, $H$ satisfaz (\ref{eq:def_spanner});
         %\item[{\rm (b)}] $\dist_{H}(u,v) \le t \cdot \dist_{G}(u,v) \;\forall\,uv \in E$;
         \item[{\rm (b)}] $\dist_{H}(u,v) \le t \cdot w_{uv} \;\forall\,uv \in E$.
         \end{itemize}
     \end{itemize}
 \end{frame}
 
-%% \begin{frame}{Poliedro das ·rvores $t$-spanner}
+%% \begin{frame}{Poliedro das √°rvores $t$-spanner}
 %%   \begin{itemize}
 %%     \item<1-> Dada uma tripla $(G,w,t)$:\\
 %% \begin{equation*}
 %% \begin{split}
-%% P(G,t) = \text{conv}\{\incid^{F} \in \espacoX\; |\; \text{$G[F]$ È uma ·rvore $t$-spanner\}}. 
+%% P(G,t) = \text{conv}\{\incid^{F} \in \espacoX\; |\; \text{$G[F]$ √© uma √°rvore $t$-spanner\}}. 
 %% \end{split}
 %% \end{equation*}
 %% %     \item<2-> dim($P_{span}(G,t)$) = $|E| - |\BridgeG|$, onde\\
-%% % $\BridgeG = \{e \in E\; |\; e$ È uma aresta $t$-essencial de $G\}$.
+%% % $\BridgeG = \{e \in E\; |\; e$ √© uma aresta $t$-essencial de $G\}$.
 %%     \end{itemize}
 %% \end{frame}
 
 
-%% \begin{frame}{Entrada das formulaÁıes}
+%% \begin{frame}{Entrada das formula√ß√µes}
 %%   \begin{itemize}
 %%   \item $G(V,E)$ grafo conexo.
 %%   \item $D(V,A)$ digrafo obtido de $G$, onde\\
@@ -463,7 +468,7 @@
   \begin{itemize}
   \item $r \in V$.
     \\$z^{r} = (z_{ij}^{r})_{ij \in A}$.
-  %% \item Seja $x \in \espacoXBinary$. Para cada~$e \in E$, \hbox{$x(e) = 1$} sse $e$ faz parte da soluÁ„o.    
+  %% \item Seja $x \in \espacoXBinary$. Para cada~$e \in E$, \hbox{$x(e) = 1$} sse $e$ faz parte da solu√ß√£o.    
   \end{itemize}
 
 \begin{lpformulation}[]
@@ -506,7 +511,7 @@
 \begin{frame}{Relacionando os subgrafos $T^{r}$}
   \begin{itemize}
   \item $x \in \espacoXBinary$. \\
-    Para cada~$e \in E$, \hbox{$x(e) = 1$} sse $e$ faz parte da soluÁ„o.
+    Para cada~$e \in E$, \hbox{$x(e) = 1$} sse $e$ faz parte da solu√ß√£o.
 
     \begin{align}
       &\sum_{i \in \delta^{-}(j)}z^{r}_{ij} = 1 && \forall r \in V,\,\forall j \in V \setminus \{r\} \nonumber\\
@@ -528,7 +533,7 @@
 \begin{frame}{Relacionando os subgrafos $T^{r}$ \hyperlink{arb_diferentes}{\beamergotobutton{ex}}}
   \hypertarget{rel_subgrafos}{}
   \begin{itemize}
-  \item $(x,\tilde{z})$ soluÁ„o do sistema anterior.
+  \item $(x,\tilde{z})$ solu√ß√£o do sistema anterior.
   \item Para $v \in V$, $T^{v} \subseteq D$ t.q. $A(T^{v}) = \{ ij \in A: \tilde{z}_{ij}^{v} = 1 \}$.
   \item 
     $\widetilde{T}^{v} \subseteq G$ o grafo subjacente
@@ -540,17 +545,17 @@
   \widetilde{T}^{v} = \widetilde{T}^{w}, \: \forall v, w \in V;
 \end{align*}
 
-  \item $T^{v}$ È uma \textcolor{red}{arborescÍncia} de $D$, com raiz $v$, $\forall v \in V$.
+  \item $T^{v}$ √© uma \textcolor{red}{arboresc√™ncia} de $D$, com raiz $v$, $\forall v \in V$.
 %% \begin{fato}
 %%   \label{afirm:arv_geradora}
-%%   Seja $T \subseteq G$ tal que $E(T) = \{e \in E: x_e = 1\}$. Ent„o $T$
-%%   È uma ·rvore geradora de~$G$, e $T=\widetilde{T}^{v}$ para todo
+%%   Seja $T \subseteq G$ tal que $E(T) = \{e \in E: x_e = 1\}$. Ent√£o $T$
+%%   √© uma √°rvore geradora de~$G$, e $T=\widetilde{T}^{v}$ para todo
 %%   $v\in V$.
 %% \end{fato}
     
 %% \begin{align}
 %%   \label{afirm:arborescence}
-%%   T^{v} \text{ È uma arborescÍncia de }D, \text{ com raiz }v, \: \forall v \in V.
+%%   T^{v} \text{ √© uma arboresc√™ncia de }D, \text{ com raiz }v, \: \forall v \in V.
 %% \end{align}
 
   \end{itemize}
@@ -558,7 +563,7 @@
 \end{frame}
 
 
-\begin{frame}{ArborescÍncias se sobrepondo \hyperlink{form_1}{\beamergotobutton{$\leftarrow$}}}
+\begin{frame}{Arboresc√™ncias se sobrepondo \hyperlink{form_1}{\beamergotobutton{$\leftarrow$}}}
   \hypertarget{arb_iguais}{}
   \begin{figure}[H]
 \centering
@@ -568,12 +573,12 @@
 \end{figure}
 \end{frame}
 
-\begin{frame}{Vari·vel que representa dist‚ncia \hyperlink{sig_u}{\beamergotobutton{sig. u}}}
+\begin{frame}{Vari√°vel que representa dist√¢ncia \hyperlink{sig_u}{\beamergotobutton{sig. u}}}
   \hypertarget{var_u}{}
   \begin{itemize}
   \item $r \in V$, $u^{r} \in \espacoUr$. \\
   \item Para cada $i \in V:$\\
-    \textcolor{red}{$u^{r}_{i}$}: dist‚ncia entre $r$ e $i$ em $T^{r}$.\\
+    \textcolor{red}{$u^{r}_{i}$}: dist√¢ncia entre $r$ e $i$ em $T^{r}$.\\
     $M_{ij}^{r}:$ limite superior para $u^{r}_{i} - u^{r}_{j}$.
   \item Fixe $r:$
  %\end{itemize}
@@ -601,7 +606,7 @@
 %%  }} 
      
 \item
-  %<4-> Validade da inequaÁ„o \ref{res:mtz_var}:\\
+  %<4-> Validade da inequa√ß√£o \ref{res:mtz_var}:\\
   %%   $z_{ij} = 1, z_{ji} = 0 \Rightarrow u_j \ge u_i + w_{ij}$\\
   %% $z_{ij} = 0, z_{ji} = 1 \Rightarrow u_i - u_j \le w_{ij}$ \\
   $z_{ij} = 0, z_{ji} = 0 \Rightarrow u_i - u_j \le M_{ij}$ 
@@ -611,7 +616,7 @@
 \end{frame}
 
 
-\begin{frame}{Significado da vari·vel $u^{r}$ \hyperlink{var_u}{\beamergotobutton{$\leftarrow$}}}
+\begin{frame}{Significado da vari√°vel $u^{r}$ \hyperlink{var_u}{\beamergotobutton{$\leftarrow$}}}
   \hypertarget{sig_u}{}
   \begin{figure}[H]
 \centering
@@ -623,12 +628,12 @@
   {\footnotesize
   \begin{itemize}
 
-  \item Ineq. \ref{res:mtz_var} com relaÁ„o ao arco $ij:$
+  \item Ineq. \ref{res:mtz_var} com rela√ß√£o ao arco $ij:$
     \begin{align*}
   u^{r}_i - u^{r}_j + (M^{r}_{ij} + w_{ij}) \cdot 1 + (M^{r}_{ij} - w_{ij}) \cdot 0 \le M^{r}_{ij} \Rightarrow u^{r}_j \ge u^{r}_i + w_{ij}.
 \end{align*}
     
-  \item Ineq. \ref{res:mtz_var} com relaÁ„o ao arco $ji:$
+  \item Ineq. \ref{res:mtz_var} com rela√ß√£o ao arco $ji:$
     \begin{align*}
   u^{r}_j - u^{r}_i + (M^{r}_{ji} + w_{ij}) \cdot 0 + (M^{r}_{ji} - w_{ij}) \cdot 1 \le M^{r}_{ji} \Rightarrow u^{r}_j \le u^{r}_i + w_{ij}.
 \end{align*}
@@ -644,7 +649,7 @@
 \end{frame}
 
 
-\begin{frame}{FormulaÁ„o: vari·veis que representam dist‚ncias}
+\begin{frame}{Formula√ß√£o: vari√°veis que representam dist√¢ncias}
   \tiny
   \Fontvi
   \begin{lpformulation} %[{\rm (PI)}]
@@ -664,7 +669,7 @@
 
 \section{Experimentos}
 
-\begin{frame}{Custos representando dist‚ncia euclidiana}
+\begin{frame}{Custos representando dist√¢ncia euclidiana}
 %\begin{center}
 %\noindent
   \tiny{
@@ -672,7 +677,7 @@
 \begin{table}
 \begin{tabular}{|c|c|c|c|r|c|r|c|}\hline
 
-{$t$} & {$|V|$} & {Densidade (\%)} & {\# Resolvido } & {Tempo (s)}  &{\# ¡rvore}  &{Tempo (s)} & {Gap}
+{$t$} & {$|V|$} & {Densidade (\%)} & {\# Resolvido } & {Tempo (s)}  &{\# √Årvore}  &{Tempo (s)} & {Gap}
 \\ \hline\hline
 %\multirow{2}{*}{3} & 10 & 40 & 5 (3) & 0(23) & 0.02(0.09) & 0.02(3.87) & 3(2.32)\\
 3 & 10 & 20 & 10 (10) & 0.01 (0.01) & 10 (10) & 0.01 (0.01) & 1.00 \\
@@ -718,7 +723,7 @@
   
 \end{frame}
 
-\begin{frame}{Custos representando dist‚ncia euclidiana}
+\begin{frame}{Custos representando dist√¢ncia euclidiana}
 %\begin{center}
 %\noindent
   \tiny{
@@ -726,7 +731,7 @@
 \begin{table}
 \begin{tabular}{|c|c|c|>{\columncolor[rgb]{1,1,0}}c|r|>{\columncolor[rgb]{1,1,0}}c|r|c|}\hline
 
-{$t$} & {$|V|$} & {Densidade (\%)} & {\# Resolvido } & {Tempo (s)}  &{\# ¡rvore}  &{Tempo (s)} & {Gap}
+{$t$} & {$|V|$} & {Densidade (\%)} & {\# Resolvido } & {Tempo (s)}  &{\# √Årvore}  &{Tempo (s)} & {Gap}
 \\ \hline\hline
 
 5 & 20 & 20 & 10 (10) & 0.28 (0.06) & 10 (10) & 0.28 (0.06) & 1.00 \\
@@ -772,7 +777,7 @@
 \end{frame}
 
 
-\begin{frame}{Arestas com custo unit·rio}
+\begin{frame}{Arestas com custo unit√°rio}
 %\begin{center}
 %\noindent
   \tiny{
@@ -780,7 +785,7 @@
 \begin{table}
 \begin{tabular}{|c|c|c|c|r|c|r|}\hline
 
-{$t$} & {$|V|$} & {Densidade (\%)} & {\# Resolvido } & {Tempo (s)}  &{\# ¡rvore}  &{Tempo (s)} 
+{$t$} & {$|V|$} & {Densidade (\%)} & {\# Resolvido } & {Tempo (s)}  &{\# √Årvore}  &{Tempo (s)} 
 \\ \hline\hline
 
 3 & 20 & 20 & 10 (10) & 0.085 (0.116) & 0 (8) & - (0.136) \\ 
@@ -835,7 +840,7 @@
 \end{frame}
 
 
-\begin{frame}{Arestas com custo unit·rio}
+\begin{frame}{Arestas com custo unit√°rio}
 %\begin{center}
 %\noindent
   \tiny{
@@ -843,7 +848,7 @@
 \begin{table}
 \begin{tabular}{|c|c|c|>{\columncolor[rgb]{1,1,0}}c|r|>{\columncolor[rgb]{1,1,0}}c|r|}\hline
 
-{$t$} & {$|V|$} & {Densidade (\%)} & {\# Resolvido } & {Tempo (s)}  &{\# ¡rvore}  &{Tempo (s)} 
+{$t$} & {$|V|$} & {Densidade (\%)} & {\# Resolvido } & {Tempo (s)}  &{\# √Årvore}  &{Tempo (s)} 
 \\ \hline\hline
 
 5 & 20 & 20 & 10 (10) & 1.414 (0.151) & 10 (10) & 1.414 (0.151) \\ 
@@ -901,7 +906,7 @@
   Muito obrigado!
 \end{frame}
 
-\begin{frame}{FormulaÁ„o 2: Encontrando dist‚ncias entre vÈrtices \hyperlink{arb_iguais}{\beamergotobutton{ex}} \hyperlink{sig_y}{\beamergotobutton{sig. y}}}
+\begin{frame}{Formula√ß√£o 2: Encontrando dist√¢ncias entre v√©rtices \hyperlink{arb_iguais}{\beamergotobutton{ex}} \hyperlink{sig_y}{\beamergotobutton{sig. y}}}
   \hypertarget{form_1}{}
   \tiny
   \Fontvi
@@ -920,7 +925,7 @@
 \end{frame}
 
 
-\begin{frame}{Significado da vari·vel $y$ \hyperlink{form_1}{\beamergotobutton{$\leftarrow$}}}
+\begin{frame}{Significado da vari√°vel $y$ \hyperlink{form_1}{\beamergotobutton{$\leftarrow$}}}
   \hypertarget{sig_y}{}
   {\footnotesize
   \begin{itemize}
@@ -935,7 +940,7 @@
 %\small
 \begin{center}
   \noindent
-  %\captionof{table}{DiferenÁas e somas relativas ‡ vari·vel $z$}
+  %\captionof{table}{Diferen√ßas e somas relativas √† vari√°vel $z$}
   \label{tab:sum_diff} 
 \begin{tabular}{|r|r|r|r|}\hline
 {$d^{uv}_{ij}$ $s^{uv}_{ij}$} & {$z^{u}_{ij}$ $z^{v}_{ij}$} & {$z^{u}_{ji}$ $z^{v}_{ji}$} & {$d^{uv}_{ji}$ $s^{uv}_{ji}$}
@@ -963,12 +968,12 @@ $0\quad 0$ & $0\quad 0$ & $0\quad 0$ & $0\quad 0$ \\
 
 \end{frame}
 
-\begin{frame}{DefiniÁıes equivalentes de spanner \hyperlink{span}{\beamergotobutton{$\leftarrow$}}}
+\begin{frame}{Defini√ß√µes equivalentes de spanner \hyperlink{span}{\beamergotobutton{$\leftarrow$}}}
   \hypertarget{def_span}{}
   \begin{itemize}
-    \item AfirmaÁıes equivalentes:
+    \item Afirma√ß√µes equivalentes:
       \begin{itemize}
-        \item[{\rm (a)}] $H$ È um $t$-spanner de $G$, isto È, $H$ satisfaz (\ref{eq:def_spanner});
+        \item[{\rm (a)}] $H$ √© um $t$-spanner de $G$, isto √©, $H$ satisfaz (\ref{eq:def_spanner});
         \item[{\rm (b)}] $\dist_{H}(u,v) \le t \cdot \dist_{G}(u,v) \;\forall\,uv \in E$;
         \item[{\rm (b')}] $\dist_{H}(u,v) \le t \cdot \dist_{G}(u,v) \;\forall\,uv \in E \setminus E(H)$;
         \item[{\rm (c)}] $\dist_{H}(u,v) \le t \cdot w_{uv} \;\forall\,uv \in E$.

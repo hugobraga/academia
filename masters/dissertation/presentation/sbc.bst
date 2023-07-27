@@ -1,3 +1,4 @@
+% !TEX encoding = UTF-8 Unicode
 %% copy of "apalike" for SBC (no comma before year in citation label)
 
 % BibTeX `apalike' bibliography style (24-Jan-88 version)
