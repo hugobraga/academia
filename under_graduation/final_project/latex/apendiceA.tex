@@ -1,0 +1,28 @@
+% !TEX encoding = UTF-8 Unicode
+%\chapter{Entendendo os relacionamentos existentes na CISCO-CLASS-BASED-QOS-MIB}
+\xchapter{Entendendo os relacionamentos existentes na CISCO-CLASS-BASED-QOS-MIB}{}
+\label{apend:relacionamentos_MIB}
+	
+	Para entender as características de QoS relacionadas às classes configuradas nos roteadores Cisco, é necessário compreender alguns conceitos relacionados aos objetos de QoS e seus relacionamentos existentes na MIB \textit{CISCO-CLASS-BASED-QOS-MIB}. Objetos de QoS incluem mapas de classe (\textit{ClassMaps}), padrões de comparação (\textit{Match Statements}), mapas de políticas (\textit{PolicyMaps}) e ações (\textit{Feature Actions}).
+	
+\begin{itemize}
+	\item \textbf{Match Statement}: Critérios de casamento de padrão para identificar pacotes com o propósito de classificação.
+	
+	\item \textbf{ClassMap}: A definição de uma classe que contém vários \textit{Match Statement} com o intuito de classificar pacotes em diversas categorias.
+	
+	\item \textbf{Feature Action}: Qualquer característica de QoS. Características de QoS incluem  declarações (regras) de policiamento, marcação, políticas de enfileiramento, entre outras. Depois que um pacote é classificado, ele pode ter uma ação aplicada ao mesmo.
+	
+	\item \textbf{PolicyMap}: Uma política definida para associar \textit{Feature Actions} às \textit{ClassMaps}. Para que os serviços de QoS (como o \textit{Diffserv}) possam ser oferecidos, uma \textit{PolicyMap} deve ser vinculada a uma interface lógica de um roteador. Neste caso, a política passa a ser chamada de \textit{Service Policy}.
+\end{itemize}
+
+	Cada objeto de QoS possui uma informação de configuração e uma informação estatística (de instância) relativa ao mesmo. Tais informações são armazenadas em tabelas e são acessadas através de índices. Estes dois tipos de informações se diferem nos seguintes aspectos:
+	
+\begin{itemize}
+	\item \textbf{Informação de configuração}: Esta informação não muda mesmo se o objeto é vinculado à várias interfaces ou usado várias vezes. Ela é identificada unicamente para cada objeto com a mesma configuração através do índice \textit{cbQosConfigIndex}.
+	
+	\item \textbf{Informação de instância}: Esta informação muda à medida que o objeto é vinculado à várias interfaces ou utilizado várias vezes. Cada uso de um objeto de QoS corresponde a uma instância deste objeto. Cada instância de um objeto é identificada unicamente em um dispositivo (roteador) através do índice \textit{cbQosObjectsIndex}.
+\end{itemize}
+
+	Além dos índices citados anteriormente, outro índice importante nesta MIB é o \textit{cbQosPolicyIndex}. Este último é utilizado para identificar cada \textit{PolicyMap} adicionada a uma interface. Para cada interface na qual está adicionada, uma \textit{PolicyMap} terá um \textit{cbQosPolicyIndex} diferente. Como o foco principal na análise da QoS está em obter informações relativas às políticas (\textit{Service Policy}) e estas se relacionam com as outras características de QoS de forma hierárquica (para cada \textit{PolicyMap} existem uma ou mais declarações \textit{ClassMap}, sendo que para cada declaração \textit{ClassMap} existe uma ou mais \textit{Feature Action} associadas), os índices \textit{cbQosPolicyIndex} e \textit{cbQosObjectsIndex} são utilizados para identificar unicamente uma instância de objeto QoS do qual se interessa obter alguma informação. Cada vez que o roteador é reinicializado, os valores destes \textit{indexes} são diferentes (ou melhor, possivelmente não serão iguais)
+
+	Todas as tabelas utilizadas na \textit{CISCO-CLASS-BASED-QOS-MIB} relacionadas com informações de configuração serão acessadas através do \textit{cbQosConfigIndex}, enquanto que para acessar as tabelas com informações estatísticas são necessários dois índice: \textit{cbQosPolicyIndex} e \textit{cbQosObjectsIndex}.

@@ -1,0 +1,62 @@
+% !TEX encoding = UTF-8 Unicode
+%\chapter{QoS Provider}
+\xchapter{QoS Provider}{}
+\label{cap:qos_provider}
+\acresetall
+
+	Como foi descrito na introdução, para que o modelo HA funcione corretamente, ele necessita obter informações sobre a QoS que está sendo provida aos canais de comunicação. Essas informações são obtidas através da infraestrutura de comunicação e gerenciamento de recursos para sistemas distribuídos com QoS denominada \textit{QoS Provider} (QoSP). O objetivo desta infraestrutura é fornecer e gerenciar canais de comunicação providos com QoS \cite{GORENDER05}. Para isso, o QoSP é definido através de uma interface padronizada que fornece um conjunto fixo de serviços, descritos nas próximas seções. Através desta padronização, o QoSP visa tornar o modelo citado anteriormente portável para diversas arquiteturas de QoS. Ele pode ser visto como um invólucro para um conjunto de arquiteturas de QoS, sendo assim deve se comunicar com as arquiteturas existentes no ambiente para obter as informações relativas a QoS de um canal de comunicação.
+	
+	Considera-se que um sistema distribuído é composto por um conjunto de processos, os quais executam em um ou mais \textit{hosts}. Este conjunto é representado por $\Pi = \lbrace p_{1}, p_{2}, ..., p_{n} \rbrace$, sendo $p_{x}$ um processo qualquer deste conjunto e \textit{n} o número de processos pertencentes ao sistema. Um canal de comunicação estabelecido entre os processos $p_{x}$ e $p_{y}$ é identificado por $c_{x/y}$ e $\Gamma$ é o conjunto de todos os canais de comunicação estabelecidos.
+
+\section{Ambiente de execução} %canais de comunicaçao, serviços isocronos e nao-isocronos, timely e untimely
+
+	Os canais de comunicação aqui utilizados são definidos como confiáveis e são providos com diferentes níveis de QoS. Canais confiáveis são aqueles que não perdem, não duplicam e nem alteram as mensagens. Os canais de comunicação são estabelecidos entre dois processos localizados em \textit{hosts} diferentes, definidos através de uma rota estabelecida em uma rede de computadores, sendo que esta rota é formada por um ou mais roteadores.
+	
+	As arquiteturas de QoS padronizaram várias classes de serviço (no capítulo \ref{cap:qos} foram descritas duas classes de serviço para a arquitetura Diffserv). Baseado nas diversas classes de serviço padronizadas pelas diversas arquiteturas de QoS, \cite{GORENDER05} definiu duas classes de serviço: Serviços Isócronos e Serviços Não Isócronos. Os Serviços Isócronos são serviços de comunicação que possuem limites temporais determinados para o processamento e transferência das mensagens. Os serviços Não Isócronos não fornecem nenhum limite temporal tanto para o processamento como para a tranferência das mensagens. Os canais de comunicação que	utilizam os Serviços Isócronos são denominados canais \textit{timely} enquanto que os canais que utilizam os Serviços Não Isócronos são denominados canais \textit{untimely}.
+	
+\section{Arquitetura do QoS Provider}
+
+	O QoS Provider executa distribuído, sendo que existe um módulo do QoSP para cada \textit{host} do sistema. Os módulos do QoSP necessitam trocar mensagens entre si e com os roteadores para que as funções definidas na sua interface possam funcionar corretamente. Quando um processo $p_{x}$ necessita criar canais de comunicação com QoS e acessar informações de QoS dos mesmos, ele faz isso através do módulo $QoSP_{x}$, sendo $QoSP_{x}$ o módulo do QoSP localizado no mesmo \textit{host} de $p_{x}$.
+	
+	Para que o QoSP possa funcionar corretamente, os canais de comunicação utilizados pelos módulos do QoSP também necessitam utilizar os serviços das arquiteturas de QoS, discutidos no tópico anterior. Isto se faz necessário visto que os módulos do QoSP precisam se comunicar para realizar suas tarefas e, para que as informações providas pelos mesmos sejam confiáveis, eles também necessitam de reservas de recursos. Para isso, o QoSP também utilizará os serviços da arquitetura \textit{Diffserv} e um sistema operacional de tempo real instalado nos \textit{hosts} (o sistema operacional de tempo real utilizado na implementação do QoSP e pelos processos clientes será apresentado no capítulo \ref{cap:tempo_real}).
+	
+\section{Interface do QoS Provider}
+
+	De acordo com \cite{GORENDER05}, a interface do QoSP pode ser definida através das seguintes funções:
+	
+\begin{itemize}
+\item \textit{CreateChannel}$(p_{x},p_{y}):\Pi^{2}\rightarrow\Gamma$
+	
+	Cria um canal de comunicação entre os processos $p_{x}$ e $p_{y}$, retornando o novo canal, identificado por $c_{x/y}$, pertencente ao conjunto $\Gamma$. Todo canal deve ser criado como \textit{untimely}. As informações referentes ao canal, como a sua QoS, devem ser armazenadas pelo QoSP.
+	
+\item \textit{DefineQoS}$(p_{x}, p_{y}, \textit{qos}):\Pi^{2}\times\lbrace\textit{timely},\textit{untimely}\rbrace\rightarrow\lbrace\textit{timely},\textit{untimely}\rbrace$
+	
+	Altera a QoS provida ao canal de comunicação $c_{x/y}$ entre \textit{timely} e \textit{untimely}. Caso a solicitação seja de \textit{untimely} para \textit{timely}, um processo de admissão deverá ser executado.
+	
+\item \textit{Delay}$(p_{x}, p_{y}):\Pi^{2}\rightarrow N^{+}$
+	
+	Calcular um limite máximo, caso o canal seja \textit{timely}, ou um limite probabilístico, caso o canal seja \textit{untimely}, para o tempo de ida e volta (RTT maior ou igual ao \textit{Round trip time}) de transferência de uma mensagem entre os processos $p_{x}$ e $p_{y}$.
+	
+\item \textit{QoS}$(p_{x}, p_{y}):\Pi^{2}\rightarrow\lbrace\textit{timely},\textit{untimely}\rbrace$
+	
+	Verificar a QoS que está sendo provida ao canal de comunicação $c_{x/y}$, retornando a classe de serviço (\textit{timely} ou \textit{untimely}) que está sendo provida ao mesmo. Quando a QoS de um canal for alterada de \textit{timely} para \textit{untimely}, os processos ligados ao canal devem ser informados de tal degradação.
+	
+\item \textit{VerifyChannel}$(c_{x/y}):\Gamma\rightarrow\lbrace\textit{timely},\textit{untimely}\rbrace$
+	
+	Assim como a função \textit{QoS}, esta função tem como objetivo verificar a QoS que está sendo provida a um canal de comunicação ($c_{x/y}$). Uma das diferenças com relação à função \textit{QoS} é que ela é chamada por um processo $p_{i}$, sendo $p_{i} \neq p_{x}$ e $p_{i} \neq p_{y}$ (mais detalhes sobre esta função será explicado na próxima seção). A outra diferença é que esta função além de verificar a QoS que está sendo provida ao canal, através da chamada da função \textit{QoS} por exemplo, verifica a existência de tráfego no canal $c_{x/y}$. A não existência de tráfego durante um certo intervalo de tempo no canal (sendo que este intervalo de tempo é estabelecido pelo modelo HA) faz com que a QoS do canal seja alterada para \textit{untimely}.
+
+\end{itemize}
+
+	Além das funções citadas acima, cada módulo do QoSP deve monitorar de forma automática todos os canais \textit{timely} gerenciados pelo mesmo, com o intuito de verificar se estes canais continuam sendo providos com serviço Isócrono. Esta monitoração deve ocorrer periodicamente e, caso seja detectado que a QoS de um canal alterou de \textit{timely} para \textit{untimely}, os processos ligados ao canal devem ser notificados de tal degradação.
+		
+\section{O mecanismo de monitoramento do QoSP}
+
+	Como já foi dito na introdução, apesar da interface do QoSP ser definida através de cinco funções (descritas na seção anterior), ela pode ser resumida em dois grandes serviços: negociação e monitoração. Enquanto que o serviço de negociação pode ser considerado um mecanismo estático de QoS, o serviço de monitoração pode ser considerado um mecanismo dinâmico \cite{ACH96}. Enquanto o serviço de negociação visa basicamente a reserva dos recursos, o serviço de monitoração visa garantir que os processos aplicativos tenham um \textit{feedback}, o quanto mais cedo possível, sobre o serviço que está sendo provido aos seus canais de comunicação. Este \textit{feedback} pode ser obtido através de uma solicitação explícita por parte dos processos aplicativos, ou através de uma notificação provida pelo mecanismo de monitoramento aos processos aplicativos, quando há uma alteração de QoS dos seus canais.
+	
+	Baseado no que foi descrito acima, o mecanismo de monitoramento do QoSP, também conhecido como \textit{QoS Provider Monitoring} (QoSPM), engloba as seguintes funções da interface do QoSP: \textit{QoS} e \textit{VerifyChannel}. Ambas procuram fornecer um \textit{feedback} sobre a QoS atual do canal para que medidas possam ser tomadas. Além destas funções, o monitoramento automático também faz parte do QoSPM, sendo ele equivalente à chamada periódica da função \textit{QoS}.
+	
+	A função \textit{QoS} executa a verificação da QoS de um canal $c_{x/y}$, sendo $p_{x}$ o solicitante da verificação. Esta é efetuada através do envio de mensagens de verificação a todos os roteadores pertencentes a $c_{x/y}$ e ao módulo $QoSP_{y}$, além do estabelecimento de \textit{timeouts} para a recepção das respostas. O módulo do QoSP (mas especificadamente o $QoSP_{x}$) fica aguardando as respostas de todas as mensagens enviadas. Se todas as mensagens chegam antes de \textit{timeout} (calculado através da função \textit{Delay}) e indicam que o serviço Isócrono está sendo provido, assume-se que a QoS do canal é \textit{timely}. Em qualquer outra situação, assume-se que a QoS do canal é \textit{untimely}. Caso a função \textit{QoS} mostre que a QoS do canal foi alterada de \textit{timely} para \textit{untimely}, os processos ligados ao canal devem ser informados de tal alteração.
+	
+	A função \textit{VerifyChannel} também verifica a QoS de um canal $c_{x/y}$, sendo $p_{i}$ o processo solicitante da verificação. Como $p_{i} \neq p_{x}$ e $p_{i} \neq p_{y}$, caso $p_{i}$ não  esteja no mesmo \textit{host} de $p_{x}$ nem de $p_{y}$, o módulo $QoSP_{i}$ deverá solicitar uma verificação remota ou ao módulo $QoSP_{x}$ ou ao módulo $QoSP_{y}$. Independente do módulo que execute a verificação, ela é efetuada da seguinte maneira: executa-se a função \textit{QoS} e, caso o retorno da função seja \textit{untimely}, o retorno da função \textit{VerifyChannel} também será \textit{untimely}. Caso contrário (o retorno de \textit{QoS} seja \textit{timely}), será verificado se os processos $p_{x}$ e $p_{y}$ trocam mensagens nos próximos $\Delta{t}$ (sendo $\Delta{t}$ estabelecido pelo modelo HA). Caso ocorra troca de mensagens neste intervalo de tempo, o retorno da função \textit{VerifyChannel} será \textit{timely}, caso contrário será \textit{untimely}.
+	
+	Assim como os processos aplicativos interagem com o QoSPM, o módulo de negociação do QoSP também precisa interagir com o QoSPM. Quando a QoS de uma canal é alterada (através da função \textit{DefineQoS}), esta informação precisa ser passada ao QoSPM.

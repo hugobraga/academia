@@ -1,0 +1,21 @@
+% !TEX encoding = UTF-8 Unicode
+%\chapter{Conclusão}
+\xchapter{Conclusão}{}
+\label{cap:conclusao}
+\acresetall
+	
+	O modelo proposto por \cite{GMCR07} mostrou-se inovador com relação ao fato de prover informações acerca dos estados dos processos em um sistema distribuído baseado na QoS disponível, sendo que o modelo adapta-se a esta QoS, permitindo que soluções eficientes sejam exploradas. Mas para que o modelo funcione corretamente, ele necessita gerenciar e acessar canais de comunicação com QoS. Este acesso é feito através do involúcro para arquiteturas de QoS denominado \textit{QoS Provider}. Mais especificadamente, o modelo HA necessita de informações da QoS dos canais de comunicação para que os estados dos processos em um sistema distribuído possam ser atualizados corretamente.
+	
+	Este trabalho visou a especificação e implementação do mecanismo de monitoramento do \textit{QoS Provider}, responsável por prover informações sobre a QoS dos canais de comunicação gerenciados pelo \textit{QoS Provider}. Procurou-se adotar princípios dos sistemas de monitoramento além de um modelo padrão para os sistemas de monitoramento.
+	
+	A especificação do QoSPM se deu através da modelagem do QoSPM, descrição do protocolo utilizado pelo mesmo e o desenvolvimento dos principais algoritmos que o compõe. Na modelagem utilizou-se a abordagem orientada a objetos e foi feita através da UML. Quando necessário, houve modelagem tanto do domínio como da aplicação. O protocolo descreveu as mensagens trocadas entre os componentes do QoSPM (QoSP, QoSPA e roteadores). As principais tarefas executadas pelo QoSPM foram especificadas através de algoritmos. Além da especificação, detalhes acerda da implementação foram abordados.
+	
+	Ainda com relação à especificação, uma arquitetura para o QoSPM foi especificada. A arquitetura do QoSPM é formada por dois componentes: módulos do QoSP e módulos do QoSPA. O QoSP é responsável por agregar informações referentes à QoS, sendo que estas foram colhidas junto aos roteadores pelos QoSPA, e também por detectar falhas dos componentes do QoSPM. No desenvolvimento da arquitetura, procurou-se adotar os princípios dos sistemas de monitoramento.
+	
+\section{Dificuldades encontradas}
+	
+	Inicialmente foram encontradas dificuldades com a configuração do ambiente, principalmente com relação à instalação do Xenomai. Cuidados com a configuração do arquivo do \textit{kernel} foram tomados para não comprometer a previsibilidade do Xenomai. Além disso, outro problema foi a falta do roteador que havia sido adquirido para o projeto. O roteador adquirido teve que ser devolvido visto que este não correspondia ao modelo que havia sido especificado e pelo qual havia sido pago, não sendo possível utilizá-lo para teste visto que não dava suporte ao \textit{Diffserv}. Até o presente momento da elaboração desta monografia, o modelo correto ainda não havia chegado. Tivemos também problemas com as placas de rede que dão suporte ao RTnet, visto que as mesmas só foram adquiridas há pouco tempo. Outro problema encontrado foi a não conclusão dos outros módulos do \textit{QoS Provider}, principalmente com relação ao módulo de cálculo do tempo de transmissão de mensagens em um canal de comunicação (corresponde à função \textit{Delay} do \textit{QoS Provider}). O detector de falhas que executa no componente QoSP do QoSPM necessita deste módulo para que os outros componentes do QoSPM possam ter suas falhas detectadas. A integração com o módulo de negociação não pôde ser realizada visto que este também não foi finalizado.
+	
+\section{Trabalhos futuros}
+
+	Os trabalhos futuros estão relacionados com a integração do QoSPM com os outros módulos do \textit{QoS Provider}. A definição das estruturas de dados que devem ser compartilhadas entre os módulos assim como a forma como cada módulo deve utilizar a interface do outro faltam ser definidos. Testes completos devem ser realizados para que os resultados possam ser colhidos. Posteriormente à finalização do \textit{QoS Provider}, este último deve ser utilizado pelos algoritmos do modelo HA a fim de verificar, principalmente, se os tempos são satisfatórios para acessar as informações de QoS.

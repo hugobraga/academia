@@ -1,0 +1,84 @@
+% !TEX encoding = UTF-8 Unicode
+%\chapter{Descobrindo os índices para acessar informações estatísticas das classes na CISCO-CLASS-BASED-QOS-MIB}
+\xchapter{Descobrindo os índices para acessar informações estatísticas das classes na CISCO-CLASS-BASED-QOS-MIB}{}
+\label{apend:indices_MIB}
+	
+	Como foi dito no Apêndice A (é necessário ler o Apêndice A para compreender este), as tabelas com informações estatísticas necessitam dos índices \textit{cbQosPolicyIndex} e \textit{cbQosObjectsIndex} para serem acessadas. O monitoramento dos roteadores será no nível da classe e, para que se possa verificar se a QoS nas classes está sendo mantida, informações estatísticas relativas a estas necessitam ser colhidas. A seguir será descrito o procedimento necessário para descobrir os dois índices citados anteriormente relativos à classe do serviço Expresso configurada no roteador. Considere que a seguinte \textit{PolicyMap} está configurada no roteador com o intuito de tratar os fluxos dos canais \textit{TIMELY}:
+	
+\begin{tabbing}
+Coma\=ndo 1: \\
+\> clas\=s-map match-all premium \\
+\> \> match ip dscp 46
+\end{tabbing}	
+
+\begin{tabbing}
+Coma\=ndo 2: \= \\
+\> poli\=cy-map HANDLE\_TIMELY \\
+\> \> clas\=s premium \\
+\> \> \> priority 500
+\end{tabbing}			
+			
+	Estes comandos são utilizados para configurar o serviço expresso em um roteador Cisco. O primeiro comando é utilizado para classificar os pacotes que irão receber o serviço Expresso. Pacotes com o DSCP 46 receberão tal serviço. Observe que não foi mostrado como os pacotes foram marcados com este DSCP, caso eles realmente tenham sido marcados no roteador (isto está fora do escopo deste apêndice). O segundo comando configura uma política para tratar os pacotes que receberão o serviço Expresso. Tal política deve estar vinculada a uma interface (\textit{Service Policy}) para que o serviço possa ser oferecido. Esta política deve ser aplicada à saída da interface e, dependendo do sentido dos fluxos de tráfego e do número de redes que o rotedor interconecta, esta política deverá ser aplicada à várias interfaces. É importante salientar que os passos a seguir são utilizados para identificar os dois índices de interesse supondo que a política está sendo aplicada à apenas uma interface. Pequenas alterações necessitam ser feitas para levar em consideração mais de uma interface.
+	
+	Antes de descrever os passos, é necessário falar um pouco da MIB \textit{IP-MIB}. Ela é padronizada pelo IETF, sendo utilizada para gerenciar as implementações IP e ICMP nos elementos de rede. Esta MIB define o objeto MIB \textit{ipAddEntIfIndex} (cujo OID é 1.3.6.1.2.1.4.20.1.2) responsável por identificar unicamente uma interface em um elemento de rede. Este identificador é também conhecido como \textit{ifIndex}.
+	
+\begin{enumerate}
+
+\item Obter o \textit{ifIndex} que identifica unicamente a interface na qual está vinculada a política \textit{HANDLE\_TIMELY}
+
+Suponha que o IP de tal interface seja 10.10.10.2. Então, através do envio de uma mensagem \textit{SNMP\_GET} com o OID 1.3.6.1.2.1.4.20.1.2.10.10.10.2, nós conseguimos obter o \textit{index} desejado. Vamos supor que tenha sido 1.
+
+\item Obter o \textit{cbQosPolicyIndex} da política \textit{HANDLE\_TIMELY} vinculada à interface em questão
+
+Dado que nós temos o \textit{ifIndex} da interface de interesse, podemos descobrir as políticas vinculadas a esta interface através do objeto MIB \textit{cbQoSIfIndex} (1.3.6.1.4.1.9.9.166.1.1.1.1.4), definido na MIB \textit{CISCO-CLASS-BASED-QOS-MIB}. Este objeto faz parte de uma tabela (1.3.6.1.4.1.9.9.166.1.1.1) que descreve as interfaces e políticas vinculadas às mesmas. Tal objeto MIB retorna o \textit{ifIndex} da interface para uma dada política na qual está vinculada. Como nós não temos ainda o \textit{cbQosPolicyIndex} da política de interesse, vamos caminhar na árvore dos objetos MIB através do caminho identificado pelo OID 1.3.6.1.4.1.9.9.166.1.1.1.1.4 para descobrir todos os pares política-interface do roteador. Suponha que o resultado seja:
+
+1.3.6.1.4.1.9.9.166.1.1.1.1.4.\underline{1043} = INTEGER: 1
+
+1.3.6.1.4.1.9.9.166.1.1.1.1.4.\underline{1065} = INTEGER: 2
+
+Observe que no retorno da consulta, foi adicionado um número (a porção sublinhada) ao OID cuja árvore foi caminhada. Este número é exatamente o \textit{cbQosPolicyIndex} que faltava para identificarmos a política. A segunda parte das igualdades identifica o \textit{ifIndex} da interface. Como sabemos que \textit{ifIndex} da interface em questão é 1, o \textit{cbQosPolicyIndex} da política que nos interessa é 1043. No exemplo mostrado, existe apenas uma política vinculada à interface de interesse, mas poderiam existir duas políticas vinculadas, uma à saída e outra à entrada. Neste caso precisaríamos executar o passo seguinte.
+
+\item Descobrir o \textit{cbQoSPolicyIndex} da política vinculada à saída da interface
+
+	Para executar este passo, vamos utilizar o objeto MIB \textit{cbQoSPolicyDirection} (cujo OID é 1.3.6.1.4.1.9.9.166.1.1.1.1.3), definido no mesmo contexto (tanto da MIB como da tabela) do objeto MIB utilizado no passo anterior. Tal objeto MIB indica a direção do tráfego para o qual a política será aplicada. Também vamos caminhar na árvore dos objetos MIB, mas neste caso através do caminho identificado pelo OID 1.3.6.1.4.1.9.9.166.1.1.1.1.3 para descobrir todos os pares política-direção do roteador. Suponha que em relação ao exemplo anterior, foram adicionadas políticas às entradas da interface, e que o resultado da caminhada seja:
+	
+1.3.6.1.4.1.9.9.166.1.1.1.1.3.\underline{1043} = INTEGER: 2
+
+1.3.6.1.4.1.9.9.166.1.1.1.1.3.\underline{1044} = INTEGER: 1
+
+1.3.6.1.4.1.9.9.166.1.1.1.1.3.\underline{1065} = INTEGER: 2
+
+1.3.6.1.4.1.9.9.166.1.1.1.1.3.\underline{1066} = INTEGER: 1
+
+A segunda parte das igualdades acima identifica o sentido do fluxo para o qual a política é aplicada. O valor 1 significa que a política é aplicada à entrada da interface, enquanto que o valor 2 significa o oposto. Se este mesmo exemplo se aplicasse ao passo anterior , nós estaríamos em dúvida (com relação ao \textit{cbQoSPolicyIndex}) entre 1043 e 1044, supondo que ambos se aplicassem à interface identificada pelo \textit{ifIndex} 1. Mas agora saberíamos que o \textit{cbQoSPolicyIndex} da política em questão aplicada à interface de interesse é 1043, visto que esta política está sendo aplicada à saída da interface.
+		
+\item Descobrir o \textit{cbQosConfigIndex} da classe premium
+
+Para executar este passo, vamos utilizar o objeto MIB \textit{cbQoSCMName} (cujo OID é 1.3.6.1.4.1.9.9.166.1.7.1.1.1), também definido na MIB \textit{CISCO-CLASS-BASED-QOS-MIB}. Este objeto faz parte de uma tabela (1.3.6.1.4.1.9.9.166.1.7.1) que especifica informações de configuração das classes (\textit{ClassMap}). Tal objeto MIB retorna o nome da classe, identificada pelo \textit{cbQosConfigIndex}. Como nós não temos ainda este índice, vamos caminhar na árvore dos objetos MIB através do caminho identificado pelo OID 1.3.6.1.4.1.9.9.166.1.7.1.1.1 para descobrir todos os pares classe-nome\_da\_classe do roteador. Suponha que o resultado seja:
+
+1.3.6.1.4.1.9.9.166.1.7.1.1.1.\underline{1025} = STRING: class-default
+
+1.3.6.1.4.1.9.9.166.1.7.1.1.1.\underline{1029} = STRING: premium
+
+Observe que no retorno da consulta, foi adicionado um número (a parte sublinhada) ao OID cuja árvore foi caminhada. Este número é exatamente o \textit{cbQosConfigIndex} que identifica as classes configuradas no roteador. A segunda parte da igualdada mostra os nomes das classes. Como o nome da classe que nos interessa é \textit{premium}, então sabemos que o \textit{cbQosConfigIndex} desta classe é 1029. Apesar de nós não termos configurado a classe \textit{best-effort} anteriormente, por padrão, todo roteador possui tal classe para classificar os pacotes que não foram agregados nas outras classes.
+
+\item Descobrir o \textit{cbQosObjectsIndex} da classe premium configurada na política \textit{HANDLE\_TIMELY}, vinculada à interface em questão
+
+Para executar este passo, vamos utilizar o objeto MIB \textit{cbQoSConfigIndex} (cujo OID é 1.3.6.1.4.1.9.9.166.1.5.1.1.2), também definido na MIB \textit{CISCO-CLASS-BASED-QOS-MIB}. Este objeto faz parte de uma tabela (1.3.6.1.4.1.9.9.166.1.5.1) responsável por especificar a hierarquia de todos os objetos de QoS. Tal objeto MIB retorna o \textit{cbQoSConfigIndex} para um dado objeto (identificado pelos índices \textit{cbQosPolicyIndex} e \textit{cbQosObjectsIndex}). Como nós já temos o \textit{cbQosPolicyIndex} da política que nos interessa (1043) mas não temos ainda o \textit{cbQosObjectsIndex} da classe \textit{premium} para esta política, vamos caminhar na árvore dos objetos MIB através do caminho identificado pelo OID 1.3.6.1.4.1.9.9.166.1.5.1.1.2.1043 para descobrir todos os pares objeto-index\_de\_configuracao. Suponha que o resultado seja:
+
+1.3.6.1.4.1.9.9.166.1.5.1.1.2.1043.\underline{1043} = Gauge32: 1035
+
+1.3.6.1.4.1.9.9.166.1.5.1.1.2.1043.\underline{1045} = Gauge32: 1029
+
+1.3.6.1.4.1.9.9.166.1.5.1.1.2.1043.\underline{1047} = Gauge32: 1033
+
+1.3.6.1.4.1.9.9.166.1.5.1.1.2.1043.\underline{1049} = Gauge32: 1037
+
+1.3.6.1.4.1.9.9.166.1.5.1.1.2.1043.\underline{1051} = Gauge32: 1025
+
+1.3.6.1.4.1.9.9.166.1.5.1.1.2.1043.\underline{1053} = Gauge32: 1027
+
+Os valores adicionados aos OID correspondem aos \textit{cbQosObjectsIndex} dos objetos de QoS. A segunda parte da igualdada mostra os \textit{cbQoSConfigIndex}. Como o valor deste último para a classe que nos interessa é 1029, então sabemos que o \textit{cbQosObjectsIndex} desta classe para o \textit{Service Policy} em questão é 1045.
+\end{enumerate}
+
+	Através destes passos, nós conseguimos descobrir os dois índices necessários para acessar as informações estatísticas da classe que fornece o serviço Expresso (\textit{premium}). Estas informações estão armazenadas na tabela \textit{cbQoSCMStatsTable} (cujo OID é 1.3.6.1.4.1.9.9.166.1.15.1). É importante salientar que todos estes passos devem ser executados apenas uma vez, durante o período de inicialização do QoS \textit{Provider}. Caso o roteador seja reinicializado, o processo também deverá ser repetido, visto que os valores dos índices possivelmente serão diferentes.
